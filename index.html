@@ -3,88 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>খরচ অ্যালার্ম - Kharch Alarm | বাজেট শেষ হলেই অ্যালার্ম</title>
-<meta name="description" content="খরচ বেশি হয়ে গেলে অ্যালার্ম দিবে। মাসের বাজেট হিসাব করুন, খরচ কমান, টাকা বাঁচান।">
+
+<!-- Google Verification -->
+<meta name="google-site-verification" content="hfuqSklG5FlxD3rpXHG-gSVT1YdgVQy6-VWXMHvyjWc" />
+
+<!-- Google যা চিনে -->
+<title>MD Habib - আমার ওয়েবসাইট</title>
+<meta name="title" content="MD Habib - আমার ওয়েবসাইট">
+<meta name="description" content="MD Habib এর প্রথম ওয়েবসাইট। যোগাযোগের জন্য মোবাইল: 01917716922">
+<meta name="keywords" content="MD Habib, mdhabib, আমার ওয়েবসাইট, Habib website, Bangladesh, 01917716922">
+<meta name="author" content="MD Habib">
+<meta name="robots" content="index, follow">
+<meta name="language" content="Bengali">
+<meta name="theme-color" content="#0f172a">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://mdhabibss15987-afk.github.io/my-website/">
+
+<!-- Facebook / WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mdhabibss15987-afk.github.io/my-website/">
+<meta property="og:title" content="MD Habib - আমার ওয়েবসাইট">
+<meta property="og:description" content="MD Habib এর প্রথম ওয়েবসাইট। যোগাযোগ: 01917716922">
+<meta property="og:locale" content="bn_BD">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MD Habib - আমার ওয়েবসাইট">
+<meta name="twitter:description" content="MD Habib এর প্রথম ওয়েবসাইট। যোগাযোগ: 01917716922">
+
+<!-- Google কে চেনানোর জন্য - নাম্বার সহ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "MD Habib",
+  "url": "https://mdhabibss15987-afk.github.io/my-website/",
+  "telephone": "+8801917716922",
+  "jobTitle": "Website Owner",
+  "description": "MD Habib এর প্রথম ওয়েবসাইট। যোগাযোগ: 01917716922"
+}
+</script>
+
 <style>
-body{font-family:Arial;background:#f5f5f5;margin:0;color:#222}
-header{background:#d32f2f;color:white;padding:15px;text-align:center}
-nav{background:#333;padding:10px;text-align:center}
-nav a{color:white;margin:0 10px;text-decoration:none;font-size:14px}
-.box{background:white;padding:20px;border-radius:12px;max-width:600px;margin:15px auto;box-shadow:0 0 8px #ccc}
-input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:16px;box-sizing:border-box}
-button{width:100%;padding:13px;background:#25D366;color:white;border:none;border-radius:8px;font-size:18px;font-weight:bold}
-.wa{display:block;text-align:center;background:#25D366;color:white;padding:14px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:18px;margin-top:10px}
-#alarm{padding:15px;border-radius:10px;text-align:center;font-weight:bold;margin-top:15px;font-size:18px}
-.green{background:#e8f5e9;color:#2e7d32}.yellow{background:#fff3cd;color:#856404}.red{background:#ffcccc;color:#b71c1c}
-.item{display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #eee}
-.ad{background:#fff3cd;border:1px dashed #aaa;padding:15px;text-align:center;margin:15px auto;max-width:600px;border-radius:10px;font-size:14px}
-footer{background:#222;color:white;padding:20px;text-align:center;font-size:14px;line-height:24px}
-footer a{color:#25D366;text-decoration:none;font-weight:bold}
+body{font-family:Arial,sans-serif;text-align:center;padding:40px;background:#f8fafc}
+h1{color:#0f172a}
+p{color:#475569;font-size:18px}
+.box{background:white;padding:25px;border-radius:15px;max-width:500px;margin:auto;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
+.call-btn{display:inline-block;background:#16a34a;color:white;padding:12px 25px;border-radius:30px;text-decoration:none;font-size:20px;font-weight:bold;margin-top:10px}
+.whatsapp-btn{display:inline-block;background:#25D366;color:white;padding:12px 25px;border-radius:30px;text-decoration:none;font-size:18px;font-weight:bold;margin-top:10px}
 </style>
 </head>
 <body>
-<header><h1 style="margin:0">🔔 খরচ অ্যালার্ম</h1><p>খরচ বেশি হলেই অ্যালার্ম - টাকা বাঁচান</p></header>
-<nav><a href="#">Home</a><a href="#tool">টুল</a><a href="#tips">টিপস</a><a href="#about">About</a><a href="#privacy">Privacy</a></nav>
-<div class="ad">এখানে গুগল বিজ্ঞাপন আসবে - Google AdSense</div>
-<div class="box" id="tool">
-<h2>ফ্রি খরচ অ্যালার্ম টুল</h2>
-<label>মাসের বাজেট (টাকা)</label>
-<input type="number" id="budget" placeholder="যেমন: 10000">
-<label>খরচ কিসে?</label>
-<select id="cat"><option>খাবার</option><option>মোবাইল রিচার্জ / MB</option><option>সফটওয়্যার / App</option><option>যাতায়াত</option><option>অন্যান্য</option></select>
-<label>কত টাকা খরচ?</label>
-<input type="number" id="amount" placeholder="যেমন: 500">
-<button onclick="add()">খরচ যোগ করুন</button>
-<div id="alarm" class="green">এখনো খরচ ঠিক আছে ✅</div>
-<h3>মোট খরচ: <span id="total">0</span> টাকা | বাকি: <span id="left">0</span> টাকা</h3>
-<div id="list"></div>
-<button onclick="clearAll()" style="background:#888;margin-top:10px">সব মুছে ফেলুন</button>
+<div class="box">
+<h1>MD Habib</h1>
+<h2>আমার প্রথম ওয়েবসাইট</h2>
+<p>আসসালামু আলাইকুম, আমি MD Habib। এটা আমার প্রথম ওয়েবসাইট।</p>
+<p><b>মোবাইল নাম্বার:</b> 01917716922</p>
+<a class="call-btn" href="tel:+8801917716922">📞 কল করুন</a><br>
+<a class="whatsapp-btn" href="https://wa.me/8801917716922">💬 WhatsApp করুন</a>
 </div>
-<div class="box" id="tips">
-<h2>খরচ কমানোর ৫টা সহজ উপায়</h2>
-<p><b>১. প্রতিদিন MB না কিনে মাসের প্যাকেজ নিন -</b> এতে ৩০% টাকা বাঁচে।</p>
-<p><b>২. ফুডপান্ডা কম খান -</b> বাসায় খেলে অর্ধেক টাকা বাঁচে।</p>
-<p><b>৩. দামি App বাদ দিন -</b> অপ্রয়োজনীয় সাবস্ক্রিপশন বাদ দিলে মাসে ১০০০ টাকা বাঁচে।</p>
-<p><b>৪. প্রতিদিন খরচ লিখুন -</b> এই টুলে লিখলে বুঝবেন কোথায় বেশি খরচ হচ্ছে।</p>
-<p><b>৫. ৮০% হলেই থামুন -</b> বাজেটের ৮০% শেষ হলেই এই টুল অ্যালার্ম দিবে।</p>
-</div>
-<div class="ad">এখানে গুগল বিজ্ঞাপন আসবে - Google AdSense</div>
-<div class="box" id="about">
-<h2>About Us & Contact</h2>
-<p>খরচ অ্যালার্ম একটি ফ্রি ওয়েবসাইট। আমাদের উদ্দেশ্য বাংলাদেশের মানুষকে খরচ কমাতে সাহায্য করা।</p>
-<p><b>যোগাযোগ: 01917716922</b></p>
-<a class="wa" href="https://wa.me/8801917716922?text=আসসালামু%20আলাইকুম,%20খরচ%20অ্যালার্ম%20নিয়ে%20কথা%20বলতে%20চাই">💬 WhatsApp এ মেসেজ করুন</a>
-</div>
-<div class="box" id="privacy"><h2>Privacy Policy</h2><p>আমরা আপনার কোনো ব্যক্তিগত তথ্য সংগ্রহ করি না। আপনার হিসাব শুধু আপনার মোবাইলেই থাকে। আমরা Google AdSense ব্যবহার করি।</p></div>
-<footer>© 2026 খরচ অ্যালার্ম - Kharch Alarm<br>Made by MD HABIB SERVICE<br>WhatsApp: <a href="https://wa.me/8801917716922">01917716922</a></footer>
-<script>
-let total=Number(localStorage.getItem('total')||0);
-let budget=Number(localStorage.getItem('budget')||0);
-function update(){
-document.getElementById('total').innerText=total;
-document.getElementById('budget').value=budget||'';
-document.getElementById('left').innerText=budget-total;
-let a=document.getElementById('alarm');
-let per=budget>0?(total/budget*100):0;
-if(per>=100){a.className='red';a.innerText='🚨 অ্যালার্ম! খরচ বেশি হয়ে গেছে! এখন খরচ বন্ধ করো!';}
-else if(per>=80){a.className='yellow';a.innerText='⚠️ সাবধান! ৮০% বাজেট শেষ!';}
-else{a.className='green';a.innerText='✅ এখনো খরচ ঠিক আছে';}
-let list=JSON.parse(localStorage.getItem('list')||'[]');
-document.getElementById('list').innerHTML=list.map(x=>`<div class="item"><span>${x.c}</span><b>${x.a} টাকা</b></div>`).join('');
-}
-function add(){
-let b=Number(document.getElementById('budget').value);
-let am=Number(document.getElementById('amount').value);
-let c=document.getElementById('cat').value;
-if(!b||!am){alert('বাজেট আর খরচ লিখো');return;}
-budget=b; total+=am;
-let list=JSON.parse(localStorage.getItem('list')||'[]');
-list.push({c:c,a:am}); localStorage.setItem('list',JSON.stringify(list));
-localStorage.setItem('total',total); localStorage.setItem('budget',budget);
-document.getElementById('amount').value=''; update();
-}
-function clearAll(){localStorage.clear();total=0;budget=0;update();}
-update();
-</script>
 </body>
 </html>
