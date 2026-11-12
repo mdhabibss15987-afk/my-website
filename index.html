@@ -6,456 +6,249 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#123b66">
-<title>Cost Alarm — Smart Business Management</title>
+<title>Cost Alarm - Smart Business Management</title>
 <style>
-:root{
-  --navy:#123b66;--blue:#1769aa;--bg:#f3f6fb;
-  --card:#fff;--ink:#182230;--muted:#667085;
-  --green:#16834a;--red:#d92d20;--border:#e3e8ef;
+:root {
+ --navy:#123b66;
+ --blue:#1769aa;
+ --bg:#f3f6fb;
+ --card:#fff;
+ --ink:#182230;
+ --muted:#667085;
+ --border:#e3e8ef;
+}
+body.dark {
+ --bg:#101923;
+ --card:#1b2938;
+ --ink:#f1f5f9;
+ --muted:#aab6c4;
+ --border:#354455;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
-header{background:var(--navy);color:white;padding:16px;position:sticky;top:0;z-index:5}
-header h2{margin:0;font-size:21px}
-header small{opacity:.8}
-nav{display:flex;gap:7px;overflow-x:auto;padding:10px;background:white;position:sticky;top:65px;z-index:4}
-nav button{white-space:nowrap;border:0;border-radius:8px;padding:10px 13px;background:#eaf1f8;color:var(--navy);font-weight:bold}
-nav button.active{background:var(--navy);color:white}
-main{padding:14px;max-width:1000px;margin:auto}
+body{
+ margin:0;
+ background:var(--bg);
+ color:var(--ink);
+ font-family:Arial,sans-serif;
+}
+header{
+ background:var(--navy);
+ color:white;
+ padding:16px;
+}
+header h2{margin:0}
+header small{display:block;margin:7px 0 12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.actions a,.actions button{
+ padding:10px;
+ border:0;
+ border-radius:8px;
+ color:white;
+ text-decoration:none;
+ font-weight:bold;
+}
+.call{background:#16835b}
+.wa{background:#20bd65}
+.theme{background:#53677e}
+nav{
+ display:flex;
+ gap:6px;
+ overflow-x:auto;
+ background:var(--card);
+ padding:9px;
+ position:sticky;
+ top:0;
+ z-index:5;
+}
+nav button{
+ white-space:nowrap;
+ border:0;
+ border-radius:7px;
+ padding:10px;
+ background:#eaf1f8;
+ color:#123b66;
+}
+nav button.active{
+ background:var(--navy);
+ color:white;
+}
+main{
+ max-width:950px;
+ margin:auto;
+ padding:14px;
+}
 .page{display:none}
 .page.active{display:block}
-h3{margin:8px 0 14px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.card{background:var(--card);padding:15px;border-radius:12px;box-shadow:0 2px 8px #172b4d0d;margin-bottom:12px}
+.card{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:12px;
+ padding:14px;
+ margin-bottom:12px;
+}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+}
 .stat small{color:var(--muted)}
-.stat strong{display:block;font-size:22px;margin-top:7px}
-.green{color:var(--green)}.red{color:var(--red)}
-label{display:block;font-size:13px;font-weight:bold;margin:10px 0 5px}
-input,select,textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:white;font-size:15px}
-textarea{min-height:70px}
+.stat strong{
+ display:block;
+ font-size:21px;
+ margin-top:8px;
+}
+label{
+ display:block;
+ font-weight:bold;
+ font-size:13px;
+ margin:10px 0 5px;
+}
+input,select,textarea{
+ width:100%;
+ padding:11px;
+ border:1px solid var(--border);
+ border-radius:8px;
+ background:var(--card);
+ color:var(--ink);
+ font-size:15px;
+}
+textarea{min-height:65px}
 button{cursor:pointer}
-.primary,.secondary,.danger{border:0;border-radius:8px;padding:11px 14px;font-weight:bold;margin-top:10px}
+.primary,.secondary,.danger{
+ border:0;
+ border-radius:8px;
+ padding:11px 14px;
+ margin-top:10px;
+ font-weight:bold;
+}
 .primary{background:var(--blue);color:white}
-.secondary{background:#eaf1f8;color:var(--navy)}
+.secondary{background:#eaf1f8;color:#123b66}
 .danger{background:#fee4e2;color:#b42318}
-button:disabled{opacity:.5}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:9px 6px;border-bottom:1px solid var(--border);text-align:left}
-th{background:#f5f7fa}
-.table-wrap{overflow-x:auto}
-.alert{padding:12px;border-radius:9px;background:#fff4d6;color:#805b00;margin-bottom:12px}
-.actions{display:flex;gap:7px;flex-wrap:wrap}
-footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}
+.row{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+}
+.tablewrap{overflow-x:auto}
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:430px;
+ font-size:13px;
+}
+td,th{
+ padding:9px 6px;
+ border-bottom:1px solid var(--border);
+ text-align:left;
+}
+th{background:#edf2f7;color:#123b66}
+body.dark th{background:#26384a;color:white}
+.good{
+ background:#e3f7eb;
+ color:#126438;
+ padding:10px;
+ border-radius:8px;
+}
+.warn{
+ background:#fff0c2;
+ color:#805b00;
+ padding:10px;
+ border-radius:8px;
+}
+.progress{
+ height:12px;
+ background:var(--border);
+ border-radius:20px;
+ overflow:hidden;
+}
+.progress span{
+ display:block;
+ height:100%;
+ background:var(--blue);
+ width:0;
+}
+footer{
+ text-align:center;
+ color:var(--muted);
+ padding:20px;
+ font-size:12px;
+}
 @media(max-width:480px){
- .grid{grid-template-columns:1fr 1fr}
- .stat strong{font-size:18px}
  .row{grid-template-columns:1fr}
+ .stat strong{font-size:18px}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <h2>🔔 Cost Alarm</h2>
-  <small>Smart Business Management</small>
+<h2>🔔 Cost Alarm</h2>
+<small>স্মার্ট বিজনেস ম্যানেজমেন্ট</small>
+<div class="actions">
+<a class="call" href="tel:+8801917716922">📞 01917716922</a>
+<a class="wa" href="https://wa.me/8801917716922" target="_blank">💬 WhatsApp</a>
+<button class="theme" onclick="toggleTheme()">🌙 থিম</button>
+</div>
 </header>
 
 <nav>
-  <button class="active" onclick="showPage('dashboard',this)">ড্যাশবোর্ড</button>
-  <button onclick="showPage('entry',this)">আয়-ব্যয়</button>
-  <button onclick="showPage('products',this)">পণ্য</button>
-  <button onclick="showPage('parties',this)">কাস্টমার</button>
-  <button onclick="showPage('reports',this)">রিপোর্ট</button>
-  <button onclick="showPage('settings',this)">সেটিংস</button>
+<button class="active" onclick="page('dashboard',this)">ড্যাশবোর্ড</button>
+<button onclick="page('transactions',this)">আয়-ব্যয়</button>
+<button onclick="page('budget',this)">বাজেট</button>
+<button onclick="page('products',this)">পণ্য ও স্টক</button>
+<button onclick="page('people',this)">গ্রাহক</button>
+<button onclick="page('reports',this)">রিপোর্ট</button>
+<button onclick="page('settings',this)">সেটিংস</button>
 </nav>
 
 <main>
 
 <section id="dashboard" class="page active">
-  <h3>📊 ব্যবসার ড্যাশবোর্ড</h3>
-  <div id="budgetAlert"></div>
-  <div class="grid">
-    <div class="card stat">
-      <small>মোট আয়</small>
-      <strong class="green" id="totalIncome">৳0</strong>
-    </div>
-    <div class="card stat">
-      <small>মোট খরচ</small>
-      <strong class="red" id="totalExpense">৳0</strong>
-    </div>
-    <div class="card stat">
-      <small>লাভ / ক্ষতি</small>
-      <strong id="profit">৳0</strong>
-    </div>
-    <div class="card stat">
-      <small>মোট পণ্য</small>
-      <strong id="productCount">0</strong>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>দ্রুত হিসাব যোগ করুন</h3>
-    <div class="row">
-      <button class="primary" onclick="showPage('entry')">➕ নতুন আয়</button>
-      <button class="secondary" onclick="showPage('entry')">➖ নতুন খরচ</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>সাম্প্রতিক লেনদেন</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>তারিখ</th><th>ধরন</th><th>বিবরণ</th><th>টাকা</th></tr></thead>
-        <tbody id="recentRecords"></tbody>
-      </table>
-    </div>
-  </div>
+<h3>📊 ব্যবসার ড্যাশবোর্ড</h3>
+<div class="grid">
+<div class="card stat">
+<small>মোট আয়</small>
+<strong id="income">৳0</strong>
+</div>
+<div class="card stat">
+<small>মোট ব্যয়</small>
+<strong id="expense">৳0</strong>
+</div>
+<div class="card stat">
+<small>নিট লাভ / ক্ষতি</small>
+<strong id="profit">৳0</strong>
+</div>
+<div class="card stat">
+<small>মোট লেনদেন</small>
+<strong id="count">0</strong>
+</div>
+<div class="card stat">
+<small>আজকের আয়</small>
+<strong id="todayIn">৳0</strong>
+</div>
+<div class="card stat">
+<small>আজকের ব্যয়</small>
+<strong id="todayOut">৳0</strong>
+</div>
+<div class="card stat">
+<small>বাজেট অবশিষ্ট</small>
+<strong id="remaining">৳0</strong>
+</div>
+<div class="card stat">
+<small>মোট পণ্য</small>
+<strong id="productCount">0</strong>
+</div>
+</div>
+<div class="card">
+<h3>সাম্প্রতিক লেনদেন</h3>
+<div class="tablewrap">
+<table>
+<thead>
+<tr><th>তারিখ</th><th>বিবরণ</th><th>ধরন</th><th>টাকা</th></tr>
+</thead>
+<tbody id="recent"></tbody>
+</table>
+</div>
+</div>
+<div id="alerts"></div>
 </section>
-
-<section id="entry" class="page">
-  <h3>➕ আয় ও খরচ যোগ করুন</h3>
-  <div class="card">
-    <form id="entryForm">
-      <label>লেনদেনের ধরন</label>
-      <select id="type">
-        <option value="income">আয়</option>
-        <option value="expense">খরচ</option>
-      </select>
-
-      <label>বিবরণ</label>
-      <input id="description" placeholder="যেমন: পণ্য বিক্রি / মালামাল কেনা" required>
-
-      <div class="row">
-        <div>
-          <label>টাকার পরিমাণ</label>
-          <input id="amount" type="number" min="0.01" step="0.01" required>
-        </div>
-        <div>
-          <label>তারিখ</label>
-          <input id="date" type="date" required>
-        </div>
-      </div>
-
-      <label>ক্যাটাগরি</label>
-      <select id="category">
-        <option>বিক্রয়</option>
-        <option>মালামাল ক্রয়</option>
-        <option>বেতন</option>
-        <option>দোকান ভাড়া</option>
-        <option>পরিবহন</option>
-        <option>অন্যান্য</option>
-      </select>
-
-      <label>নোট (ঐচ্ছিক)</label>
-      <textarea id="note" placeholder="অতিরিক্ত তথ্য"></textarea>
-      <button class="primary" type="submit">হিসাব সংরক্ষণ করুন</button>
-    </form>
-  </div>
-
-  <div class="card">
-    <h3>সকল লেনদেন</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>তারিখ</th><th>ধরন</th><th>বিবরণ</th><th>টাকা</th><th>মুছুন</th></tr></thead>
-        <tbody id="allRecords"></tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section id="products" class="page">
-  <h3>📦 পণ্য ও স্টক ব্যবস্থাপনা</h3>
-  <div class="card">
-    <form id="productForm">
-      <label>পণ্যের নাম</label>
-      <input id="productName" required placeholder="পণ্যের নাম">
-      <div class="row">
-        <div>
-          <label>পরিমাণ</label>
-          <input id="productQty" type="number" min="0" required>
-        </div>
-        <div>
-          <label>একক দাম</label>
-          <input id="productPrice" type="number" min="0" step="0.01" required>
-        </div>
-      </div>
-      <button class="primary">পণ্য যোগ করুন</button>
-    </form>
-  </div>
-  <div class="card">
-    <h3>পণ্যের তালিকা</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>পণ্য</th><th>পরিমাণ</th><th>দাম</th><th>মোট</th><th>মুছুন</th></tr></thead>
-        <tbody id="productRows"></tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section id="parties" class="page">
-  <h3>👥 কাস্টমার ও সরবরাহকারী</h3>
-  <div class="card">
-    <form id="partyForm">
-      <label>নাম</label>
-      <input id="partyName" required placeholder="নাম লিখুন">
-      <label>ধরন</label>
-      <select id="partyType">
-        <option>কাস্টমার</option>
-        <option>সরবরাহকারী</option>
-      </select>
-      <label>মোবাইল নম্বর (ঐচ্ছিক)</label>
-      <input id="partyPhone" type="tel" placeholder="মোবাইল নম্বর">
-      <button class="primary">সংরক্ষণ করুন</button>
-    </form>
-  </div>
-  <div class="card">
-    <h3>তালিকা</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>নাম</th><th>ধরন</th><th>মোবাইল</th><th>মুছুন</th></tr></thead>
-        <tbody id="partyRows"></tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section id="reports" class="page">
-  <h3>📈 ব্যবসার রিপোর্ট</h3>
-  <div class="card">
-    <p>মোট আয়: <strong id="reportIncome">৳0</strong></p>
-    <p>মোট খরচ: <strong id="reportExpense">৳0</strong></p>
-    <p>লাভ / ক্ষতি: <strong id="reportProfit">৳0</strong></p>
-    <button class="primary" onclick="exportCSV()">📥 CSV রিপোর্ট ডাউনলোড</button>
-  </div>
-  <div class="card">
-    <h3>হিসাবের ক্যালকুলেটর</h3>
-    <input id="calcA" type="number" placeholder="প্রথম সংখ্যা">
-    <input id="calcB" type="number" placeholder="দ্বিতীয় সংখ্যা">
-    <select id="calcOp">
-      <option value="+">যোগ (+)</option>
-      <option value="-">বিয়োগ (-)</option>
-      <option value="*">গুণ (×)</option>
-      <option value="/">ভাগ (÷)</option>
-    </select>
-    <button class="primary" onclick="calculate()">হিসাব করুন</button>
-    <h3 id="calcResult">ফলাফল: 0</h3>
-  </div>
-</section>
-
-<section id="settings" class="page">
-  <h3>⚙️ সেটিংস ও ব্যাকআপ</h3>
-  <div class="card">
-    <label>মুদ্রা নির্বাচন</label>
-    <select id="currency" onchange="saveCurrency()">
-      <option value="৳">BDT — বাংলাদেশি টাকা (৳)</option>
-      <option value="$">USD — US Dollar ($)</option>
-      <option value="€">EUR — Euro (€)</option>
-      <option value="£">GBP — Pound (£)</option>
-      <option value="₹">INR — Indian Rupee (₹)</option>
-      <option value="د.إ">AED — Dirham</option>
-      <option value="﷼">SAR — Riyal</option>
-    </select>
-  </div>
-  <div class="card">
-    <h3>মাসিক খরচের বাজেট</h3>
-    <label>বাজেটের পরিমাণ</label>
-    <input id="budget" type="number" min="0" placeholder="যেমন 50000">
-    <button class="primary" onclick="saveBudget()">বাজেট সংরক্ষণ</button>
-  </div>
-  <div class="card">
-    <h3>ডেটা ব্যাকআপ</h3>
-    <p>আপনার হিসাব JSON ফাইল হিসেবে সংরক্ষণ করতে পারবেন।</p>
-    <div class="actions">
-      <button class="primary" onclick="backupData()">ব্যাকআপ ডাউনলোড</button>
-      <button class="secondary" onclick="document.getElementById('restoreFile').click()">ব্যাকআপ ফিরিয়ে আনুন</button>
-      <input id="restoreFile" type="file" accept=".json" hidden onchange="restoreData(event)">
-    </div>
-  </div>
-  <div class="card">
-    <h3>সতর্কতা</h3>
-    <p>এই সংস্করণে তথ্য আপনার এই ব্রাউজারের Local Storage-এ থাকে। ব্রাউজারের ডেটা মুছে গেলে তথ্য হারাতে পারে। নিয়মিত ব্যাকআপ রাখুন।</p>
-    <button class="danger" onclick="clearData()">সব ডেটা মুছে ফেলুন</button>
-  </div>
-</section>
-
-</main>
-<footer>Cost Alarm — Smart Business Management</footer>
-
-<script>
-const KEY="costAlarmDataV1";
-let data=JSON.parse(localStorage.getItem(KEY)||'{"records":[],"products":[],"parties":[],"budget":0,"currency":"৳"}');
-
-function save(){
-  localStorage.setItem(KEY,JSON.stringify(data));
-  render();
-}
-function money(n){
-  return (data.currency||"৳")+Number(n||0).toLocaleString("en-US",{maximumFractionDigits:2});
-}
-function showPage(id,btn){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-  if(btn)btn.classList.add("active");
-  render();
-}
-function totals(){
-  let income=data.records.filter(x=>x.type==="income").reduce((s,x)=>s+Number(x.amount),0);
-  let expense=data.records.filter(x=>x.type==="expense").reduce((s,x)=>s+Number(x.amount),0);
-  return {income,expense,profit:income-expense};
-}
-function render(){
-  const t=totals();
-  document.getElementById("totalIncome").textContent=money(t.income);
-  document.getElementById("totalExpense").textContent=money(t.expense);
-  document.getElementById("profit").textContent=money(t.profit);
-  document.getElementById("profit").className=t.profit>=0?"green":"red";
-  document.getElementById("productCount").textContent=data.products.length;
-  document.getElementById("reportIncome").textContent=money(t.income);
-  document.getElementById("reportExpense").textContent=money(t.expense);
-  document.getElementById("reportProfit").textContent=money(t.profit);
-
-  const recent=[...data.records].reverse().slice(0,5);
-  document.getElementById("recentRecords").innerHTML=recent.map(x=>
-    `<tr><td>${safe(x.date)}</td><td>${x.type==="income"?"আয়":"খরচ"}</td><td>${safe(x.description)}</td><td>${money(x.amount)}</td></tr>`
-  ).join("")||'<tr><td colspan="4">কোনো হিসাব নেই</td></tr>';
-
-  document.getElementById("allRecords").innerHTML=[...data.records].reverse().map(x=>
-    `<tr><td>${safe(x.date)}</td><td>${x.type==="income"?"আয়":"খরচ"}</td><td>${safe(x.description)}</td><td>${money(x.amount)}</td><td><button class="danger" onclick="deleteRecord('${x.id}')">মুছুন</button></td></tr>`
-  ).join("")||'<tr><td colspan="5">কোনো হিসাব নেই</td></tr>';
-
-  document.getElementById("productRows").innerHTML=data.products.map(x=>
-    `<tr><td>${safe(x.name)}</td><td>${x.qty}</td><td>${money(x.price)}</td><td>${money(x.qty*x.price)}</td><td><button class="danger" onclick="deleteProduct('${x.id}')">মুছুন</button></td></tr>`
-  ).join("")||'<tr><td colspan="5">কোনো পণ্য নেই</td></tr>';
-
-  document.getElementById("partyRows").innerHTML=data.parties.map(x=>
-    `<tr><td>${safe(x.name)}</td><td>${safe(x.type)}</td><td>${safe(x.phone||"-")}</td><td><button class="danger" onclick="deleteParty('${x.id}')">মুছুন</button></td></tr>`
-  ).join("")||'<tr><td colspan="4">কোনো নাম নেই</td></tr>';
-
-  const alertBox=document.getElementById("budgetAlert");
-  const month=new Date().toISOString().slice(0,7);
-  const monthlyExpense=data.records.filter(x=>x.type==="expense"&&x.date.startsWith(month)).reduce((s,x)=>s+Number(x.amount),0);
-  if(data.budget>0&&monthlyExpense>=data.budget){
-    alertBox.innerHTML='<div class="alert">⚠️ সতর্কতা! এই মাসের খরচ আপনার বাজেট ছাড়িয়েছে।</div>';
-  }else if(data.budget>0&&monthlyExpense>=data.budget*.8){
-    alertBox.innerHTML='<div class="alert">⚠️ সতর্কতা! আপনার মাসিক বাজেটের ৮০% খরচ হয়েছে।</div>';
-  }else alertBox.innerHTML="";
-}
-function safe(v){
-  return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-document.getElementById("date").value=new Date().toISOString().slice(0,10);
-
-document.getElementById("entryForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  const amount=Number(document.getElementById("amount").value);
-  if(amount<=0)return alert("সঠিক টাকার পরিমাণ লিখুন");
-  data.records.push({
-    id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),
-    type:document.getElementById("type").value,
-    description:document.getElementById("description").value.trim(),
-    amount,
-    date:document.getElementById("date").value,
-    category:document.getElementById("category").value,
-    note:document.getElementById("note").value
-  });
-  e.target.reset();
-  document.getElementById("date").value=new Date().toISOString().slice(0,10);
-  save();
-  alert("হিসাব সংরক্ষণ হয়েছে");
-});
-document.getElementById("productForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  data.products.push({
-    id:String(Date.now()),
-    name:document.getElementById("productName").value.trim(),
-    qty:Number(document.getElementById("productQty").value),
-    price:Number(document.getElementById("productPrice").value)
-  });
-  e.target.reset();save();alert("পণ্য যোগ হয়েছে");
-});
-document.getElementById("partyForm").addEventListener("submit",e=>{
-  e.preventDefault();
-  data.parties.push({
-    id:String(Date.now()),
-    name:document.getElementById("partyName").value.trim(),
-    type:document.getElementById("partyType").value,
-    phone:document.getElementById("partyPhone").value.trim()
-  });
-  e.target.reset();save();alert("তথ্য সংরক্ষণ হয়েছে");
-});
-function deleteRecord(id){
-  if(confirm("এই হিসাবটি মুছে ফেলবেন?")){
-    data.records=data.records.filter(x=>x.id!==id);save();
-  }
-}
-function deleteProduct(id){
-  if(confirm("পণ্যটি মুছে ফেলবেন?")){
-    data.products=data.products.filter(x=>x.id!==id);save();
-  }
-}
-function deleteParty(id){
-  if(confirm("নামটি মুছে ফেলবেন?")){
-    data.parties=data.parties.filter(x=>x.id!==id);save();
-  }
-}
-function saveCurrency(){
-  data.currency=document.getElementById("currency").value;save();
-}
-function saveBudget(){
-  data.budget=Number(document.getElementById("budget").value)||0;
-  save();alert("বাজেট সংরক্ষণ হয়েছে");
-}
-function calculate(){
-  const a=Number(document.getElementById("calcA").value);
-  const b=Number(document.getElementById("calcB").value);
-  const op=document.getElementById("calcOp").value;
-  if(op==="/"&&b===0)return alert("শূন্য দিয়ে ভাগ করা যাবে না");
-  let r=op==="+"?a+b:op==="-"?a-b:op==="*"?a*b:a/b;
-  document.getElementById("calcResult").textContent="ফলাফল: "+r;
-}
-function exportCSV(){
-  const rows=[["Date","Type","Description","Category","Amount"]];
-  data.records.forEach(x=>rows.push([x.date,x.type,x.description,x.category,x.amount]));
-  const csv="\uFEFF"+rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\n");
-  downloadFile(csv,"cost-alarm-report.csv","text/csv;charset=utf-8");
-}
-function backupData(){
-  downloadFile(JSON.stringify(data,null,2),"cost-alarm-backup.json","application/json");
-}
-function downloadFile(content,name,type){
-  const blob=new Blob([content],{type});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;a.download=name;a.click();
-  URL.revokeObjectURL(url);
-}
-function restoreData(event){
-  const file=event.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=()=>{
-    try{
-      const imported=JSON.parse(reader.result);
-      if(!imported.records||!imported.products||!imported.parties)throw Error();
-      if(confirm("বর্তমান তথ্যের জায়গায় ব্যাকআপের তথ্য বসবে। চালিয়ে যাবেন?")){
-        data=imported;save();alert("ব্যাকআপ ফিরিয়ে আনা হয়েছে");
-      }
-    }catch(e){alert("এই ব্যাকআপ ফাইলটি সঠিক নয়");}
-    event.target.value="";
-  };
-  reader.readAsText(file);
-}
-function clearData(){
-  if(confirm("সতর্কতা: সব হিসাব, পণ্য ও কাস্টমারের তথ্য মুছে যাবে। নিশ্চিত?")){
-    data={records:[],products:[],parties:[],budget:0,currency:"৳"};
-    save();alert("সব ডেটা মুছে ফেলা হয়েছে");
-  }
-}
-document.getElementById("currency").value=data.currency||"৳";
-document.getElementById("budget").value=data.budget||"";
-render();
-</script>
-</body>
-</html>
