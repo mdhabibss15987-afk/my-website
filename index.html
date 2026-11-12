@@ -1,236 +1,461 @@
+
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#123b66">
 <title>Cost Alarm — Smart Business Management</title>
 <style>
-:root{--navy:#123b66;--blue:#1769aa;--bg:#f3f6fb;--card:#fff;--ink:#182230;--muted:#718096;--border:#e2e8f0;--green:#159568;--red:#dc4545;--shadow:0 5px 18px #123b6610}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,"Noto Sans Bengali",sans-serif}body.dark{--bg:#111827;--card:#1f2937;--ink:#f1f5f9;--muted:#a0aec0;--border:#374151;--shadow:0 5px 18px #0003}
-header{background:var(--navy);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}header h2{margin:0;font-size:21px}header small{opacity:.85}.head-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-button,input,select{font:inherit}button{border:0;border-radius:8px;padding:10px 14px;cursor:pointer;background:var(--blue);color:#fff;font-weight:600}button:hover{filter:brightness(.94)}button:disabled{opacity:.5;cursor:not-allowed}.secondary{background:#64748b}.danger{background:var(--red)}.greenBtn{background:var(--green)}
-.container{max-width:1250px;margin:auto;padding:18px}nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 16px}nav button{white-space:nowrap;flex:none}nav button.active{background:#0b2f4f}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:14px}.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:17px;margin-bottom:15px;box-shadow:var(--shadow)}.card h3{margin:0 0 13px;font-size:17px}.stat{font-size:25px;font-weight:700;margin-top:9px;overflow-wrap:anywhere}.muted{color:var(--muted);font-size:13px}.green{color:var(--green)}.red{color:var(--red)}
-input,select{width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--ink);margin:5px 0 12px;min-width:0}label{font-size:13px;font-weight:700;display:block}.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:590px}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}th{color:var(--muted);font-weight:700}.hidden{display:none!important}.progress{height:12px;background:var(--border);border-radius:20px;overflow:hidden;margin:12px 0}.progress div{height:100%;background:var(--green);width:0;transition:width .2s}.alert{padding:12px;border-radius:9px;background:#fff0d4;color:#8a5100;margin:10px 0;line-height:1.5}.alert.good{background:#e8f8ee;color:#087443}.alert.bad{background:#fee;color:#b42318}body.dark .alert{background:#49391e;color:#ffda91}body.dark .alert.good{background:#123c2b;color:#9ce6bf}body.dark .alert.bad{background:#4b2222;color:#ffb4b4}
-.pill{display:inline-block;padding:5px 10px;border-radius:20px;background:#e8eef6;font-size:12px;color:#19324d}.actions{display:flex;gap:6px;flex-wrap:wrap}.actions button{padding:6px 9px;font-size:12px}.bar{height:12px;background:var(--border);border-radius:20px;overflow:hidden;margin:7px 0 14px}.bar span{display:block;height:100%;background:var(--blue)}footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}.empty{text-align:center;color:var(--muted);padding:18px}.small{font-size:12px}.right{text-align:right}.callwrap{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-@media(max-width:600px){.container{padding:12px}header{padding:14px}.stat{font-size:22px}.card{padding:14px}nav button{padding:9px 11px}}
-@media print{header,nav,button,input,select,label,.no-print,footer{display:none!important}body{background:white;color:black}.container{max-width:none;padding:0}.card{box-shadow:none;break-inside:avoid;border:1px solid #ddd}.hidden{display:none!important}}
+:root{
+  --navy:#123b66;--blue:#1769aa;--bg:#f3f6fb;
+  --card:#fff;--ink:#182230;--muted:#667085;
+  --green:#16834a;--red:#d92d20;--border:#e3e8ef;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
+header{background:var(--navy);color:white;padding:16px;position:sticky;top:0;z-index:5}
+header h2{margin:0;font-size:21px}
+header small{opacity:.8}
+nav{display:flex;gap:7px;overflow-x:auto;padding:10px;background:white;position:sticky;top:65px;z-index:4}
+nav button{white-space:nowrap;border:0;border-radius:8px;padding:10px 13px;background:#eaf1f8;color:var(--navy);font-weight:bold}
+nav button.active{background:var(--navy);color:white}
+main{padding:14px;max-width:1000px;margin:auto}
+.page{display:none}
+.page.active{display:block}
+h3{margin:8px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{background:var(--card);padding:15px;border-radius:12px;box-shadow:0 2px 8px #172b4d0d;margin-bottom:12px}
+.stat small{color:var(--muted)}
+.stat strong{display:block;font-size:22px;margin-top:7px}
+.green{color:var(--green)}.red{color:var(--red)}
+label{display:block;font-size:13px;font-weight:bold;margin:10px 0 5px}
+input,select,textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:white;font-size:15px}
+textarea{min-height:70px}
+button{cursor:pointer}
+.primary,.secondary,.danger{border:0;border-radius:8px;padding:11px 14px;font-weight:bold;margin-top:10px}
+.primary{background:var(--blue);color:white}
+.secondary{background:#eaf1f8;color:var(--navy)}
+.danger{background:#fee4e2;color:#b42318}
+button:disabled{opacity:.5}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:9px 6px;border-bottom:1px solid var(--border);text-align:left}
+th{background:#f5f7fa}
+.table-wrap{overflow-x:auto}
+.alert{padding:12px;border-radius:9px;background:#fff4d6;color:#805b00;margin-bottom:12px}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+footer{text-align:center;color:var(--muted);padding:25px;font-size:12px}
+@media(max-width:480px){
+ .grid{grid-template-columns:1fr 1fr}
+ .stat strong{font-size:18px}
+ .row{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
+
 <header>
-<div><h2>🛡 Cost Alarm</h2><small id="tagline">স্মার্ট বিজনেস ম্যানেজমেন্ট</small></div>
-<div class="head-actions"><span class="pill" id="storageStatus">● অফলাইন</span><a href="tel:+8801917716922" style="text-decoration:none"><button type="button" style="background:#159568">📞 01917716922</button></a><a href="https://wa.me/8801917716922" target="_blank" rel="noopener" style="text-decoration:none"><button type="button" style="background:#25D366;color:#fff">💬 WhatsApp</button></a><button class="secondary" id="themeBtn" type="button">🌙 থিম</button><select id="language" aria-label="Language" style="width:auto;margin:0"><option value="bn">বাংলা</option><option value="en-GB">English (UK)</option><option value="en-US">English (US)</option><option value="ar">العربية</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option></select></div>
+  <h2>🔔 Cost Alarm</h2>
+  <small>Smart Business Management</small>
 </header>
-<div class="container">
-<nav id="mainNav">
-<button class="active" data-page="dashboard">ড্যাশবোর্ড</button><button data-page="transaction">আয় / ব্যয়</button><button data-page="budget">বাজেট অ্যালার্ম</button><button data-page="products">পণ্য ও স্টক</button><button data-page="parties">গ্রাহক / সরবরাহকারী</button><button data-page="business">ব্যবসা</button><button data-page="reports">রিপোর্ট</button><button data-page="assistant">স্মার্ট সহকারী</button><button data-page="settings">সেটিংস</button><button data-page="server">সার্ভার / সিঙ্ক</button>
+
+<nav>
+  <button class="active" onclick="showPage('dashboard',this)">ড্যাশবোর্ড</button>
+  <button onclick="showPage('entry',this)">আয়-ব্যয়</button>
+  <button onclick="showPage('products',this)">পণ্য</button>
+  <button onclick="showPage('parties',this)">কাস্টমার</button>
+  <button onclick="showPage('reports',this)">রিপোর্ট</button>
+  <button onclick="showPage('settings',this)">সেটিংস</button>
 </nav>
-<section id="dashboard">
-<div class="card" style="text-align:center"><div class="callwrap"><a href="tel:+8801917716922" style="text-decoration:none"><button type="button" style="background:#159568;font-size:17px;padding:14px 22px">📞 কল করুন - 01917716922</button></a><a href="https://wa.me/8801917716922" target="_blank" rel="noopener" style="text-decoration:none"><button type="button" style="background:#25D366;color:#fff;font-size:17px;padding:14px 22px">💬 WhatsApp করুন</button></a></div></div>
-<div class="grid">
-<div class="card"><div class="muted" data-t="totalIncome">মোট আয়</div><div class="stat green" id="income">৳0</div></div>
-<div class="card"><div class="muted" data-t="totalExpense">মোট ব্যয়</div><div class="stat red" id="expense">৳0</div></div>
-<div class="card"><div class="muted" data-t="profit">নিট লাভ / ক্ষতি</div><div class="stat" id="profit">৳0</div></div>
-<div class="card"><div class="muted" data-t="transactions">লেনদেন</div><div class="stat" id="count">0</div></div>
-</div>
-<div class="grid">
-<div class="card"><div class="muted" data-t="todayIncome">আজকের আয়</div><div class="stat green" id="todayIncome">৳0</div></div>
-<div class="card"><div class="muted" data-t="todayExpense">আজকের ব্যয়</div><div class="stat red" id="todayExpense">৳0</div></div>
-<div class="card"><div class="muted" data-t="budgetLeft">বাজেটের অবশিষ্ট</div><div class="stat" id="budgetRemaining">৳0</div></div>
-<div class="card"><div class="muted" data-t="stockItems">পণ্যের সংখ্যা</div><div class="stat" id="stockCount">0</div></div>
-</div>
-<div id="dashboardAlert"></div>
-<div id="compareBox" class="alert"></div>
-<div class="card"><h3 data-t="overview">ব্যবসার চিত্র</h3><div id="overview"></div></div>
-<div class="card"><h3 data-t="recent">সাম্প্রতিক লেনদেন</h3><div class="tablewrap"><table><thead><tr><th data-t="date">তারিখ</th><th data-t="details">বিবরণ</th><th data-t="type">ধরন</th><th data-t="amount">পরিমাণ</th></tr></thead><tbody id="recent"></tbody></table></div></div>
+
+<main>
+
+<section id="dashboard" class="page active">
+  <h3>📊 ব্যবসার ড্যাশবোর্ড</h3>
+  <div id="budgetAlert"></div>
+  <div class="grid">
+    <div class="card stat">
+      <small>মোট আয়</small>
+      <strong class="green" id="totalIncome">৳0</strong>
+    </div>
+    <div class="card stat">
+      <small>মোট খরচ</small>
+      <strong class="red" id="totalExpense">৳0</strong>
+    </div>
+    <div class="card stat">
+      <small>লাভ / ক্ষতি</small>
+      <strong id="profit">৳0</strong>
+    </div>
+    <div class="card stat">
+      <small>মোট পণ্য</small>
+      <strong id="productCount">0</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>দ্রুত হিসাব যোগ করুন</h3>
+    <div class="row">
+      <button class="primary" onclick="showPage('entry')">➕ নতুন আয়</button>
+      <button class="secondary" onclick="showPage('entry')">➖ নতুন খরচ</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>সাম্প্রতিক লেনদেন</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>তারিখ</th><th>ধরন</th><th>বিবরণ</th><th>টাকা</th></tr></thead>
+        <tbody id="recentRecords"></tbody>
+      </table>
+    </div>
+  </div>
 </section>
-<section id="transaction" class="hidden">
-<div class="card"><h3 data-t="addTransaction">আয় / ব্যয় যোগ করুন</h3><form id="transactionForm">
-<div class="row"><div><label data-t="type">ধরন</label><select id="txType"><option value="income">আয়</option><option value="expense">ব্যয়</option></select></div><div><label data-t="date">তারিখ</label><input type="date" id="txDate" required></div></div>
-<label data-t="details">বিবরণ</label><input id="txDescription" maxlength="120" placeholder="পণ্য বিক্রয়, ভাড়া, বেতন..." required>
-<div class="row"><div><label data-t="category">ক্যাটাগরি</label><input id="txCategory" maxlength="60" placeholder="বিক্রয়, ভাড়া, বেতন"></div><div><label data-t="amount">পরিমাণ</label><input id="txAmount" type="number" min="0.01" step="0.01" required></div><div><label data-t="method">পেমেন্ট মাধ্যম</label><select id="txMethod"><option>Cash</option><option>Bank</option><option>Mobile Banking</option><option>Card</option><option>Other</option></select></div></div>
-<input type="hidden" id="txEditId">
-<button type="submit" id="txSubmit">সংরক্ষণ করুন</button><button type="button" class="secondary hidden" id="cancelEdit">বাতিল</button>
-</form></div>
-<div class="card"><h3 data-t="allTransactions">সব লেনদেন</h3><input id="txSearch" placeholder="লেনদেন খুঁজুন..."><div class="tablewrap"><table><thead><tr><th data-t="date">তারিখ</th><th data-t="details">বিবরণ</th><th data-t="category">ক্যাটাগরি</th><th data-t="type">ধরন</th><th data-t="amount">পরিমাণ</th><th data-t="action">অ্যাকশন</th></tr></thead><tbody id="txRows"></tbody></table></div></div>
+
+<section id="entry" class="page">
+  <h3>➕ আয় ও খরচ যোগ করুন</h3>
+  <div class="card">
+    <form id="entryForm">
+      <label>লেনদেনের ধরন</label>
+      <select id="type">
+        <option value="income">আয়</option>
+        <option value="expense">খরচ</option>
+      </select>
+
+      <label>বিবরণ</label>
+      <input id="description" placeholder="যেমন: পণ্য বিক্রি / মালামাল কেনা" required>
+
+      <div class="row">
+        <div>
+          <label>টাকার পরিমাণ</label>
+          <input id="amount" type="number" min="0.01" step="0.01" required>
+        </div>
+        <div>
+          <label>তারিখ</label>
+          <input id="date" type="date" required>
+        </div>
+      </div>
+
+      <label>ক্যাটাগরি</label>
+      <select id="category">
+        <option>বিক্রয়</option>
+        <option>মালামাল ক্রয়</option>
+        <option>বেতন</option>
+        <option>দোকান ভাড়া</option>
+        <option>পরিবহন</option>
+        <option>অন্যান্য</option>
+      </select>
+
+      <label>নোট (ঐচ্ছিক)</label>
+      <textarea id="note" placeholder="অতিরিক্ত তথ্য"></textarea>
+      <button class="primary" type="submit">হিসাব সংরক্ষণ করুন</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>সকল লেনদেন</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>তারিখ</th><th>ধরন</th><th>বিবরণ</th><th>টাকা</th><th>মুছুন</th></tr></thead>
+        <tbody id="allRecords"></tbody>
+      </table>
+    </div>
+  </div>
 </section>
-<section id="budget" class="hidden"><div class="card"><h3 data-t="monthlyBudget">মাসিক বাজেট</h3><label data-t="monthlyLimit">মাসিক ব্যয়ের সীমা</label><input type="number" min="0" step=".01" id="budgetInput" placeholder="বাজেট লিখুন"><button id="saveBudget" type="button">বাজেট সংরক্ষণ</button><div id="budgetStatus"></div></div></section>
-<section id="products" class="hidden">
-<div class="card"><h3 data-t="productsStock">পণ্য ও স্টক</h3><input type="hidden" id="productEditId">
-<div class="row"><div><label data-t="productName">পণ্যের নাম</label><input id="pName" maxlength="100"></div><div><label>SKU / Code</label><input id="pSku" maxlength="40"></div><div><label data-t="stock">স্টক</label><input id="pQty" type="number" min="0" step=".01" value="0"></div><div><label data-t="purchasePrice">ক্রয়মূল্য</label><input id="pCost" type="number" min="0" step=".01" value="0"></div><div><label data-t="salePrice">বিক্রয়মূল্য</label><input id="pPrice" type="number" min="0" step=".01" value="0"></div><div><label data-t="lowStock">কম স্টক সতর্কতা</label><input id="pLow" type="number" min="0" step=".01" value="5"></div></div>
-<button type="button" id="saveProductBtn">পণ্য সংরক্ষণ</button><button type="button" class="secondary hidden" id="cancelProductEdit">বাতিল</button></div>
-<div class="card"><h3 data-t="productList">পণ্যের তালিকা</h3><div class="tablewrap"><table><thead><tr><th data-t="productName">পণ্য</th><th>SKU</th><th data-t="stock">স্টক</th><th data-t="purchasePrice">ক্রয়মূল্য</th><th data-t="salePrice">বিক্রয়মূল্য</th><th data-t="status">স্ট্যাটাস</th><th data-t="action">অ্যাকশন</th></tr></thead><tbody id="productRows"></tbody></table></div></div>
+
+<section id="products" class="page">
+  <h3>📦 পণ্য ও স্টক ব্যবস্থাপনা</h3>
+  <div class="card">
+    <form id="productForm">
+      <label>পণ্যের নাম</label>
+      <input id="productName" required placeholder="পণ্যের নাম">
+      <div class="row">
+        <div>
+          <label>পরিমাণ</label>
+          <input id="productQty" type="number" min="0" required>
+        </div>
+        <div>
+          <label>একক দাম</label>
+          <input id="productPrice" type="number" min="0" step="0.01" required>
+        </div>
+      </div>
+      <button class="primary">পণ্য যোগ করুন</button>
+    </form>
+  </div>
+  <div class="card">
+    <h3>পণ্যের তালিকা</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>পণ্য</th><th>পরিমাণ</th><th>দাম</th><th>মোট</th><th>মুছুন</th></tr></thead>
+        <tbody id="productRows"></tbody>
+      </table>
+    </div>
+  </div>
 </section>
-<section id="parties" class="hidden">
-<div class="card"><h3 data-t="partiesTitle">গ্রাহক ও সরবরাহকারী</h3><input type="hidden" id="partyEditId"><div class="row"><div><label data-t="partyName">নাম</label><input id="partyName" maxlength="100"></div><div><label data-t="partyType">ধরন</label><select id="partyType"><option value="customer">গ্রাহক</option><option value="supplier">সরবরাহকারী</option></select></div><div><label data-t="partyPhone">ফোন</label><input id="partyPhone" maxlength="30"></div><div><label data-t="partyDue">বকেয়া</label><input id="partyDue" type="number" min="0" step=".01" value="0"></div></div><button type="button" id="savePartyBtn">সংরক্ষণ</button><button type="button" class="secondary hidden" id="cancelPartyEdit">বাতিল</button></div>
-<div class="card"><h3 data-t="partyList">তালিকা</h3><div class="tablewrap"><table><thead><tr><th data-t="partyName">নাম</th><th data-t="partyType">ধরন</th><th data-t="partyPhone">ফোন</th><th data-t="partyDue">বকেয়া</th><th data-t="action">অ্যাকশন</th></tr></thead><tbody id="partyRows"></tbody></table></div></div>
+
+<section id="parties" class="page">
+  <h3>👥 কাস্টমার ও সরবরাহকারী</h3>
+  <div class="card">
+    <form id="partyForm">
+      <label>নাম</label>
+      <input id="partyName" required placeholder="নাম লিখুন">
+      <label>ধরন</label>
+      <select id="partyType">
+        <option>কাস্টমার</option>
+        <option>সরবরাহকারী</option>
+      </select>
+      <label>মোবাইল নম্বর (ঐচ্ছিক)</label>
+      <input id="partyPhone" type="tel" placeholder="মোবাইল নম্বর">
+      <button class="primary">সংরক্ষণ করুন</button>
+    </form>
+  </div>
+  <div class="card">
+    <h3>তালিকা</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>নাম</th><th>ধরন</th><th>মোবাইল</th><th>মুছুন</th></tr></thead>
+        <tbody id="partyRows"></tbody>
+      </table>
+    </div>
+  </div>
 </section>
-<section id="business" class="hidden">
-<div class="card"><h3 data-t="bizSettings">ব্যবসার সেটিংস</h3><label data-t="bizName">ব্যবসার নাম</label><input id="businessName" placeholder="My Business"><label data-t="currency">মুদ্রা</label><select id="currency"><option value="৳">BDT - Taka</option><option value="$">USD - Dollar</option><option value="€">EUR - Euro</option><option value="£">GBP - Pound</option></select><button type="button" id="saveBusinessBtn">সেটিংস সংরক্ষণ</button></div>
-<div class="card"><h3 data-t="bizSummary">ব্যবসার সারাংশ</h3><div id="businessSummary"></div></div>
-<div class="card"><h3 data-t="userTitle">ইউজার / লগইন</h3><label data-t="userName">ইউজারের নাম</label><input id="userName"><label data-t="userPhone">ইউজারের ফোন</label><input id="userPhone"><button type="button" id="saveUserBtn">ইউজার সংরক্ষণ</button><p id="userInfo"></p><div class="callwrap"><a href="tel:+8801917716922" style="text-decoration:none"><button type="button" style="background:#159568">📞 কল করুন - 01917716922</button></a><a href="https://wa.me/8801917716922" target="_blank" rel="noopener" style="text-decoration:none"><button type="button" style="background:#25D366;color:#fff">💬 WhatsApp</button></a></div></div>
+
+<section id="reports" class="page">
+  <h3>📈 ব্যবসার রিপোর্ট</h3>
+  <div class="card">
+    <p>মোট আয়: <strong id="reportIncome">৳0</strong></p>
+    <p>মোট খরচ: <strong id="reportExpense">৳0</strong></p>
+    <p>লাভ / ক্ষতি: <strong id="reportProfit">৳0</strong></p>
+    <button class="primary" onclick="exportCSV()">📥 CSV রিপোর্ট ডাউনলোড</button>
+  </div>
+  <div class="card">
+    <h3>হিসাবের ক্যালকুলেটর</h3>
+    <input id="calcA" type="number" placeholder="প্রথম সংখ্যা">
+    <input id="calcB" type="number" placeholder="দ্বিতীয় সংখ্যা">
+    <select id="calcOp">
+      <option value="+">যোগ (+)</option>
+      <option value="-">বিয়োগ (-)</option>
+      <option value="*">গুণ (×)</option>
+      <option value="/">ভাগ (÷)</option>
+    </select>
+    <button class="primary" onclick="calculate()">হিসাব করুন</button>
+    <h3 id="calcResult">ফলাফল: 0</h3>
+  </div>
 </section>
-<section id="reports" class="hidden">
-<div class="card"><h3 data-t="reportsTitle">রিপোর্ট ও ব্যাকআপ</h3><label data-t="reportMonth">রিপোর্টের মাস</label><input type="month" id="reportMonth"><p id="monthReport"></p><button type="button" id="exportCsvBtn">CSV ডাউনলোড</button> <button type="button" id="printBtn" class="secondary">প্রিন্ট / PDF</button> <button type="button" id="backupBtn" class="secondary">ব্যাকআপ JSON</button><label data-t="restoreLabel">ব্যাকআপ ফিরিয়ে আনুন</label><input type="file" id="restoreFile" accept=".json"><button type="button" id="restoreBtn">ডাটা ফিরিয়ে আনুন</button></div>
+
+<section id="settings" class="page">
+  <h3>⚙️ সেটিংস ও ব্যাকআপ</h3>
+  <div class="card">
+    <label>মুদ্রা নির্বাচন</label>
+    <select id="currency" onchange="saveCurrency()">
+      <option value="৳">BDT — বাংলাদেশি টাকা (৳)</option>
+      <option value="$">USD — US Dollar ($)</option>
+      <option value="€">EUR — Euro (€)</option>
+      <option value="£">GBP — Pound (£)</option>
+      <option value="₹">INR — Indian Rupee (₹)</option>
+      <option value="د.إ">AED — Dirham</option>
+      <option value="﷼">SAR — Riyal</option>
+    </select>
+  </div>
+  <div class="card">
+    <h3>মাসিক খরচের বাজেট</h3>
+    <label>বাজেটের পরিমাণ</label>
+    <input id="budget" type="number" min="0" placeholder="যেমন 50000">
+    <button class="primary" onclick="saveBudget()">বাজেট সংরক্ষণ</button>
+  </div>
+  <div class="card">
+    <h3>ডেটা ব্যাকআপ</h3>
+    <p>আপনার হিসাব JSON ফাইল হিসেবে সংরক্ষণ করতে পারবেন।</p>
+    <div class="actions">
+      <button class="primary" onclick="backupData()">ব্যাকআপ ডাউনলোড</button>
+      <button class="secondary" onclick="document.getElementById('restoreFile').click()">ব্যাকআপ ফিরিয়ে আনুন</button>
+      <input id="restoreFile" type="file" accept=".json" hidden onchange="restoreData(event)">
+    </div>
+  </div>
+  <div class="card">
+    <h3>সতর্কতা</h3>
+    <p>এই সংস্করণে তথ্য আপনার এই ব্রাউজারের Local Storage-এ থাকে। ব্রাউজারের ডেটা মুছে গেলে তথ্য হারাতে পারে। নিয়মিত ব্যাকআপ রাখুন।</p>
+    <button class="danger" onclick="clearData()">সব ডেটা মুছে ফেলুন</button>
+  </div>
 </section>
-<section id="assistant" class="hidden">
-<div class="card"><h3>🤖 <span data-t="aiTitle">স্মার্ট সহকারী</span></h3><p class="muted" data-t="aiIntro">আপনার ব্যবসার আয়, ব্যয় ও বাজেট বিশ্লেষণ করুন। এটি লোকাল নিয়মভিত্তিক সহকারী, অনলাইন AI নয়।</p><p class="muted" id="aiModeText"></p><button type="button" id="analyzeBtn">বিশ্লেষণ করুন</button><div id="assistantAnswer" style="white-space:pre-wrap;line-height:1.6;margin-top:12px"></div><label data-t="askQ" style="margin-top:14px">প্রশ্ন করুন</label><input id="aiQuestion" placeholder="আজ কত খরচ করলাম?"><button type="button" id="askBtn">প্রশ্ন পাঠান</button></div>
-</section>
-<section id="settings" class="hidden">
-<div class="card"><h3 data-t="settingsTitle">সেটিংস ও ডাটা</h3><p data-t="settingsNote">আপনার তথ্য এই ব্রাউজারের Local Storage-এ সংরক্ষিত থাকবে।</p><p class="muted" data-t="aiNote">কোনো আসল AI API যুক্ত নেই। এই ফাইলে API Key রাখা নিরাপদ নয়।</p><p><span data-t="supportLabel">সাপোর্ট</span>: 01917716922 | <a href="https://wa.me/8801917716922" target="_blank" rel="noopener">WhatsApp</a> | <a href="tel:+8801917716922">Call</a></p><div class="callwrap"><a href="tel:+8801917716922" style="text-decoration:none"><button type="button" style="background:#159568">📞 কল করুন - 01917716922</button></a><a href="https://wa.me/8801917716922" target="_blank" rel="noopener" style="text-decoration:none"><button type="button" style="background:#25D366;color:#fff">💬 WhatsApp করুন</button></a></div><br><button type="button" id="clearBtn" class="danger">সব ডাটা মুছে ফেলুন</button></div>
-</section>
-<section id="server" class="hidden">
-<div class="card"><h3 data-t="serverTitle">সার্ভার / অনলাইন সিঙ্ক (ভবিষ্যতের জন্য তৈরি)</h3><p class="muted" data-t="serverNote">এখন অ্যাপ অফলাইনে চলে। সার্ভার তৈরি হলে নিচে তার ঠিকানা বসালেই হবে।</p><label data-t="serverUrl">সার্ভার API ঠিকানা (অফলাইনের জন্য ফাঁকা রাখুন)</label><input id="serverUrl" placeholder="https://your-server.com"><label data-t="aiEndpoint">AI Endpoint (তোমার সার্ভারে, এখানে নয়)</label><input id="aiEndpoint" placeholder="https://your-server.com/api/ai"><button type="button" id="saveServerBtn">সার্ভার সেটিংস সংরক্ষণ</button> <button type="button" id="trySyncBtn" class="secondary">এখনই সিঙ্ক চেষ্টা করুন</button><div id="syncLog" class="alert"></div><p class="muted" data-t="serverHow">পরে যেভাবে চলবে: ১) সার্ভার অনলাইন ডাটাবেজে ডাটা রাখবে ২) লগইন সার্ভারে যাচাই হবে ৩) AI সার্ভারে চলবে, API Key সার্ভারেই থাকবে।</p></div>
-</section>
-</div>
-<footer>Cost Alarm © 2026 | Smart Business Management | Support: 01917716922 | <a href="tel:+8801917716922">Call</a> | <a href="https://wa.me/8801917716922">WhatsApp</a></footer>
+
+</main>
+<footer>Cost Alarm — Smart Business Management</footer>
+
 <script>
-"use strict";
-const CONFIG={API_BASE:"",AI_ENDPOINT:""};
-const KEY="cost_alarm_complete_v1";const OLD_KEY="costAlarmDataV2";
-const $=function(id){return document.getElementById(id);};
-function uid(){try{if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();}catch(e){}return "id-"+Date.now()+"-"+Math.random().toString(36).slice(2);}
-function todayStr(){return new Date().toISOString().slice(0,10);}
-function monthStr(d){d=d||new Date();return d.toISOString().slice(0,7);}
-function loadData(){
-let base={transactions:[],products:[],parties:[],budget:0,business:"My Business",currency:"৳",language:"bn",theme:"light",user:{name:"",phone:"01917716922",token:""},server:{apiBase:"",aiEndpoint:""},syncQueue:[]};
-try{
-let raw=localStorage.getItem(KEY);if(raw){let s=JSON.parse(raw);if(s&&Array.isArray(s.transactions))return Object.assign(base,s);}
-let oldRaw=localStorage.getItem(OLD_KEY);if(oldRaw){let o=JSON.parse(oldRaw);let tx=(o.transactions||[]).map(function(x){return {id:x.id||uid(),type:x.type||"expense",date:x.date||todayStr(),description:x.note||x.category||"",category:x.category||"",amount:Number(x.amount||0),method:x.method||"Cash"};});return Object.assign(base,{transactions:tx,products:o.products||[],parties:o.parties||[],budget:o.budget||0,business:(o.business&&o.business.name)||"My Business",currency:o.currency==="BDT"?"৳":o.currency==="USD"?"$":o.currency==="EUR"?"€":o.currency==="GBP"?"£":"৳",language:o.language==="en"?"en-GB":(o.language||"bn")});}
-}catch(e){}
-return base;
+const KEY="costAlarmDataV1";
+let data=JSON.parse(localStorage.getItem(KEY)||'{"records":[],"products":[],"parties":[],"budget":0,"currency":"৳"}');
+
+function save(){
+  localStorage.setItem(KEY,JSON.stringify(data));
+  render();
 }
-let data=loadData();
-if(!data.user)data.user={name:"",phone:"01917716922",token:""};
-if(!data.server)data.server={apiBase:"",aiEndpoint:""};
-if(!Array.isArray(data.syncQueue))data.syncQueue=[];
-if(!Array.isArray(data.transactions))data.transactions=[];
-if(!Array.isArray(data.products))data.products=[];
-if(!Array.isArray(data.parties))data.parties=[];
-if(typeof data.budget!=="number")data.budget=0;
-data.transactions=data.transactions.map(function(x){return {id:x.id||uid(),type:(x.type==="income"?"income":"expense"),date:x.date||todayStr(),description:x.description||x.note||"",category:x.category||"",amount:Number(x.amount||0),method:x.method||"Cash"};});
-data.products=data.products.map(function(x){return {id:x.id||uid(),name:x.name||"",sku:x.sku||"",qty:Number(x.qty||0),cost:Number(x.cost||0),price:Number(x.price||0),low:Number(x.low||0)};});
-data.parties=data.parties.map(function(x){return {id:x.id||uid(),name:x.name||"",type:(x.type==="supplier"?"supplier":"customer"),phone:x.phone||"",due:Number(x.due||0)};});
-function applyServerConfig(){CONFIG.API_BASE=(data.server&&data.server.apiBase)||"";CONFIG.AI_ENDPOINT=(data.server&&data.server.aiEndpoint)||"";}
-applyServerConfig();
-async function apiRequest(path,method,body){if(!CONFIG.API_BASE)return {ok:false,offline:true};try{let res=await fetch(CONFIG.API_BASE+path,{method:method||"GET",headers:{"Content-Type":"application/json"},body:body?JSON.stringify(body):undefined});let j=null;try{j=await res.json();}catch(e){}return {ok:res.ok,data:j};}catch(e){return {ok:false,offline:true};}}
-async function apiSyncAll(){if(!CONFIG.API_BASE)return {ok:false,offline:true};let r=await apiRequest("/api/sync","POST",{user:data.user,transactions:data.transactions,products:data.products,parties:data.parties,budget:data.budget});if(r.ok)data.syncQueue=[];return r;}
-async function apiAskAI(question,ctx){if(!CONFIG.AI_ENDPOINT)return null;try{let res=await fetch(CONFIG.AI_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:question,context:ctx})});let j=await res.json();if(j&&j.answer)return j.answer;}catch(e){}return null;}
-const W={
-bn:{tagline:"স্মার্ট বিজনেস ম্যানেজমেন্ট",dashboard:"ড্যাশবোর্ড",transaction:"আয় / ব্যয়",budget:"বাজেট অ্যালার্ম",products:"পণ্য ও স্টক",parties:"গ্রাহক / সরবরাহকারী",business:"ব্যবসা",reports:"রিপোর্ট",assistant:"স্মার্ট সহকারী",settings:"সেটিংস",server:"সার্ভার / সিঙ্ক",totalIncome:"মোট আয়",totalExpense:"মোট ব্যয়",profit:"নিট লাভ / ক্ষতি",transactions:"লেনদেন",todayIncome:"আজকের আয়",todayExpense:"আজকের ব্যয়",budgetLeft:"বাজেটের অবশিষ্ট",stockItems:"পণ্যের সংখ্যা",overview:"ব্যবসার চিত্র",recent:"সাম্প্রতিক লেনদেন",date:"তারিখ",details:"বিবরণ",type:"ধরন",amount:"পরিমাণ",addTransaction:"আয় / ব্যয় যোগ করুন",category:"ক্যাটাগরি",method:"পেমেন্ট মাধ্যম",allTransactions:"সব লেনদেন",action:"অ্যাকশন",monthlyBudget:"মাসিক বাজেট",monthlyLimit:"মাসিক ব্যয়ের সীমা",productsStock:"পণ্য ও স্টক",productName:"পণ্যের নাম",stock:"স্টক",purchasePrice:"ক্রয়মূল্য",salePrice:"বিক্রয়মূল্য",lowStock:"কম স্টক সতর্কতা",productList:"পণ্যের তালিকা",status:"স্ট্যাটাস",partiesTitle:"গ্রাহক ও সরবরাহকারী",partyName:"নাম",partyType:"ধরন",partyPhone:"ফোন",partyDue:"বকেয়া",partyList:"তালিকা",bizSettings:"ব্যবসার সেটিংস",bizName:"ব্যবসার নাম",currency:"মুদ্রা",bizSummary:"ব্যবসার সারাংশ",userTitle:"ইউজার / লগইন",userName:"ইউজারের নাম",userPhone:"ইউজারের ফোন",reportsTitle:"রিপোর্ট ও ব্যাকআপ",reportMonth:"রিপোর্টের মাস",restoreLabel:"ব্যাকআপ ফিরিয়ে আনুন",aiTitle:"স্মার্ট সহকারী",aiIntro:"আপনার ব্যবসার আয়, ব্যয় ও বাজেট বিশ্লেষণ করুন। এটি লোকাল নিয়মভিত্তিক সহকারী, অনলাইন AI নয়।",askQ:"প্রশ্ন করুন",settingsTitle:"সেটিংস ও ডাটা",settingsNote:"আপনার তথ্য এই ব্রাউজারের Local Storage-এ সংরক্ষিত থাকবে।",aiNote:"কোনো আসল AI API যুক্ত নেই। এই ফাইলে API Key রাখা নিরাপদ নয়।",supportLabel:"সাপোর্ট",serverTitle:"সার্ভার / অনলাইন সিঙ্ক (ভবিষ্যতের জন্য তৈরি)",serverNote:"এখন অ্যাপ অফলাইনে চলে। সার্ভার তৈরি হলে নিচে তার ঠিকানা বসালেই হবে।",serverUrl:"সার্ভার API ঠিকানা (অফলাইনের জন্য ফাঁকা রাখুন)",aiEndpoint:"AI Endpoint (তোমার সার্ভারে, এখানে নয়)",serverHow:"পরে যেভাবে চলবে: ১) সার্ভার অনলাইন ডাটাবেজে ডাটা রাখবে ২) লগইন সার্ভারে যাচাই হবে ৩) AI সার্ভারে চলবে, API Key সার্ভারেই থাকবে।",income:"আয়",expense:"ব্যয়",delete:"মুছুন",edit:"এডিট",customer:"গ্রাহক",supplier:"সরবরাহকারী",low:"স্টক কম",ok:"পর্যাপ্ত",empty:"কোনো তথ্য নেই",invalid:"সঠিক পরিমাণ লিখুন",need:"আগে আয় বা ব্যয় যোগ করুন।",top:"সবচেয়ে বেশি খরচের ক্যাটাগরি:",forecast:"মাস শেষে সম্ভাব্য খরচ:",tip:"পরামর্শ: প্রয়োজনীয় খরচ আগে রাখুন, অপ্রয়োজনীয় খরচ কমান।",noQ:"প্রশ্ন লিখুন।",unknown:"দুঃখিত, এই প্রশ্ন বুঝতে পারছি না। মোট খরচ, আয়, আজকের খরচ, লাভ, বাকি বাজেট সম্পর্কে জিজ্ঞাসা করুন।",spent:"এই মাসের খরচ",remainingTxt:"বাজেটের অবশিষ্ট",todaySpent:"আজকের খরচ",prevMonth:"আগের মাসের খরচ",currMonth:"এই মাসের খরচ",morePrev:"আগের মাসের চেয়ে বেশি খরচ করছেন।",lessPrev:"আগের মাসের চেয়ে কম খরচ করছেন। ভালো!",noPrev:"আগের মাসের কোনো হিসাব পাওয়া যায়নি।",saved:"সংরক্ষণ হয়েছে",used:"ব্যবহৃত",budgetExceeded:"বাজেট অতিক্রম হয়েছে! খরচ বন্ধ করুন বা পর্যালোচনা করুন।",budget90:"৯০% বাজেট ব্যবহৃত হয়েছে!",budget75:"৭৫% বাজেট ব্যবহৃত হয়েছে!",budgetOk:"বাজেট নিয়ন্ত্রণে আছে।",budgetAlert:"বাজেট সতর্কতা:",setBudgetFirst:"বাজেট সেট করলে অ্যালার্ম চালু হবে।",analysisTitle:"ব্যবসার বিশ্লেষণ",noTx:"কোনো লেনদেন পাওয়া যায়নি।",profitGood:"আয় ব্যয়ের চেয়ে বেশি। নিয়মিত খরচের হিসাব রাখুন।",profitBad:"ব্যয় আয়ের চেয়ে বেশি। খরচ পর্যালোচনা করুন এবং বিক্রয় বাড়ান।",profitEqual:"আয় ও ব্যয় সমান।",localRule:"এই বিশ্লেষণ সব রেকর্ড করা লেনদেনের উপর ভিত্তি করে, বাইরের AI মডেল নয়।",searchPh:"লেনদেন খুঁজুন...",descPh:"পণ্য বিক্রয়, ভাড়া, বেতন...",catPh:"বিক্রয়, ভাড়া, বেতন",theme:"থিম",confirmDelete:"মুছবেন?",confirmClear:"সব লেনদেন, বাজেট ও সেটিংস মুছে যাবে। নিশ্চিত?",invalidBackup:"ব্যাকআপ ফাইলটি সঠিক নয়",restored:"ব্যাকআপ ফিরিয়ে আনা হয়েছে",selectBackup:"একটি ব্যাকআপ ফাইল নির্বাচন করুন",storageFull:"স্টোরেজ পূর্ণ। ব্যাকআপ নিন।",txSaved:"লেনদেন সংরক্ষণ হয়েছে",offlineMode:"● অফলাইন",onlineMode:"● অনলাইন সার্ভার সংযুক্ত",syncSavedLocal:"সার্ভার নেই, তাই লোকালি সংরক্ষণ হয়েছে। পরে সিঙ্ক হবে।",syncOk:"সিঙ্ক সফল হয়েছে।",syncFail:"সিঙ্ক হয়নি, ডাটা লোকালি নিরাপদ আছে।",aiLocal:"মোড: লোকাল নিয়মভিত্তিক সহকারী",aiServer:"মোড: সার্ভার AI সংযুক্ত",asking:"জিজ্ঞাসা করা হচ্ছে...",save:"সংরক্ষণ করুন",cancel:"বাতিল",saveBudget:"বাজেট সংরক্ষণ",saveProduct:"পণ্য সংরক্ষণ",saveParty:"সংরক্ষণ",saveSettings:"সেটিংস সংরক্ষণ",saveUser:"ইউজার সংরক্ষণ",saveServer:"সার্ভার সেটিংস সংরক্ষণ",trySync:"এখনই সিঙ্ক চেষ্টা করুন",analyze:"বিশ্লেষণ করুন",ask:"প্রশ্ন পাঠান",clear:"সব ডাটা মুছে ফেলুন",exportCsv:"CSV ডাউনলোড",printPdf:"প্রিন্ট / PDF",backup:"ব্যাকআপ JSON",restore:"ডাটা ফিরিয়ে আনুন"},
-"en-GB":{tagline:"Smart Business Management",dashboard:"Dashboard",transaction:"Income / Expense",budget:"Budget Alarm",products:"Products & Stock",parties:"Customers / Suppliers",business:"Business",reports:"Reports",assistant:"Smart Assistant",settings:"Settings",server:"Server / Sync",totalIncome:"Total Income",totalExpense:"Total Expense",profit:"Net Profit / Loss",transactions:"Transactions",todayIncome:"Today's Income",todayExpense:"Today's Expense",budgetLeft:"Budget Remaining",stockItems:"Stock Items",overview:"Business Overview",recent:"Recent Transactions",date:"Date",details:"Details",type:"Type",amount:"Amount",addTransaction:"Add Income / Expense",category:"Category",method:"Payment Method",allTransactions:"All Transactions",action:"Action",monthlyBudget:"Monthly Budget",monthlyLimit:"Monthly Expense Limit",productsStock:"Products & Stock",productName:"Product Name",stock:"Stock",purchasePrice:"Purchase Price",salePrice:"Sale Price",lowStock:"Low Stock Alert",productList:"Product List",status:"Status",partiesTitle:"Customers & Suppliers",partyName:"Name",partyType:"Type",partyPhone:"Phone",partyDue:"Due",partyList:"List",bizSettings:"Business Settings",bizName:"Business Name",currency:"Currency",bizSummary:"Business Summary",userTitle:"User / Login",userName:"User Name",userPhone:"User Phone",reportsTitle:"Reports & Backup",reportMonth:"Report Month",restoreLabel:"Restore backup",aiTitle:"Smart Assistant",aiIntro:"Analyse your business income, expense and budget. This is a local rule-based assistant, not online AI.",askQ:"Ask a question",settingsTitle:"Settings & Data",settingsNote:"Your data is saved in this browser's Local Storage.",aiNote:"No real AI API is connected. Storing an API Key in this file is not safe.",supportLabel:"Support",serverTitle:"Server / Online Sync (Future Ready)",serverNote:"Now this app works offline. When your server is ready, paste its URL below.",serverUrl:"Server API URL (leave empty for offline)",aiEndpoint:"AI Endpoint (on your server, not here)",serverHow:"How it will work later: 1) Server saves data in online database 2) Login checks user on server 3) AI runs on server, API Key stays on server, never in this file.",income:"Income",expense:"Expense",delete:"Delete",edit:"Edit",customer:"Customer",supplier:"Supplier",low:"Low stock",ok:"In stock",empty:"No records",invalid:"Enter a valid amount.",need:"Add income or expense first.",top:"Highest spending category:",forecast:"Estimated month-end spending:",tip:"Tip: Prioritise essential costs and reduce unnecessary spending.",noQ:"Please enter a question.",unknown:"Sorry, I don't understand. Ask about total spending, income, today's spending, profit, or remaining budget.",spent:"Spent this month",remainingTxt:"Budget remaining",todaySpent:"Today's spending",prevMonth:"Last month spending",currMonth:"This month spending",morePrev:"You are spending more than last month.",lessPrev:"You are spending less than last month. Great!",noPrev:"No data for last month.",saved:"Saved",used:"Used",budgetExceeded:"Budget exceeded! Stop or review expenses.",budget90:"90% budget used!",budget75:"75% budget used!",budgetOk:"Budget is under control.",budgetAlert:"Budget alert:",setBudgetFirst:"Set a budget to activate alerts.",analysisTitle:"Business analysis",noTx:"No transactions found.",profitGood:"Your recorded income is higher than your expenses. Track your costs regularly.",profitBad:"Your recorded expenses exceed income. Review spending and increase sales.",profitEqual:"Income and expenses are equal.",localRule:"This analysis uses all recorded transactions, not an external AI model.",searchPh:"Search transactions...",descPh:"Product sale, rent, salary...",catPh:"Sales, Rent, Salary",theme:"Theme",confirmDelete:"Delete?",confirmClear:"Delete all transactions, budget and settings? This cannot be undone.",invalidBackup:"Invalid backup file.",restored:"Backup restored.",selectBackup:"Select a backup file.",storageFull:"Storage full. Please backup.",txSaved:"Transaction saved",offlineMode:"● Offline",onlineMode:"● Online Server Connected",syncSavedLocal:"No server, so saved locally. It will sync later.",syncOk:"Sync successful.",syncFail:"Sync failed, data is safe locally.",aiLocal:"Mode: Local rule-based assistant",aiServer:"Mode: Server AI connected",asking:"Asking...",save:"Save",cancel:"Cancel",saveBudget:"Save Budget",saveProduct:"Save Product",saveParty:"Save",saveSettings:"Save Settings",saveUser:"Save User",saveServer:"Save Server Settings",trySync:"Try Sync Now",analyze:"Analyse",ask:"Ask",clear:"Delete All Data",exportCsv:"Download CSV",printPdf:"Print / PDF",backup:"Backup JSON",restore:"Restore Data"},
-"en-US":{tagline:"Smart Business Management",dashboard:"Dashboard",transaction:"Income / Expense",budget:"Budget Alarm",products:"Products & Stock",parties:"Customers / Suppliers",business:"Business",reports:"Reports",assistant:"Smart Assistant",settings:"Settings",server:"Server / Sync",totalIncome:"Total Income",totalExpense:"Total Expense",profit:"Net Profit / Loss",transactions:"Transactions",todayIncome:"Today's Income",todayExpense:"Today's Expense",budgetLeft:"Budget Remaining",stockItems:"Stock Items",overview:"Business Overview",recent:"Recent Transactions",date:"Date",details:"Details",type:"Type",amount:"Amount",addTransaction:"Add Income / Expense",category:"Category",method:"Payment Method",allTransactions:"All Transactions",action:"Action",monthlyBudget:"Monthly Budget",monthlyLimit:"Monthly Expense Limit",productsStock:"Products & Stock",productName:"Product Name",stock:"Stock",purchasePrice:"Purchase Price",salePrice:"Sale Price",lowStock:"Low Stock Alert",productList:"Product List",status:"Status",partiesTitle:"Customers & Suppliers",partyName:"Name",partyType:"Type",partyPhone:"Phone",partyDue:"Due",partyList:"List",bizSettings:"Business Settings",bizName:"Business Name",currency:"Currency",bizSummary:"Business Summary",userTitle:"User / Login",userName:"User Name",userPhone:"User Phone",reportsTitle:"Reports & Backup",reportMonth:"Report Month",restoreLabel:"Restore backup",aiTitle:"Smart Assistant",aiIntro:"Analyze your business income, expense and budget. This is a local rule-based assistant, not online AI.",askQ:"Ask a question",settingsTitle:"Settings & Data",settingsNote:"Your data is saved in this browser's Local Storage.",aiNote:"No real AI API is connected. Storing an API Key in this file is not safe.",supportLabel:"Support",serverTitle:"Server / Online Sync (Future Ready)",serverNote:"Now this app works offline. When your server is ready, paste its URL below.",serverUrl:"Server API URL (leave empty for offline)",aiEndpoint:"AI Endpoint (on your server, not here)",serverHow:"How it will work later: 1) Server saves data in online database 2) Login checks user on server 3) AI runs on server, API Key stays on server, never in this file.",income:"Income",expense:"Expense",delete:"Delete",edit:"Edit",customer:"Customer",supplier:"Supplier",low:"Low stock",ok:"In stock",empty:"No records",invalid:"Enter a valid amount.",need:"Add income or expense first.",top:"Highest spending category:",forecast:"Estimated month-end spending:",tip:"Tip: Prioritize essential costs and reduce unnecessary spending.",noQ:"Please enter a question.",unknown:"Sorry, I don't understand. Ask about total spending, income, today's spending, profit, or remaining budget.",spent:"Spent this month",remainingTxt:"Budget remaining",todaySpent:"Today's spending",prevMonth:"Last month spending",currMonth:"This month spending",morePrev:"You are spending more than last month.",lessPrev:"You are spending less than last month. Great!",noPrev:"No data for last month.",saved:"Saved",used:"Used",budgetExceeded:"Budget exceeded! Stop or review expenses.",budget90:"90% budget used!",budget75:"75% budget used!",budgetOk:"Budget is under control.",budgetAlert:"Budget alert:",setBudgetFirst:"Set a budget to activate alerts.",analysisTitle:"Business analysis",noTx:"No transactions found.",profitGood:"Your recorded income is higher than your expenses. Track your costs regularly.",profitBad:"Your recorded expenses exceed income. Review spending and increase sales.",profitEqual:"Income and expenses are equal.",localRule:"This analysis uses all recorded transactions, not an external AI model.",searchPh:"Search transactions...",descPh:"Product sale, rent, salary...",catPh:"Sales, Rent, Salary",theme:"Theme",confirmDelete:"Delete?",confirmClear:"Delete all transactions, budget and settings? This cannot be undone.",invalidBackup:"Invalid backup file.",restored:"Backup restored.",selectBackup:"Select a backup file.",storageFull:"Storage full. Please backup.",txSaved:"Transaction saved",offlineMode:"● Offline",onlineMode:"● Online Server Connected",syncSavedLocal:"No server, so saved locally. It will sync later.",syncOk:"Sync successful.",syncFail:"Sync failed, data is safe locally.",aiLocal:"Mode: Local rule-based assistant",aiServer:"Mode: Server AI connected",asking:"Asking...",save:"Save",cancel:"Cancel",saveBudget:"Save Budget",saveProduct:"Save Product",saveParty:"Save",saveSettings:"Save Settings",saveUser:"Save User",saveServer:"Save Server Settings",trySync:"Try Sync Now",analyze:"Analyze",ask:"Ask",clear:"Delete All Data",exportCsv:"Download CSV",printPdf:"Print / PDF",backup:"Backup JSON",restore:"Restore Data"}
-};
-W["ar"]={tagline:"إدارة أعمال ذكية",dashboard:"لوحة التحكم",transaction:"الدخل / المصروفات",budget:"تنبيه الميزانية",products:"المنتجات والمخزون",parties:"العملاء / الموردون",business:"الأعمال",reports:"التقارير",assistant:"المساعد الذكي",settings:"الإعدادات",server:"الخادم / المزامنة",totalIncome:"إجمالي الدخل",totalExpense:"إجمالي المصروفات",profit:"صافي الربح / الخسارة",transactions:"المعاملات",todayIncome:"دخل اليوم",todayExpense:"مصروف اليوم",budgetLeft:"المتبقي من الميزانية",stockItems:"عدد المنتجات",overview:"نظرة عامة على الأعمال",recent:"المعاملات الأخيرة",date:"التاريخ",details:"التفاصيل",type:"النوع",amount:"المبلغ",addTransaction:"إضافة دخل / مصروف",category:"الفئة",method:"طريقة الدفع",allTransactions:"كل المعاملات",action:"إجراء",monthlyBudget:"الميزانية الشهرية",monthlyLimit:"حد المصروفات الشهري",productsStock:"المنتجات والمخزون",productName:"اسم المنتج",stock:"المخزون",purchasePrice:"سعر الشراء",salePrice:"سعر البيع",lowStock:"تنبيه انخفاض المخزون",productList:"قائمة المنتجات",status:"الحالة",partiesTitle:"العملاء والموردون",partyName:"الاسم",partyType:"النوع",partyPhone:"الهاتف",partyDue:"المستحق",partyList:"القائمة",bizSettings:"إعدادات الأعمال",bizName:"اسم العمل",currency:"العملة",bizSummary:"ملخص الأعمال",userTitle:"المستخدم / تسجيل الدخول",userName:"اسم المستخدم",userPhone:"هاتف المستخدم",reportsTitle:"التقارير والنسخ الاحتياطي",reportMonth:"شهر التقرير",restoreLabel:"استعادة النسخة الاحتياطية",aiTitle:"المساعد الذكي",aiIntro:"حلل دخل أعمالك ومصروفاتها وميزانيتها. هذا مساعد محلي قائم على القواعد، وليس ذكاء اصطناعيا عبر الإنترنت.",askQ:"اطرح سؤالا",settingsTitle:"الإعدادات والبيانات",settingsNote:"يتم حفظ بياناتك في التخزين المحلي لهذا المتصفح.",aiNote:"لم يتم توصيل واجهة ذكاء اصطناعي حقيقية. حفظ مفتاح API في هذا الملف غير آمن.",supportLabel:"الدعم",serverTitle:"الخادم / المزامنة عبر الإنترنت",serverNote:"الآن التطبيق يعمل دون اتصال. عندما يكون خادمك جاهزا، الصق رابطه أدناه.",serverUrl:"رابط خادم API (اتركه فارغا للعمل دون اتصال)",aiEndpoint:"نقطة نهاية الذكاء الاصطناعي (على خادمك، ليس هنا)",serverHow:"كيف سيعمل لاحقا: 1) الخادم يحفظ البيانات في قاعدة بيانات عبر الإنترنت 2) تسجيل الدخول يتحقق من المستخدم على الخادم 3) الذكاء الاصطناعي يعمل على الخادم.",income:"دخل",expense:"مصروف",delete:"حذف",edit:"تعديل",customer:"عميل",supplier:"مورد",low:"مخزون منخفض",ok:"متوفر",empty:"لا توجد سجلات",invalid:"أدخل مبلغا صحيحا.",need:"أضف دخلا أو مصروفا أولا.",top:"أعلى فئة إنفاق:",forecast:"الإنفاق المتوقع في نهاية الشهر:",tip:"نصيحة: أعط الأولوية للنفقات الضرورية وقلل غير الضروري.",noQ:"اكتب سؤالا.",unknown:"عذرا، لا أفهم. اسأل عن إجمالي الإنفاق أو الدخل أو مصروف اليوم أو الربح أو المتبقي.",spent:"مصروف هذا الشهر",remainingTxt:"المتبقي من الميزانية",todaySpent:"مصروف اليوم",prevMonth:"مصروف الشهر الماضي",currMonth:"مصروف هذا الشهر",morePrev:"أنت تنفق أكثر من الشهر الماضي.",lessPrev:"أنت تنفق أقل من الشهر الماضي. ممتاز!",noPrev:"لا توجد بيانات للشهر الماضي.",saved:"تم الحفظ",used:"مستخدم",budgetExceeded:"تم تجاوز الميزانية!",budget90:"تم استخدام 90% من الميزانية!",budget75:"تم استخدام 75% من الميزانية!",budgetOk:"الميزانية تحت السيطرة.",budgetAlert:"تنبيه الميزانية:",setBudgetFirst:"حدد ميزانية لتفعيل التنبيهات.",analysisTitle:"تحليل الأعمال",noTx:"لا توجد معاملات.",profitGood:"دخلك المسجل أعلى من مصروفاتك.",profitBad:"مصروفاتك المسجلة أعلى من دخلك.",profitEqual:"الدخل والمصروفات متساويان.",localRule:"يعتمد هذا التحليل على كل المعاملات المسجلة، وليس نموذج ذكاء اصطناعي خارجي.",searchPh:"بحث في المعاملات...",descPh:"بيع منتج، إيجار، راتب...",catPh:"مبيعات، إيجار، راتب",theme:"المظهر",confirmDelete:"حذف؟",confirmClear:"حذف كل البيانات؟",invalidBackup:"ملف النسخة الاحتياطية غير صحيح",restored:"تمت استعادة النسخة الاحتياطية",selectBackup:"اختر ملف نسخة احتياطية.",storageFull:"التخزين ممتلئ.",txSaved:"تم حفظ المعاملة",offlineMode:"● دون اتصال",onlineMode:"● الخادم متصل",syncSavedLocal:"تم الحفظ محليا.",syncOk:"تمت المزامنة بنجاح.",syncFail:"فشلت المزامنة، البيانات آمنة محليا.",aiLocal:"الوضع: مساعد محلي",aiServer:"الوضع: ذكاء اصطناعي الخادم متصل",asking:"جارٍ السؤال...",save:"حفظ",cancel:"إلغاء",saveBudget:"حفظ الميزانية",saveProduct:"حفظ المنتج",saveParty:"حفظ",saveSettings:"حفظ الإعدادات",saveUser:"حفظ المستخدم",saveServer:"حفظ إعدادات الخادم",trySync:"محاولة المزامنة الآن",analyze:"تحليل أعمالي",ask:"اسأل",clear:"حذف كل البيانات",exportCsv:"تنزيل CSV",printPdf:"طباعة / PDF",backup:"نسخة احتياطية JSON",restore:"استعادة البيانات"};
-W["fr"]={tagline:"Gestion d'entreprise intelligente",dashboard:"Tableau de bord",transaction:"Revenus / Dépenses",budget:"Alerte budget",products:"Produits et stock",parties:"Clients / Fournisseurs",business:"Entreprise",reports:"Rapports",assistant:"Assistant intelligent",settings:"Paramètres",server:"Serveur / Synchro",totalIncome:"Revenu total",totalExpense:"Dépenses totales",profit:"Bénéfice / Perte net",transactions:"Transactions",todayIncome:"Revenus du jour",todayExpense:"Dépenses du jour",budgetLeft:"Budget restant",stockItems:"Nombre de produits",overview:"Aperçu de l'entreprise",recent:"Transactions récentes",date:"Date",details:"Détails",type:"Type",amount:"Montant",addTransaction:"Ajouter revenu / dépense",category:"Catégorie",method:"Moyen de paiement",allTransactions:"Toutes les transactions",action:"Action",monthlyBudget:"Budget mensuel",monthlyLimit:"Limite mensuelle",productsStock:"Produits et stock",productName:"Nom du produit",stock:"Stock",purchasePrice:"Prix d'achat",salePrice:"Prix de vente",lowStock:"Alerte stock faible",productList:"Liste des produits",status:"Statut",partiesTitle:"Clients et fournisseurs",partyName:"Nom",partyType:"Type",partyPhone:"Téléphone",partyDue:"Dû",partyList:"Liste",bizSettings:"Paramètres de l'entreprise",bizName:"Nom de l'entreprise",currency:"Devise",bizSummary:"Résumé de l'entreprise",userTitle:"Utilisateur / Connexion",userName:"Nom d'utilisateur",userPhone:"Téléphone utilisateur",reportsTitle:"Rapports et sauvegarde",reportMonth:"Mois du rapport",restoreLabel:"Restaurer la sauvegarde",aiTitle:"Assistant intelligent",aiIntro:"Analysez les revenus, dépenses et budget de votre entreprise. C'est un assistant local basé sur des règles, pas une IA en ligne.",askQ:"Poser une question",settingsTitle:"Paramètres et données",settingsNote:"Vos données sont enregistrées dans le stockage local de ce navigateur.",aiNote:"Aucune API d'IA réelle n'est connectée. Stocker une clé API dans ce fichier n'est pas sûr.",supportLabel:"Support",serverTitle:"Serveur / Synchro en ligne",serverNote:"Cette appli fonctionne hors ligne pour l'instant. Quand votre serveur sera prêt, collez son adresse ci-dessous.",serverUrl:"Adresse API du serveur (vide pour hors ligne)",aiEndpoint:"Point de terminaison IA (sur votre serveur, pas ici)",serverHow:"Comment cela fonctionnera plus tard : 1) Le serveur enregistre les données dans une base en ligne 2) La connexion vérifie l'utilisateur sur le serveur 3) L'IA tourne sur le serveur.",income:"Revenu",expense:"Dépense",delete:"Supprimer",edit:"Modifier",customer:"Client",supplier:"Fournisseur",low:"Stock faible",ok:"En stock",empty:"Aucun enregistrement",invalid:"Saisissez un montant valide.",need:"Ajoutez d'abord un revenu ou une dépense.",top:"Catégorie la plus dépensière :",forecast:"Dépenses estimées en fin de mois :",tip:"Conseil : privilégiez les dépenses essentielles.",noQ:"Saisissez une question.",unknown:"Désolé, je ne comprends pas. Demandez le total des dépenses, les revenus, les dépenses du jour, le bénéfice ou le budget restant.",spent:"Dépenses de ce mois",remainingTxt:"Budget restant",todaySpent:"Dépenses du jour",prevMonth:"Dépenses du mois dernier",currMonth:"Dépenses de ce mois",morePrev:"Vous dépensez plus que le mois dernier.",lessPrev:"Vous dépensez moins que le mois dernier. Bravo !",noPrev:"Aucune donnée pour le mois dernier.",saved:"Enregistré",used:"Utilisé",budgetExceeded:"Budget dépassé !",budget90:"90% du budget utilisé !",budget75:"75% du budget utilisé !",budgetOk:"Le budget est maîtrisé.",budgetAlert:"Alerte budget :",setBudgetFirst:"Définissez un budget pour activer les alertes.",analysisTitle:"Analyse de l'entreprise",noTx:"Aucune transaction trouvée.",profitGood:"Vos revenus sont supérieurs à vos dépenses.",profitBad:"Vos dépenses dépassent vos revenus.",profitEqual:"Revenus et dépenses sont égaux.",localRule:"Cette analyse utilise toutes les transactions enregistrées, pas un modèle d'IA externe.",searchPh:"Rechercher des transactions...",descPh:"Vente de produit, loyer, salaire...",catPh:"Ventes, Loyer, Salaire",theme:"Thème",confirmDelete:"Supprimer ?",confirmClear:"Supprimer toutes les données ?",invalidBackup:"Fichier de sauvegarde invalide.",restored:"Sauvegarde restaurée.",selectBackup:"Sélectionnez un fichier de sauvegarde.",storageFull:"Stockage plein.",txSaved:"Transaction enregistrée",offlineMode:"● Hors ligne",onlineMode:"● Serveur en ligne connecté",syncSavedLocal:"Enregistré localement.",syncOk:"Synchro réussie.",syncFail:"Synchro échouée, données en sécurité localement.",aiLocal:"Mode : assistant local",aiServer:"Mode : IA du serveur connectée",asking:"Demande en cours...",save:"Enregistrer",cancel:"Annuler",saveBudget:"Enregistrer le budget",saveProduct:"Enregistrer le produit",saveParty:"Enregistrer",saveSettings:"Enregistrer les paramètres",saveUser:"Enregistrer l'utilisateur",saveServer:"Enregistrer les paramètres serveur",trySync:"Essayer la synchro maintenant",analyze:"Analyser mon entreprise",ask:"Demander",clear:"Supprimer toutes les données",exportCsv:"Télécharger CSV",printPdf:"Imprimer / PDF",backup:"Sauvegarde JSON",restore:"Restaurer les données"};
-W["de"]={tagline:"Intelligente Unternehmensverwaltung",dashboard:"Dashboard",transaction:"Einnahmen / Ausgaben",budget:"Budget-Alarm",products:"Produkte & Lager",parties:"Kunden / Lieferanten",business:"Unternehmen",reports:"Berichte",assistant:"Intelligenter Assistent",settings:"Einstellungen",server:"Server / Sync",totalIncome:"Gesamteinnahmen",totalExpense:"Gesamtausgaben",profit:"Nettogewinn / -verlust",transactions:"Transaktionen",todayIncome:"Einnahmen heute",todayExpense:"Ausgaben heute",budgetLeft:"Verbleibendes Budget",stockItems:"Produktanzahl",overview:"Unternehmensübersicht",recent:"Letzte Transaktionen",date:"Datum",details:"Details",type:"Typ",amount:"Betrag",addTransaction:"Einnahme / Ausgabe hinzufügen",category:"Kategorie",method:"Zahlungsmethode",allTransactions:"Alle Transaktionen",action:"Aktion",monthlyBudget:"Monatsbudget",monthlyLimit:"Monatliches Limit",productsStock:"Produkte & Lager",productName:"Produktname",stock:"Bestand",purchasePrice:"Einkaufspreis",salePrice:"Verkaufspreis",lowStock:"Warnung bei niedrigem Bestand",productList:"Produktliste",status:"Status",partiesTitle:"Kunden & Lieferanten",partyName:"Name",partyType:"Typ",partyPhone:"Telefon",partyDue:"Offen",partyList:"Liste",bizSettings:"Unternehmenseinstellungen",bizName:"Firmenname",currency:"Währung",bizSummary:"Unternehmensübersicht",userTitle:"Benutzer / Login",userName:"Benutzername",userPhone:"Benutzertelefon",reportsTitle:"Berichte & Sicherung",reportMonth:"Berichtsmonat",restoreLabel:"Sicherung wiederherstellen",aiTitle:"Intelligenter Assistent",aiIntro:"Analysieren Sie Einnahmen, Ausgaben und Budget Ihres Unternehmens. Dies ist ein lokaler regelbasierter Assistent, keine Online-KI.",askQ:"Frage stellen",settingsTitle:"Einstellungen & Daten",settingsNote:"Ihre Daten werden im lokalen Speicher dieses Browsers gespeichert.",aiNote:"Keine echte KI-API ist verbunden. Einen API-Schlüssel in dieser Datei zu speichern ist nicht sicher.",supportLabel:"Support",serverTitle:"Server / Online-Sync",serverNote:"Diese App arbeitet jetzt offline. Wenn Ihr Server bereit ist, fügen Sie unten seine Adresse ein.",serverUrl:"Server-API-Adresse (leer lassen für offline)",aiEndpoint:"KI-Endpunkt (auf Ihrem Server, nicht hier)",serverHow:"So wird es später laufen: 1) Server speichert Daten in Online-Datenbank 2) Login prüft Benutzer auf dem Server 3) KI läuft auf dem Server.",income:"Einnahme",expense:"Ausgabe",delete:"Löschen",edit:"Bearbeiten",customer:"Kunde",supplier:"Lieferant",low:"Niedriger Bestand",ok:"Auf Lager",empty:"Keine Einträge",invalid:"Gültigen Betrag eingeben.",need:"Fügen Sie zuerst eine Einnahme oder Ausgabe hinzu.",top:"Ausgabenkategorie mit den höchsten Kosten:",forecast:"Geschätzte Ausgaben am Monatsende:",tip:"Tipp: Priorisieren Sie notwendige Ausgaben.",noQ:"Bitte geben Sie eine Frage ein.",unknown:"Sorry, ich verstehe nicht. Fragen Sie nach Gesamtausgaben, Einnahmen, heutigen Ausgaben, Gewinn oder Restbudget.",spent:"Ausgaben in diesem Monat",remainingTxt:"Verbleibendes Budget",todaySpent:"Ausgaben heute",prevMonth:"Ausgaben im Vormonat",currMonth:"Ausgaben in diesem Monat",morePrev:"Sie geben mehr aus als im Vormonat.",lessPrev:"Sie geben weniger aus als im Vormonat. Sehr gut!",noPrev:"Keine Daten für den Vormonat.",saved:"Gespeichert",used:"Verbraucht",budgetExceeded:"Budget überschritten!",budget90:"90% des Budgets verbraucht!",budget75:"75% des Budgets verbraucht!",budgetOk:"Budget ist unter Kontrolle.",budgetAlert:"Budget-Alarm:",setBudgetFirst:"Legen Sie ein Budget fest, um Alarme zu aktivieren.",analysisTitle:"Unternehmensanalyse",noTx:"Keine Transaktionen gefunden.",profitGood:"Ihre Einnahmen sind höher als Ihre Ausgaben.",profitBad:"Ihre Ausgaben übersteigen Ihre Einnahmen.",profitEqual:"Einnahmen und Ausgaben sind gleich.",localRule:"Diese Analyse nutzt alle erfassten Transaktionen, kein externes KI-Modell.",searchPh:"Transaktionen suchen...",descPh:"Produktverkauf, Miete, Gehalt...",catPh:"Verkäufe, Miete, Gehalt",theme:"Design",confirmDelete:"Löschen?",confirmClear:"Alle Daten löschen?",invalidBackup:"Ungültige Sicherungsdatei.",restored:"Sicherung wiederhergestellt.",selectBackup:"Wählen Sie eine Sicherungsdatei.",storageFull:"Speicher voll.",txSaved:"Transaktion gespeichert",offlineMode:"● Offline",onlineMode:"● Online-Server verbunden",syncSavedLocal:"Lokal gespeichert.",syncOk:"Sync erfolgreich.",syncFail:"Sync fehlgeschlagen, Daten sind lokal sicher.",aiLocal:"Modus: Lokaler Assistent",aiServer:"Modus: Server-KI verbunden",asking:"Frage wird gestellt...",save:"Speichern",cancel:"Abbrechen",saveBudget:"Budget speichern",saveProduct:"Produkt speichern",saveParty:"Speichern",saveSettings:"Einstellungen speichern",saveUser:"Benutzer speichern",saveServer:"Server-Einstellungen speichern",trySync:"Jetzt Sync versuchen",analyze:"Mein Unternehmen analysieren",ask:"Fragen",clear:"Alle Daten löschen",exportCsv:"CSV herunterladen",printPdf:"Drucken / PDF",backup:"JSON-Sicherung",restore:"Daten wiederherstellen"};
-W["it"]={tagline:"Gestione aziendale intelligente",dashboard:"Dashboard",transaction:"Entrate / Uscite",budget:"Allarme budget",products:"Prodotti e magazzino",parties:"Clienti / Fornitori",business:"Attività",reports:"Report",assistant:"Assistente intelligente",settings:"Impostazioni",server:"Server / Sincronizzazione",totalIncome:"Entrate totali",totalExpense:"Spese totali",profit:"Utile / Perdita netta",transactions:"Transazioni",todayIncome:"Entrate di oggi",todayExpense:"Spese di oggi",budgetLeft:"Budget rimanente",stockItems:"Numero prodotti",overview:"Panoramica attività",recent:"Transazioni recenti",date:"Data",details:"Dettagli",type:"Tipo",amount:"Importo",addTransaction:"Aggiungi entrata / spesa",category:"Categoria",method:"Metodo di pagamento",allTransactions:"Tutte le transazioni",action:"Azione",monthlyBudget:"Budget mensile",monthlyLimit:"Limite mensile",productsStock:"Prodotti e magazzino",productName:"Nome prodotto",stock:"Scorte",purchasePrice:"Prezzo di acquisto",salePrice:"Prezzo di vendita",lowStock:"Avviso scorte basse",productList:"Elenco prodotti",status:"Stato",partiesTitle:"Clienti e fornitori",partyName:"Nome",partyType:"Tipo",partyPhone:"Telefono",partyDue:"Dovuto",partyList:"Elenco",bizSettings:"Impostazioni aziendali",bizName:"Nome attività",currency:"Valuta",bizSummary:"Riepilogo attività",userTitle:"Utente / Accesso",userName:"Nome utente",userPhone:"Telefono utente",reportsTitle:"Report e backup",reportMonth:"Mese del report",restoreLabel:"Ripristina backup",aiTitle:"Assistente intelligente",aiIntro:"Analizza entrate, spese e budget della tua attività. È un assistente locale basato su regole, non un'IA online.",askQ:"Fai una domanda",settingsTitle:"Impostazioni e dati",settingsNote:"I tuoi dati sono salvati nella memoria locale di questo browser.",aiNote:"Nessuna vera API di IA è collegata. Salvare una chiave API in questo file non è sicuro.",supportLabel:"Supporto",serverTitle:"Server / Sincronizzazione online",serverNote:"Ora l'app funziona offline. Quando il tuo server sarà pronto, incolla qui sotto il suo indirizzo.",serverUrl:"URL API del server (lascia vuoto per offline)",aiEndpoint:"Endpoint IA (sul tuo server, non qui)",serverHow:"Come funzionerà in seguito: 1) Il server salva i dati in un database online 2) L'accesso verifica l'utente sul server 3) L'IA gira sul server.",income:"Entrata",expense:"Spesa",delete:"Elimina",edit:"Modifica",customer:"Cliente",supplier:"Fornitore",low:"Scorte basse",ok:"Disponibile",empty:"Nessun record",invalid:"Inserisci un importo valido.",need:"Aggiungi prima un'entrata o una spesa.",top:"Categoria con la spesa maggiore:",forecast:"Spesa prevista a fine mese:",tip:"Suggerimento: dai priorità alle spese essenziali.",noQ:"Inserisci una domanda.",unknown:"Non capisco. Chiedi delle spese totali, delle entrate, delle spese di oggi, dell'utile o del budget rimanente.",spent:"Spese di questo mese",remainingTxt:"Budget rimanente",todaySpent:"Spese di oggi",prevMonth:"Spese del mese scorso",currMonth:"Spese di questo mese",morePrev:"Stai spendendo più del mese scorso.",lessPrev:"Stai spendendo meno del mese scorso. Ottimo!",noPrev:"Nessun dato per il mese scorso.",saved:"Salvato",used:"Utilizzato",budgetExceeded:"Budget superato!",budget90:"90% del budget utilizzato!",budget75:"75% del budget utilizzato!",budgetOk:"Il budget è sotto controllo.",budgetAlert:"Avviso budget:",setBudgetFirst:"Imposta un budget per attivare gli avvisi.",analysisTitle:"Analisi attività",noTx:"Nessuna transazione trovata.",profitGood:"Le tue entrate sono superiori alle spese.",profitBad:"Le tue spese superano le entrate.",profitEqual:"Entrate e spese sono uguali.",localRule:"Questa analisi usa tutte le transazioni registrate, non un modello di IA esterno.",searchPh:"Cerca transazioni...",descPh:"Vendita prodotto, affitto, stipendio...",catPh:"Vendite, Affitto, Stipendio",theme:"Tema",confirmDelete:"Eliminare?",confirmClear:"Eliminare tutti i dati?",invalidBackup:"File di backup non valido.",restored:"Backup ripristinato.",selectBackup:"Seleziona un file di backup.",storageFull:"Memoria piena.",txSaved:"Transazione salvata",offlineMode:"● Offline",onlineMode:"● Server online collegato",syncSavedLocal:"Salvato localmente.",syncOk:"Sincronizzazione riuscita.",syncFail:"Sincronizzazione non riuscita, dati al sicuro localmente.",aiLocal:"Modalità: assistente locale",aiServer:"Modalità: IA del server collegata",asking:"Chiedo...",save:"Salva",cancel:"Annulla",saveBudget:"Salva budget",saveProduct:"Salva prodotto",saveParty:"Salva",saveSettings:"Salva impostazioni",saveUser:"Salva utente",saveServer:"Salva impostazioni server",trySync:"Prova a sincronizzare ora",analyze:"Analizza la mia attività",ask:"Chiedi",clear:"Elimina tutti i dati",exportCsv:"Scarica CSV",printPdf:"Stampa / PDF",backup:"Backup JSON",restore:"Ripristina dati"};
-W["es"]={tagline:"Gestión empresarial inteligente",dashboard:"Panel",transaction:"Ingresos / Gastos",budget:"Alarma de presupuesto",products:"Productos y stock",parties:"Clientes / Proveedores",business:"Negocio",reports:"Informes",assistant:"Asistente inteligente",settings:"Ajustes",server:"Servidor / Sincronización",totalIncome:"Ingresos totales",totalExpense:"Gastos totales",profit:"Beneficio / Pérdida neta",transactions:"Transacciones",todayIncome:"Ingresos de hoy",todayExpense:"Gastos de hoy",budgetLeft:"Presupuesto restante",stockItems:"Número de productos",overview:"Resumen del negocio",recent:"Transacciones recientes",date:"Fecha",details:"Detalles",type:"Tipo",amount:"Importe",addTransaction:"Añadir ingreso / gasto",category:"Categoría",method:"Método de pago",allTransactions:"Todas las transacciones",action:"Acción",monthlyBudget:"Presupuesto mensual",monthlyLimit:"Límite mensual",productsStock:"Productos y stock",productName:"Nombre del producto",stock:"Stock",purchasePrice:"Precio de compra",salePrice:"Precio de venta",lowStock:"Alerta de stock bajo",productList:"Lista de productos",status:"Estado",partiesTitle:"Clientes y proveedores",partyName:"Nombre",partyType:"Tipo",partyPhone:"Teléfono",partyDue:"Pendiente",partyList:"Lista",bizSettings:"Ajustes del negocio",bizName:"Nombre del negocio",currency:"Moneda",bizSummary:"Resumen del negocio",userTitle:"Usuario / Inicio de sesión",userName:"Nombre de usuario",userPhone:"Teléfono del usuario",reportsTitle:"Informes y copia de seguridad",reportMonth:"Mes del informe",restoreLabel:"Restaurar copia de seguridad",aiTitle:"Asistente inteligente",aiIntro:"Analiza los ingresos, gastos y presupuesto de tu negocio. Es un asistente local basado en reglas, no una IA en línea.",askQ:"Haz una pregunta",settingsTitle:"Ajustes y datos",settingsNote:"Tus datos se guardan en el almacenamiento local de este navegador.",aiNote:"No hay ninguna API de IA real conectada. Guardar una clave API en este archivo no es seguro.",supportLabel:"Soporte",serverTitle:"Servidor / Sincronización en línea",serverNote:"Ahora la app funciona sin conexión. Cuando tu servidor esté listo, pega su dirección abajo.",serverUrl:"URL de la API del servidor (vacío para sin conexión)",aiEndpoint:"Endpoint de IA (en tu servidor, no aquí)",serverHow:"Cómo funcionará después: 1) El servidor guarda los datos en una base de datos en línea 2) El inicio de sesión verifica al usuario en el servidor 3) La IA corre en el servidor.",income:"Ingreso",expense:"Gasto",delete:"Eliminar",edit:"Editar",customer:"Cliente",supplier:"Proveedor",low:"Stock bajo",ok:"En stock",empty:"Sin registros",invalid:"Escribe un importe válido.",need:"Añade primero un ingreso o un gasto.",top:"Categoría con más gastos:",forecast:"Gasto estimado al final del mes:",tip:"Consejo: prioriza los gastos esenciales.",noQ:"Escribe una pregunta.",unknown:"No entiendo. Pregunta por los gastos totales, ingresos, gastos de hoy, beneficio o presupuesto restante.",spent:"Gastos de este mes",remainingTxt:"Presupuesto restante",todaySpent:"Gastos de hoy",prevMonth:"Gastos del mes anterior",currMonth:"Gastos de este mes",morePrev:"Estás gastando más que el mes anterior.",lessPrev:"Estás gastando menos que el mes anterior. ¡Muy bien!",noPrev:"No hay datos del mes anterior.",saved:"Guardado",used:"Usado",budgetExceeded:"¡Presupuesto superado!",budget90:"¡90% del presupuesto usado!",budget75:"¡75% del presupuesto usado!",budgetOk:"El presupuesto está bajo control.",budgetAlert:"Alerta de presupuesto:",setBudgetFirst:"Establece un presupuesto para activar las alertas.",analysisTitle:"Análisis del negocio",noTx:"No se encontraron transacciones.",profitGood:"Tus ingresos son mayores que tus gastos.",profitBad:"Tus gastos superan tus ingresos.",profitEqual:"Ingresos y gastos son iguales.",localRule:"Este análisis usa todas las transacciones registradas, no un modelo de IA externo.",searchPh:"Buscar transacciones...",descPh:"Venta de producto, alquiler, salario...",catPh:"Ventas, Alquiler, Salario",theme:"Tema",confirmDelete:"¿Eliminar?",confirmClear:"¿Eliminar todos los datos?",invalidBackup:"Archivo de copia de seguridad no válido.",restored:"Copia de seguridad restaurada.",selectBackup:"Selecciona un archivo de copia de seguridad.",storageFull:"Almacenamiento lleno.",txSaved:"Transacción guardada",offlineMode:"● Sin conexión",onlineMode:"● Servidor en línea conectado",syncSavedLocal:"Guardado localmente.",syncOk:"Sincronización correcta.",syncFail:"Sincronización fallida, datos seguros localmente.",aiLocal:"Modo: asistente local",aiServer:"Modo: IA del servidor conectada",asking:"Preguntando...",save:"Guardar",cancel:"Cancelar",saveBudget:"Guardar presupuesto",saveProduct:"Guardar producto",saveParty:"Guardar",saveSettings:"Guardar ajustes",saveUser:"Guardar usuario",saveServer:"Guardar ajustes del servidor",trySync:"Intentar sincronizar ahora",analyze:"Analizar mi negocio",ask:"Preguntar",clear:"Eliminar todos los datos",exportCsv:"Descargar CSV",printPdf:"Imprimir / PDF",backup:"Copia de seguridad JSON",restore:"Restaurar datos"};
-W["pt"]={tagline:"Gestão empresarial inteligente",dashboard:"Painel",transaction:"Receitas / Despesas",budget:"Alerta de orçamento",products:"Produtos e estoque",parties:"Clientes / Fornecedores",business:"Negócio",reports:"Relatórios",assistant:"Assistente inteligente",settings:"Configurações",server:"Servidor / Sincronização",totalIncome:"Receitas totais",totalExpense:"Despesas totais",profit:"Lucro / Prejuízo líquido",transactions:"Transações",todayIncome:"Receitas de hoje",todayExpense:"Despesas de hoje",budgetLeft:"Orçamento restante",stockItems:"Número de produtos",overview:"Visão geral do negócio",recent:"Transações recentes",date:"Data",details:"Detalhes",type:"Tipo",amount:"Valor",addTransaction:"Adicionar receita / despesa",category:"Categoria",method:"Método de pagamento",allTransactions:"Todas as transações",action:"Ação",monthlyBudget:"Orçamento mensal",monthlyLimit:"Limite mensal",productsStock:"Produtos e estoque",productName:"Nome do produto",stock:"Estoque",purchasePrice:"Preço de compra",salePrice:"Preço de venda",lowStock:"Alerta de estoque baixo",productList:"Lista de produtos",status:"Status",partiesTitle:"Clientes e fornecedores",partyName:"Nome",partyType:"Tipo",partyPhone:"Telefone",partyDue:"Pendente",partyList:"Lista",bizSettings:"Configurações do negócio",bizName:"Nome do negócio",currency:"Moeda",bizSummary:"Resumo do negócio",userTitle:"Usuário / Login",userName:"Nome do usuário",userPhone:"Telefone do usuário",reportsTitle:"Relatórios e backup",reportMonth:"Mês do relatório",restoreLabel:"Restaurar backup",aiTitle:"Assistente inteligente",aiIntro:"Analise as receitas, despesas e orçamento do seu negócio. É um assistente local baseado em regras, não uma IA online.",askQ:"Faça uma pergunta",settingsTitle:"Configurações e dados",settingsNote:"Seus dados são salvos no armazenamento local deste navegador.",aiNote:"Nenhuma API de IA real está conectada. Salvar uma chave de API neste arquivo não é seguro.",supportLabel:"Suporte",serverTitle:"Servidor / Sincronização online",serverNote:"Agora o app funciona offline. Quando seu servidor estiver pronto, cole o endereço abaixo.",serverUrl:"URL da API do servidor (deixe vazio para offline)",aiEndpoint:"Endpoint de IA (no seu servidor, não aqui)",serverHow:"Como funcionará depois: 1) O servidor salva os dados em um banco de dados online 2) O login verifica o usuário no servidor 3) A IA roda no servidor.",income:"Receita",expense:"Despesa",delete:"Excluir",edit:"Editar",customer:"Cliente",supplier:"Fornecedor",low:"Estoque baixo",ok:"Em estoque",empty:"Sem registros",invalid:"Digite um valor válido.",need:"Adicione primeiro uma receita ou despesa.",top:"Categoria com maiores gastos:",forecast:"Despesa estimada no fim do mês:",tip:"Dica: priorize despesas essenciais.",noQ:"Digite uma pergunta.",unknown:"Não entendi. Pergunte sobre despesas totais, receitas, despesas de hoje, lucro ou orçamento restante.",spent:"Despesas deste mês",remainingTxt:"Orçamento restante",todaySpent:"Despesas de hoje",prevMonth:"Despesas do mês anterior",currMonth:"Despesas deste mês",morePrev:"Você está gastando mais que no mês anterior.",lessPrev:"Você está gastando menos que no mês anterior. Ótimo!",noPrev:"Nenhum dado do mês anterior.",saved:"Salvo",used:"Usado",budgetExceeded:"Orçamento excedido!",budget90:"90% do orçamento usado!",budget75:"75% do orçamento usado!",budgetOk:"O orçamento está sob controle.",budgetAlert:"Alerta de orçamento:",setBudgetFirst:"Defina um orçamento para ativar os alertas.",analysisTitle:"Análise do negócio",noTx:"Nenhuma transação encontrada.",profitGood:"Suas receitas são maiores que suas despesas.",profitBad:"Suas despesas superam suas receitas.",profitEqual:"Receitas e despesas são iguais.",localRule:"Esta análise usa todas as transações registradas, não um modelo de IA externo.",searchPh:"Pesquisar transações...",descPh:"Venda de produto, aluguel, salário...",catPh:"Vendas, Aluguel, Salário",theme:"Tema",confirmDelete:"Excluir?",confirmClear:"Excluir todos os dados?",invalidBackup:"Arquivo de backup inválido.",restored:"Backup restaurado.",selectBackup:"Selecione um arquivo de backup.",storageFull:"Armazenamento cheio.",txSaved:"Transação salva",offlineMode:"● Offline",onlineMode:"● Servidor online conectado",syncSavedLocal:"Salvo localmente.",syncOk:"Sincronização bem-sucedida.",syncFail:"Falha na sincronização, dados seguros localmente.",aiLocal:"Modo: assistente local",aiServer:"Modo: IA do servidor conectada",asking:"Perguntando...",save:"Salvar",cancel:"Cancelar",saveBudget:"Salvar orçamento",saveProduct:"Salvar produto",saveParty:"Salvar",saveSettings:"Salvar configurações",saveUser:"Salvar usuário",saveServer:"Salvar configurações do servidor",trySync:"Tentar sincronizar agora",analyze:"Analisar meu negócio",ask:"Perguntar",clear:"Excluir todos os dados",exportCsv:"Baixar CSV",printPdf:"Imprimir / PDF",backup:"Backup JSON",restore:"Restaurar dados"};
-W["nl"]={tagline:"Slim bedrijfsbeheer",dashboard:"Dashboard",transaction:"Inkomsten / Uitgaven",budget:"Budgetalarm",products:"Producten & voorraad",parties:"Klanten / Leveranciers",business:"Bedrijf",reports:"Rapporten",assistant:"Slimme assistent",settings:"Instellingen",server:"Server / Sync",totalIncome:"Totale inkomsten",totalExpense:"Totale uitgaven",profit:"Nettowinst / -verlies",transactions:"Transacties",todayIncome:"Inkomsten vandaag",todayExpense:"Uitgaven vandaag",budgetLeft:"Resterend budget",stockItems:"Aantal producten",overview:"Bedrijfsoverzicht",recent:"Recente transacties",date:"Datum",details:"Details",type:"Type",amount:"Bedrag",addTransaction:"Inkomsten / uitgaven toevoegen",category:"Categorie",method:"Betaalmethode",allTransactions:"Alle transacties",action:"Actie",monthlyBudget:"Maandbudget",monthlyLimit:"Maandelijkse limiet",productsStock:"Producten & voorraad",productName:"Productnaam",stock:"Voorraad",purchasePrice:"Inkoopprijs",salePrice:"Verkoopprijs",lowStock:"Waarschuwing lage voorraad",productList:"Productlijst",status:"Status",partiesTitle:"Klanten & leveranciers",partyName:"Naam",partyType:"Type",partyPhone:"Telefoon",partyDue:"Openstaand",partyList:"Lijst",bizSettings:"Bedrijfsinstellingen",bizName:"Bedrijfsnaam",currency:"Valuta",bizSummary:"Bedrijfssamenvatting",userTitle:"Gebruiker / Login",userName:"Gebruikersnaam",userPhone:"Gebruikerstel.",reportsTitle:"Rapporten & back-up",reportMonth:"Rapportmaand",restoreLabel:"Back-up herstellen",aiTitle:"Slimme assistent",aiIntro:"Analyseer de inkomsten, uitgaven en het budget van uw bedrijf. Dit is een lokale regelgebaseerde assistent, geen online AI.",askQ:"Stel een vraag",settingsTitle:"Instellingen & gegevens",settingsNote:"Uw gegevens worden opgeslagen in de lokale opslag van deze browser.",aiNote:"Er is geen echte AI-API verbonden. Een API-sleutel in dit bestand opslaan is niet veilig.",supportLabel:"Support",serverTitle:"Server / Online sync",serverNote:"Deze app werkt nu offline. Als uw server klaar is, plak dan hieronder het adres.",serverUrl:"Server API-URL (leeg laten voor offline)",aiEndpoint:"AI-endpoint (op uw server, niet hier)",serverHow:"Zo werkt het later: 1) Server slaat gegevens op in online database 2) Login controleert gebruiker op server 3) AI draait op server.",income:"Inkomsten",expense:"Uitgave",delete:"Verwijderen",edit:"Bewerken",customer:"Klant",supplier:"Leverancier",low:"Lage voorraad",ok:"Op voorraad",empty:"Geen gegevens",invalid:"Voer een geldig bedrag in.",need:"Voeg eerst inkomsten of uitgaven toe.",top:"Categorie met de hoogste uitgaven:",forecast:"Geschatte uitgaven aan het einde van de maand:",tip:"Tip: geef prioriteit aan noodzakelijke uitgaven.",noQ:"Voer een vraag in.",unknown:"Ik begrijp het niet. Vraag naar totale uitgaven, inkomsten, uitgaven van vandaag, winst of resterend budget.",spent:"Uitgaven deze maand",remainingTxt:"Resterend budget",todaySpent:"Uitgaven vandaag",prevMonth:"Uitgaven vorige maand",currMonth:"Uitgaven deze maand",morePrev:"U geeft meer uit dan vorige maand.",lessPrev:"U geeft minder uit dan vorige maand. Goed!",noPrev:"Geen gegevens voor vorige maand.",saved:"Opgeslagen",used:"Gebruikt",budgetExceeded:"Budget overschreden!",budget90:"90% van het budget gebruikt!",budget75:"75% van het budget gebruikt!",budgetOk:"Het budget is onder controle.",budgetAlert:"Budgetalarm:",setBudgetFirst:"Stel een budget in om waarschuwingen te activeren.",analysisTitle:"Bedrijfsanalyse",noTx:"Geen transacties gevonden.",profitGood:"Uw inkomsten zijn hoger dan uw uitgaven.",profitBad:"Uw uitgaven zijn hoger dan uw inkomsten.",profitEqual:"Inkomsten en uitgaven zijn gelijk.",localRule:"Deze analyse gebruikt alle geregistreerde transacties, geen extern AI-model.",searchPh:"Transacties zoeken...",descPh:"Productverkoop, huur, salaris...",catPh:"Verkoop, Huur, Salaris",theme:"Thema",confirmDelete:"Verwijderen?",confirmClear:"Alle gegevens verwijderen?",invalidBackup:"Ongeldig back-upbestand.",restored:"Back-up hersteld.",selectBackup:"Selecteer een back-upbestand.",storageFull:"Opslag vol.",txSaved:"Transactie opgeslagen",offlineMode:"● Offline",onlineMode:"● Online server verbonden",syncSavedLocal:"Lokaal opgeslagen.",syncOk:"Sync geslaagd.",syncFail:"Sync mislukt, gegevens zijn lokaal veilig.",aiLocal:"Modus: Lokale assistent",aiServer:"Modus: Server-AI verbonden",asking:"Vragen...",save:"Opslaan",cancel:"Annuleren",saveBudget:"Budget opslaan",saveProduct:"Product opslaan",saveParty:"Opslaan",saveSettings:"Instellingen opslaan",saveUser:"Gebruiker opslaan",saveServer:"Serverinstellingen opslaan",trySync:"Nu proberen te synchroniseren",analyze:"Mijn bedrijf analyseren",ask:"Vragen",clear:"Alle gegevens verwijderen",exportCsv:"CSV downloaden",printPdf:"Afdrukken / PDF",backup:"Back-up JSON",restore:"Gegevens herstellen"};
-function t(k){let d=W[data.language]||W.bn;return d[k]||W.bn[k]||k;}
-function money(n){return (data.currency||"৳")+Number(n||0).toLocaleString("en-US",{maximumFractionDigits:2});}
-function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
-function totals(list){let i=0,e=0;(list||[]).forEach(function(x){if(x.type==="income")i+=Number(x.amount||0);else e+=Number(x.amount||0);});return {income:i,expense:e,profit:i-e};}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){alert(t("storageFull"));}if(CONFIG.API_BASE){data.syncQueue.push({at:new Date().toISOString()});try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}apiSyncAll();}}
-function monthTx(m){return data.transactions.filter(function(x){return (x.date||"").slice(0,7)===m;});}
+function money(n){
+  return (data.currency||"৳")+Number(n||0).toLocaleString("en-US",{maximumFractionDigits:2});
+}
+function showPage(id,btn){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  if(btn)btn.classList.add("active");
+  render();
+}
+function totals(){
+  let income=data.records.filter(x=>x.type==="income").reduce((s,x)=>s+Number(x.amount),0);
+  let expense=data.records.filter(x=>x.type==="expense").reduce((s,x)=>s+Number(x.amount),0);
+  return {income,expense,profit:income-expense};
+}
 function render(){
-document.documentElement.lang=data.language;document.documentElement.dir=(data.language==="ar"?"rtl":"ltr");
-if(data.theme==="dark")document.body.classList.add("dark");else document.body.classList.remove("dark");
-$("language").value=data.language;$("businessName").value=data.business||"";$("currency").value=data.currency||"৳";$("budgetInput").value=data.budget||"";$("userName").value=(data.user&&data.user.name)||"";$("userPhone").value=(data.user&&data.user.phone)||"01917716922";$("serverUrl").value=(data.server&&data.server.apiBase)||"";$("aiEndpoint").value=(data.server&&data.server.aiEndpoint)||"";
-if(!$("reportMonth").value)$("reportMonth").value=monthStr();
-$("tagline").textContent=t("tagline");$("themeBtn").textContent="🌙 "+t("theme");$("storageStatus").textContent=CONFIG.API_BASE?t("onlineMode"):t("offlineMode");$("aiModeText").textContent=CONFIG.AI_ENDPOINT?t("aiServer"):t("aiLocal");$("userInfo").textContent=(data.user&&data.user.name)?((data.user.name)+" | "+(data.user.phone||"")):"";
-document.querySelectorAll("[data-t]").forEach(function(el){el.textContent=t(el.getAttribute("data-t"));});
-document.querySelectorAll("#mainNav button").forEach(function(b){b.textContent=t(b.getAttribute("data-page"));});
-let typeSel=$("txType");if(typeSel&&typeSel.options.length>=2){typeSel.options[0].text=t("income");typeSel.options[1].text=t("expense");}
-let pTypeSel=$("partyType");if(pTypeSel&&pTypeSel.options.length>=2){pTypeSel.options[0].text=t("customer");pTypeSel.options[1].text=t("supplier");}
-$("txSearch").placeholder=t("searchPh");$("txDescription").placeholder=t("descPh");$("txCategory").placeholder=t("catPh");$("aiQuestion").placeholder=t("askQ");
-$("txSubmit").textContent=t("save");$("saveBudget").textContent=t("saveBudget");$("saveProductBtn").textContent=t("saveProduct");$("cancelProductEdit").textContent=t("cancel");$("savePartyBtn").textContent=t("saveParty");$("cancelPartyEdit").textContent=t("cancel");$("saveBusinessBtn").textContent=t("saveSettings");$("saveUserBtn").textContent=t("saveUser");$("exportCsvBtn").textContent=t("exportCsv");$("printBtn").textContent=t("printPdf");$("backupBtn").textContent=t("backup");$("restoreBtn").textContent=t("restore");$("analyzeBtn").textContent=t("analyze");$("askBtn").textContent=t("ask");$("clearBtn").textContent=t("clear");$("saveServerBtn").textContent=t("saveServer");$("trySyncBtn").textContent=t("trySync");$("cancelEdit").textContent=t("cancel");
-let curM=monthStr();let cur=monthTx(curM);let tt=totals(cur);
-$("income").textContent=money(tt.income);$("expense").textContent=money(tt.expense);$("profit").textContent=money(tt.profit);$("profit").className="stat "+(tt.profit>=0?"green":"red");$("count").textContent=String(cur.length);$("stockCount").textContent=String(data.products.length);
-let td=todayStr();let dInc=0,dExp=0;data.transactions.forEach(function(x){if(x.date===td){if(x.type==="income")dInc+=Number(x.amount||0);else dExp+=Number(x.amount||0);}});
-$("todayIncome").textContent=money(dInc);$("todayExpense").textContent=money(dExp);$("budgetRemaining").textContent=money(data.budget-tt.expense);
-let prev=new Date();prev.setMonth(prev.getMonth()-1);let prevM=monthStr(prev);let prevExp=0,hasPrev=false;data.transactions.forEach(function(x){if((x.date||"").slice(0,7)===prevM){hasPrev=true;if(x.type==="expense")prevExp+=Number(x.amount||0);}});
-if(!hasPrev){$("compareBox").textContent=t("noPrev");$("compareBox").className="alert";}
-else{let diff=tt.expense-prevExp;$("compareBox").textContent=t("prevMonth")+": "+money(prevExp)+"\n"+t("currMonth")+": "+money(tt.expense)+"\n"+(diff>0?t("morePrev"):t("lessPrev"));$("compareBox").className=diff>0?"alert bad":"alert good";}
-let q=(($("txSearch").value||"").toLowerCase());let filtered=data.transactions.filter(function(x){return ((x.description||"")+" "+(x.category||"")).toLowerCase().indexOf(q)!==-1;});
-$("txRows").innerHTML=filtered.slice().reverse().map(function(x){return "<tr><td>"+esc(x.date)+"</td><td>"+esc(x.description)+"</td><td>"+esc(x.category||"-")+"</td><td>"+(x.type==="income"?t("income"):t("expense"))+"</td><td>"+money(x.amount)+"</td><td><div class=\"actions\"><button type=\"button\" onclick=\"editTx('"+esc(x.id)+"')\">"+t("edit")+"</button><button type=\"button\" class=\"danger\" onclick=\"removeTransaction('"+esc(x.id)+"')\">"+t("delete")+"</button></div></td></tr>";}).join("")||"<tr><td colspan=\"6\" class=\"empty\">"+t("empty")+"</td></tr>";
-$("recent").innerHTML=data.transactions.slice(-5).reverse().map(function(x){return "<tr><td>"+esc(x.date)+"</td><td>"+esc(x.description)+"</td><td>"+(x.type==="income"?t("income"):t("expense"))+"</td><td>"+money(x.amount)+"</td></tr>";}).join("")||"<tr><td colspan=\"4\" class=\"empty\">"+t("empty")+"</td></tr>";
-$("overview").innerHTML="<p class=\"green\">"+t("totalIncome")+": "+money(tt.income)+"</p><p class=\"red\">"+t("totalExpense")+": "+money(tt.expense)+"</p><p>"+t("profit")+": "+money(tt.profit)+"</p>";
-$("productRows").innerHTML=data.products.map(function(p){return "<tr><td>"+esc(p.name)+"</td><td>"+esc(p.sku)+"</td><td>"+p.qty+"</td><td>"+money(p.cost)+"</td><td>"+money(p.price)+"</td><td>"+(Number(p.qty)<=Number(p.low)?t("low"):t("ok"))+"</td><td><div class=\"actions\"><button type=\"button\" onclick=\"editProduct('"+esc(p.id)+"')\">"+t("edit")+"</button><button type=\"button\" class=\"danger\" onclick=\"removeProduct('"+esc(p.id)+"')\">"+t("delete")+"</button></div></td></tr>";}).join("")||"<tr><td colspan=\"7\" class=\"empty\">"+t("empty")+"</td></tr>";
-$("partyRows").innerHTML=data.parties.map(function(p){return "<tr><td>"+esc(p.name)+"</td><td>"+(p.type==="customer"?t("customer"):t("supplier"))+"</td><td>"+esc(p.phone)+"</td><td>"+money(p.due)+"</td><td><div class=\"actions\"><button type=\"button\" onclick=\"editParty('"+esc(p.id)+"')\">"+t("edit")+"</button><button type=\"button\" class=\"danger\" onclick=\"removeParty('"+esc(p.id)+"')\">"+t("delete")+"</button></div></td></tr>";}).join("")||"<tr><td colspan=\"5\" class=\"empty\">"+t("empty")+"</td></tr>";
-let selM=$("reportMonth").value||curM;let mt=totals(monthTx(selM));$("monthReport").textContent=selM+" | "+t("totalIncome")+": "+money(mt.income)+" | "+t("totalExpense")+": "+money(mt.expense)+" | "+t("profit")+": "+money(mt.profit);
-$("businessSummary").textContent=(data.business||"")+" | "+data.transactions.length+" transactions | "+money(totals(data.transactions).profit)+" net";
-budgetRender();
+  const t=totals();
+  document.getElementById("totalIncome").textContent=money(t.income);
+  document.getElementById("totalExpense").textContent=money(t.expense);
+  document.getElementById("profit").textContent=money(t.profit);
+  document.getElementById("profit").className=t.profit>=0?"green":"red";
+  document.getElementById("productCount").textContent=data.products.length;
+  document.getElementById("reportIncome").textContent=money(t.income);
+  document.getElementById("reportExpense").textContent=money(t.expense);
+  document.getElementById("reportProfit").textContent=money(t.profit);
+
+  const recent=[...data.records].reverse().slice(0,5);
+  document.getElementById("recentRecords").innerHTML=recent.map(x=>
+    `<tr><td>${safe(x.date)}</td><td>${x.type==="income"?"আয়":"খরচ"}</td><td>${safe(x.description)}</td><td>${money(x.amount)}</td></tr>`
+  ).join("")||'<tr><td colspan="4">কোনো হিসাব নেই</td></tr>';
+
+  document.getElementById("allRecords").innerHTML=[...data.records].reverse().map(x=>
+    `<tr><td>${safe(x.date)}</td><td>${x.type==="income"?"আয়":"খরচ"}</td><td>${safe(x.description)}</td><td>${money(x.amount)}</td><td><button class="danger" onclick="deleteRecord('${x.id}')">মুছুন</button></td></tr>`
+  ).join("")||'<tr><td colspan="5">কোনো হিসাব নেই</td></tr>';
+
+  document.getElementById("productRows").innerHTML=data.products.map(x=>
+    `<tr><td>${safe(x.name)}</td><td>${x.qty}</td><td>${money(x.price)}</td><td>${money(x.qty*x.price)}</td><td><button class="danger" onclick="deleteProduct('${x.id}')">মুছুন</button></td></tr>`
+  ).join("")||'<tr><td colspan="5">কোনো পণ্য নেই</td></tr>';
+
+  document.getElementById("partyRows").innerHTML=data.parties.map(x=>
+    `<tr><td>${safe(x.name)}</td><td>${safe(x.type)}</td><td>${safe(x.phone||"-")}</td><td><button class="danger" onclick="deleteParty('${x.id}')">মুছুন</button></td></tr>`
+  ).join("")||'<tr><td colspan="4">কোনো নাম নেই</td></tr>';
+
+  const alertBox=document.getElementById("budgetAlert");
+  const month=new Date().toISOString().slice(0,7);
+  const monthlyExpense=data.records.filter(x=>x.type==="expense"&&x.date.startsWith(month)).reduce((s,x)=>s+Number(x.amount),0);
+  if(data.budget>0&&monthlyExpense>=data.budget){
+    alertBox.innerHTML='<div class="alert">⚠️ সতর্কতা! এই মাসের খরচ আপনার বাজেট ছাড়িয়েছে।</div>';
+  }else if(data.budget>0&&monthlyExpense>=data.budget*.8){
+    alertBox.innerHTML='<div class="alert">⚠️ সতর্কতা! আপনার মাসিক বাজেটের ৮০% খরচ হয়েছে।</div>';
+  }else alertBox.innerHTML="";
 }
-function budgetRender(){
-let spent=0;let now=new Date();data.transactions.forEach(function(x){let d=new Date(x.date+"T12:00:00");if(x.type==="expense"&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear())spent+=Number(x.amount||0);});
-let pct=data.budget?spent/data.budget*100:0;
-$("budgetStatus").innerHTML=data.budget?"<p>"+t("monthlyBudget")+": "+money(data.budget)+"</p><p>"+t("spent")+": "+money(spent)+"</p><p>"+t("used")+": "+pct.toFixed(1)+"%</p><div class=\"progress\"><div style=\"width:"+Math.min(pct,100)+"%;background:"+(pct>=100?"#dc4545":pct>=75?"#e7a52b":"#159568")+"\"></div></div>"+(pct>=100?"<div class=\"alert bad\">🚨 "+t("budgetExceeded")+"</div>":pct>=90?"<div class=\"alert\">⚠️ "+t("budget90")+"</div>":pct>=75?"<div class=\"alert\">⚠️ "+t("budget75")+"</div>":"<p class=\"green\">"+t("budgetOk")+"</p>"):t("setBudgetFirst");
-$("dashboardAlert").innerHTML=(data.budget&&pct>=75)?"<div class=\"alert\">"+t("budgetAlert")+" "+pct.toFixed(1)+"% "+t("used")+"</div>":"";
+function safe(v){
+  return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
-function showPage(id){document.querySelectorAll(".container section").forEach(function(s){s.classList.add("hidden");});let el=$(id);if(el)el.classList.remove("hidden");document.querySelectorAll("#mainNav button").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-page")===id);});render();}
-function removeTransaction(id){if(!confirm(t("confirmDelete")))return;data.transactions=data.transactions.filter(function(x){return x.id!==id;});save();render();}
-function removeProduct(id){if(!confirm(t("confirmDelete")))return;data.products=data.products.filter(function(x){return x.id!==id;});save();render();}
-function removeParty(id){if(!confirm(t("confirmDelete")))return;data.parties=data.parties.filter(function(x){return x.id!==id;});save();render();}
-function editTx(id){let x=data.transactions.find(function(v){return v.id===id;});if(!x)return;$("txEditId").value=x.id;$("txType").value=x.type;$("txDate").value=x.date;$("txDescription").value=x.description;$("txCategory").value=x.category;$("txAmount").value=x.amount;$("txMethod").value=x.method||"Cash";$("cancelEdit").classList.remove("hidden");showPage("transaction");}
-function editProduct(id){let p=data.products.find(function(v){return v.id===id;});if(!p)return;$("productEditId").value=p.id;$("pName").value=p.name;$("pSku").value=p.sku;$("pQty").value=p.qty;$("pCost").value=p.cost;$("pPrice").value=p.price;$("pLow").value=p.low;$("cancelProductEdit").classList.remove("hidden");showPage("products");}
-function editParty(id){let p=data.parties.find(function(v){return v.id===id;});if(!p)return;$("partyEditId").value=p.id;$("partyName").value=p.name;$("partyType").value=p.type;$("partyPhone").value=p.phone;$("partyDue").value=p.due;$("cancelPartyEdit").classList.remove("hidden");showPage("parties");}
-window.removeTransaction=removeTransaction;window.removeProduct=removeProduct;window.removeParty=removeParty;window.editTx=editTx;window.editProduct=editProduct;window.editParty=editParty;
-function saveProduct(){let n=($("pName").value||"").trim();let q=Number($("pQty").value);if(!n||!isFinite(q)||q<0)return alert(t("invalid"));let eid=$("productEditId").value;let obj={id:eid||uid(),name:n,sku:($("pSku").value||"").trim(),qty:q,cost:Number($("pCost").value)||0,price:Number($("pPrice").value)||0,low:Number($("pLow").value)||0};if(eid){let i=data.products.findIndex(function(v){return v.id===eid;});if(i>=0)data.products[i]=obj;}else data.products.push(obj);$("productEditId").value="";["pName","pSku"].forEach(function(id){$(id).value="";});$("pQty").value="0";$("pCost").value="0";$("pPrice").value="0";$("pLow").value="5";$("cancelProductEdit").classList.add("hidden");save();render();}
-function saveParty(){let n=($("partyName").value||"").trim();if(!n)return alert(t("invalid"));let eid=$("partyEditId").value;let obj={id:eid||uid(),name:n,type:$("partyType").value,phone:($("partyPhone").value||"").trim(),due:Number($("partyDue").value)||0};if(eid){let i=data.parties.findIndex(function(v){return v.id===eid;});if(i>=0)data.parties[i]=obj;}else data.parties.push(obj);$("partyEditId").value="";["partyName","partyPhone"].forEach(function(id){$(id).value="";});$("partyDue").value="0";$("cancelPartyEdit").classList.add("hidden");save();render();}
-function saveBudget(){data.budget=Math.max(0,Number($("budgetInput").value)||0);save();render();}
-function saveBusiness(){data.business=($("businessName").value||"").trim()||"My Business";data.currency=$("currency").value;save();render();alert(t("saved"));}
-function saveUser(){if(!data.user)data.user={};data.user.name=($("userName").value||"").trim();data.user.phone=($("userPhone").value||"").trim()||"01917716922";save();render();alert(t("saved"));}
-function saveServer(){data.server={apiBase:($("serverUrl").value||"").trim().replace(/\/$/,""),aiEndpoint:($("aiEndpoint").value||"").trim()};applyServerConfig();save();render();$("syncLog").textContent=CONFIG.API_BASE?t("onlineMode"):t("offlineMode");}
-async function trySync(){if(!CONFIG.API_BASE){$("syncLog").textContent=t("offlineMode")+" - "+t("syncSavedLocal");return;}$("syncLog").textContent=t("asking");let r=await apiSyncAll();$("syncLog").textContent=(r&&r.ok)?t("syncOk"):t("syncFail");}
-function localAnalysis(){let curM=monthStr();let cur=monthTx(curM);let tt=totals(cur);let r=t("analysisTitle")+"\n"+t("totalIncome")+": "+money(tt.income)+"\n"+t("totalExpense")+": "+money(tt.expense)+"\n"+t("profit")+": "+money(tt.profit)+"\n\n";if(!cur.length)r+=t("noTx");else if(tt.profit>0)r+=t("profitGood");else if(tt.profit<0)r+=t("profitBad");else r+=t("profitEqual");let m={};cur.forEach(function(x){if(x.type==="expense"){m[x.category||"-"]=(m[x.category||"-"]||0)+Number(x.amount||0);}});let top="-",mx=0;for(let k in m){if(m[k]>mx){mx=m[k];top=k;}}let day=new Date().getDate();let fc=day>0?Math.round(tt.expense/day*30):tt.expense;r+="\n\n"+t("top")+" "+top+" ("+money(mx)+")\n"+t("forecast")+" "+money(fc)+"\n"+t("tip")+"\n\n"+t("localRule");return r;}
-function analyze(){$("assistantAnswer").textContent=localAnalysis();}
-async function askAI(){
-let q=(($("aiQuestion").value||"").toLowerCase());if(!q)return alert(t("noQ"));
-let curM=monthStr();let cur=monthTx(curM);let tt=totals(cur);let td=todayStr();let dExp=0;data.transactions.forEach(function(x){if(x.date===td&&x.type==="expense")dExp+=Number(x.amount||0);});
-if(CONFIG.AI_ENDPOINT){$("assistantAnswer").textContent=t("asking");let ans=await apiAskAI($("aiQuestion").value,{income:tt.income,expense:tt.expense,profit:tt.profit,budget:data.budget,todayExpense:dExp});if(ans){$("assistantAnswer").textContent=ans;return;}}
-if(q.indexOf("আজ")!==-1||q.indexOf("today")!==-1||q.indexOf("اليوم")!==-1||q.indexOf("aujourd")!==-1||q.indexOf("heute")!==-1||q.indexOf("oggi")!==-1||q.indexOf("hoy")!==-1||q.indexOf("hoje")!==-1||q.indexOf("vandaag")!==-1){$("assistantAnswer").textContent=t("todaySpent")+": "+money(dExp);return;}
-if(q.indexOf("লাভ")!==-1||q.indexOf("profit")!==-1||q.indexOf("bénéfice")!==-1||q.indexOf("gewinn")!==-1||q.indexOf("profitto")!==-1||q.indexOf("ganancia")!==-1||q.indexOf("lucro")!==-1||q.indexOf("winst")!==-1||q.indexOf("ربح")!==-1){$("assistantAnswer").textContent=t("profit")+": "+money(tt.profit);return;}
-if(q.indexOf("খরচ")!==-1||q.indexOf("spent")!==-1||q.indexOf("expense")!==-1||q.indexOf("dépens")!==-1||q.indexOf("ausgab")!==-1||q.indexOf("speso")!==-1||q.indexOf("gasto")!==-1||q.indexOf("despesa")!==-1||q.indexOf("uitgav")!==-1){$("assistantAnswer").textContent=t("spent")+": "+money(tt.expense);return;}
-if(q.indexOf("আয়")!==-1||q.indexOf("income")!==-1||q.indexOf("revenu")!==-1||q.indexOf("einnahm")!==-1||q.indexOf("entrat")!==-1||q.indexOf("ingreso")!==-1||q.indexOf("receita")!==-1||q.indexOf("inkomst")!==-1||q.indexOf("دخل")!==-1){$("assistantAnswer").textContent=t("totalIncome")+": "+money(tt.income);return;}
-if(q.indexOf("বাকি")!==-1||q.indexOf("remaining")!==-1||q.indexOf("restant")!==-1||q.indexOf("verbleib")!==-1||q.indexOf("rimanente")!==-1||q.indexOf("restante")!==-1||q.indexOf("resterend")!==-1||q.indexOf("متبقي")!==-1){$("assistantAnswer").textContent=t("remainingTxt")+": "+money(data.budget-tt.expense);return;}
-$("assistantAnswer").textContent=t("unknown");
+document.getElementById("date").value=new Date().toISOString().slice(0,10);
+
+document.getElementById("entryForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const amount=Number(document.getElementById("amount").value);
+  if(amount<=0)return alert("সঠিক টাকার পরিমাণ লিখুন");
+  data.records.push({
+    id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),
+    type:document.getElementById("type").value,
+    description:document.getElementById("description").value.trim(),
+    amount,
+    date:document.getElementById("date").value,
+    category:document.getElementById("category").value,
+    note:document.getElementById("note").value
+  });
+  e.target.reset();
+  document.getElementById("date").value=new Date().toISOString().slice(0,10);
+  save();
+  alert("হিসাব সংরক্ষণ হয়েছে");
+});
+document.getElementById("productForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  data.products.push({
+    id:String(Date.now()),
+    name:document.getElementById("productName").value.trim(),
+    qty:Number(document.getElementById("productQty").value),
+    price:Number(document.getElementById("productPrice").value)
+  });
+  e.target.reset();save();alert("পণ্য যোগ হয়েছে");
+});
+document.getElementById("partyForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  data.parties.push({
+    id:String(Date.now()),
+    name:document.getElementById("partyName").value.trim(),
+    type:document.getElementById("partyType").value,
+    phone:document.getElementById("partyPhone").value.trim()
+  });
+  e.target.reset();save();alert("তথ্য সংরক্ষণ হয়েছে");
+});
+function deleteRecord(id){
+  if(confirm("এই হিসাবটি মুছে ফেলবেন?")){
+    data.records=data.records.filter(x=>x.id!==id);save();
+  }
 }
-function downloadBlob(blob,name){let url=URL.createObjectURL(blob);let a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(url);},1000);}
-function exportCSV(){let rows=[["Date","Description","Category","Type","Amount","Method"]];data.transactions.forEach(function(x){rows.push([x.date,x.description,x.category,x.type,x.amount,x.method]);});let csv="﻿"+rows.map(function(r){return r.map(function(v){return '"'+String(v==null?"":v).replace(/"/g,'""')+'"';}).join(",");}).join("\n");downloadBlob(new Blob([csv],{type:"text/csv;charset=utf-8"}),"cost-alarm-report.csv");}
-function backup(){downloadBlob(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),"cost-alarm-backup.json");}
-function restore(){let f=$("restoreFile").files[0];if(!f)return alert(t("selectBackup"));let rd=new FileReader();rd.onload=function(){try{let o=JSON.parse(rd.result);if(!o||!Array.isArray(o.transactions))throw new Error("bad");data=Object.assign(loadData(),o);save();render();alert(t("restored"));}catch(e){alert(t("invalidBackup"));}};rd.readAsText(f);}
-function clearData(){if(!confirm(t("confirmClear")))return;data={transactions:[],products:[],parties:[],budget:0,business:"My Business",currency:"৳",language:"bn",theme:"light",user:{name:"",phone:"01917716922",token:""},server:{apiBase:"",aiEndpoint:""},syncQueue:[]};applyServerConfig();save();render();}
-$("themeBtn").addEventListener("click",function(){data.theme=(data.theme==="dark"?"light":"dark");save();render();});
-$("language").addEventListener("change",function(){data.language=$("language").value;save();render();});
-$("currency").addEventListener("change",function(){data.currency=$("currency").value;save();render();});
-$("txSearch").addEventListener("input",render);
-$("reportMonth").addEventListener("change",render);
-$("saveBudget").addEventListener("click",saveBudget);
-$("saveBusinessBtn").addEventListener("click",saveBusiness);
-$("saveUserBtn").addEventListener("click",saveUser);
-$("saveServerBtn").addEventListener("click",saveServer);
-$("trySyncBtn").addEventListener("click",trySync);
-$("saveProductBtn").addEventListener("click",saveProduct);
-$("cancelProductEdit").addEventListener("click",function(){$("productEditId").value="";$("cancelProductEdit").classList.add("hidden");});
-$("savePartyBtn").addEventListener("click",saveParty);
-$("cancelPartyEdit").addEventListener("click",function(){$("partyEditId").value="";$("cancelPartyEdit").classList.add("hidden");});
-$("exportCsvBtn").addEventListener("click",exportCSV);
-$("printBtn").addEventListener("click",function(){window.print();});
-$("backupBtn").addEventListener("click",backup);
-$("restoreBtn").addEventListener("click",restore);
-$("analyzeBtn").addEventListener("click",analyze);
-$("askBtn").addEventListener("click",askAI);
-$("clearBtn").addEventListener("click",clearData);
-$("cancelEdit").addEventListener("click",function(){$("txEditId").value="";$("cancelEdit").classList.add("hidden");$("transactionForm").reset();$("txDate").value=todayStr();});
-document.querySelectorAll("#mainNav button").forEach(function(b){b.addEventListener("click",function(){showPage(b.getAttribute("data-page"));});});
-$("txDate").value=todayStr();
-$("transactionForm").addEventListener("submit",function(e){e.preventDefault();let a=Number($("txAmount").value);if(!isFinite(a)||a<=0)return alert(t("invalid"));let eid=$("txEditId").value;let obj={id:eid||uid(),type:$("txType").value,date:$("txDate").value||todayStr(),description:($("txDescription").value||"").trim(),category:($("txCategory").value||"").trim(),amount:a,method:$("txMethod").value};if(eid){let i=data.transactions.findIndex(function(v){return v.id===eid;});if(i>=0)data.transactions[i]=obj;}else data.transactions.push(obj);$("txEditId").value="";$("cancelEdit").classList.add("hidden");save();e.target.reset();$("txDate").value=todayStr();render();alert(t("txSaved"));});
-window.addEventListener("online",function(){if(CONFIG.API_BASE)apiSyncAll();});
+function deleteProduct(id){
+  if(confirm("পণ্যটি মুছে ফেলবেন?")){
+    data.products=data.products.filter(x=>x.id!==id);save();
+  }
+}
+function deleteParty(id){
+  if(confirm("নামটি মুছে ফেলবেন?")){
+    data.parties=data.parties.filter(x=>x.id!==id);save();
+  }
+}
+function saveCurrency(){
+  data.currency=document.getElementById("currency").value;save();
+}
+function saveBudget(){
+  data.budget=Number(document.getElementById("budget").value)||0;
+  save();alert("বাজেট সংরক্ষণ হয়েছে");
+}
+function calculate(){
+  const a=Number(document.getElementById("calcA").value);
+  const b=Number(document.getElementById("calcB").value);
+  const op=document.getElementById("calcOp").value;
+  if(op==="/"&&b===0)return alert("শূন্য দিয়ে ভাগ করা যাবে না");
+  let r=op==="+"?a+b:op==="-"?a-b:op==="*"?a*b:a/b;
+  document.getElementById("calcResult").textContent="ফলাফল: "+r;
+}
+function exportCSV(){
+  const rows=[["Date","Type","Description","Category","Amount"]];
+  data.records.forEach(x=>rows.push([x.date,x.type,x.description,x.category,x.amount]));
+  const csv="\uFEFF"+rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\n");
+  downloadFile(csv,"cost-alarm-report.csv","text/csv;charset=utf-8");
+}
+function backupData(){
+  downloadFile(JSON.stringify(data,null,2),"cost-alarm-backup.json","application/json");
+}
+function downloadFile(content,name,type){
+  const blob=new Blob([content],{type});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download=name;a.click();
+  URL.revokeObjectURL(url);
+}
+function restoreData(event){
+  const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const imported=JSON.parse(reader.result);
+      if(!imported.records||!imported.products||!imported.parties)throw Error();
+      if(confirm("বর্তমান তথ্যের জায়গায় ব্যাকআপের তথ্য বসবে। চালিয়ে যাবেন?")){
+        data=imported;save();alert("ব্যাকআপ ফিরিয়ে আনা হয়েছে");
+      }
+    }catch(e){alert("এই ব্যাকআপ ফাইলটি সঠিক নয়");}
+    event.target.value="";
+  };
+  reader.readAsText(file);
+}
+function clearData(){
+  if(confirm("সতর্কতা: সব হিসাব, পণ্য ও কাস্টমারের তথ্য মুছে যাবে। নিশ্চিত?")){
+    data={records:[],products:[],parties:[],budget:0,currency:"৳"};
+    save();alert("সব ডেটা মুছে ফেলা হয়েছে");
+  }
+}
+document.getElementById("currency").value=data.currency||"৳";
+document.getElementById("budget").value=data.budget||"";
 render();
 </script>
 </body>
-</html> 
+</html>
