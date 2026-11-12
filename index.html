@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -8,299 +7,210 @@
 <meta name="theme-color" content="#123b66">
 <title>Cost Alarm - Smart Expense Manager</title>
 <style>
+:root{font-family:Arial,sans-serif;color:#182230;background:#f3f6fb}
 *{box-sizing:border-box}
-body{margin:0;background:#f3f6fb;color:#182230;font-family:Arial,sans-serif}
-header{background:linear-gradient(120deg,#123b66,#155eef);color:white;padding:25px;text-align:center}
-main{max-width:850px;margin:auto;padding:12px}
-.panel{background:white;padding:18px;border-radius:15px;margin:14px 0;box-shadow:0 3px 15px #0001}
-h2{font-size:19px;color:#123b66}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+body{margin:0;background:#f3f6fb}
+header{background:linear-gradient(120deg,#123b66,#155eef);color:#fff;padding:25px 16px;text-align:center}
+header h1{margin:0 0 8px;font-size:30px}
+header p{margin:0;opacity:.94}
+main{max-width:900px;margin:auto;padding:12px}
+.panel{background:#fff;padding:18px;border-radius:15px;margin:14px 0;box-shadow:0 3px 15px #0001}
+h2{font-size:19px;color:#123b66;margin:0 0 14px}
 label{display:block;margin:10px 0 5px;font-weight:bold}
-input,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:9px;font-size:16px}
-button{padding:12px 16px;border:0;border-radius:9px;background:#155eef;color:white;font-weight:bold;cursor:pointer;margin:5px 3px 5px 0}
-.danger{background:#b42318}
-.green{background:#087443}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{background:#f0f5ff;padding:14px;border-radius:10px;overflow-wrap:anywhere}
-.stat small{display:block;color:#667085}
-.stat strong{font-size:20px}
-.notice,.chat{padding:13px;background:#fff4dc;border-radius:10px;margin-top:12px;white-space:pre-wrap}
-.good{background:#e8f8ee;color:#087443}
-.bad{background:#fee;color:#b42318}
-.item{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #eee}
-.item small{display:block;color:#667085}
+input,select{width:100%;padding:12px;border:1px solid #cfd5df;border-radius:9px;font-size:16px;background:#fff;color:#182230}
+input:focus,select:focus{outline:2px solid #9bbcff;border-color:#155eef}
+button,.contact{display:inline-block;padding:12px 16px;border:0;border-radius:9px;background:#155eef;color:#fff;font-weight:bold;cursor:pointer;margin:7px 4px 0 0;text-decoration:none;font-size:14px}
+button:disabled{opacity:.5;cursor:not-allowed}
+.danger{background:#b42318}.green{background:#087443}.muted{background:#475467}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.stat{background:#f0f5ff;padding:14px;border-radius:10px;overflow-wrap:anywhere;min-width:0}
+.stat small{display:block;color:#667085;margin-bottom:5px}
+.stat strong{font-size:clamp(16px,2.8vw,21px)}
+.notice,.chat{padding:13px;background:#fff4dc;border-radius:10px;margin-top:12px;white-space:pre-wrap;line-height:1.5}
+.good{background:#e8f8ee;color:#087443}.bad{background:#fee;color:#b42318}
+.item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #eee}
+.item:last-child{border-bottom:0}
+.item small{display:block;color:#667085;margin-top:4px;overflow-wrap:anywhere}
+.item .amount{font-weight:bold;white-space:nowrap}
+.item button{padding:7px 10px;font-size:12px}
+.hint{font-size:13px;color:#667085;line-height:1.5}
+.actions{display:flex;flex-wrap:wrap;gap:6px}
 footer{text-align:center;padding:20px;color:#667085}
-a.contact{display:inline-block;padding:12px 16px;border-radius:9px;color:white;text-decoration:none;margin:5px}
-@media(max-width:520px){.stats{grid-template-columns:1fr}}
+.contact{margin:5px}
+[dir="rtl"] body,[dir="rtl"] input,[dir="rtl"] select{text-align:right}
+@media(max-width:650px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){main{padding:8px}.panel{padding:14px}.item{align-items:flex-start}.item .right{text-align:right}}
 </style>
 </head>
 <body>
-
 <header>
 <h1>Cost Alarm</h1>
-<p id="subtitle">আপনার খরচের হিসাব ও স্মার্ট পরামর্শ</p>
+<p id="subtitle"></p>
 </header>
-
 <main>
-
 <section class="panel">
-<label>Language / ভাষা</label>
+<div class="grid">
+<div><label id="languageLabel" for="language"></label>
 <select id="language">
-<option value="bn">বাংলা</option>
-<option value="en-GB">English (UK)</option>
-<option value="en-US">English (US)</option>
-<option value="ar">العربية</option>
-<option value="fr">Français</option>
-<option value="de">Deutsch</option>
-<option value="it">Italiano</option>
-<option value="es">Español</option>
-<option value="pt">Português</option>
-<option value="nl">Nederlands</option>
-</select>
-
-<label>Currency / মুদ্রা</label>
-<select id="currency">
-<option value="BDT">BDT ৳</option>
-<option value="USD">USD $</option>
-<option value="GBP">GBP £</option>
-<option value="EUR">EUR €</option>
-</select>
-</section>
-
-<section class="panel">
-<h2 id="budgetTitle">মাসিক বাজেট</h2>
-<label id="budgetLabel">আপনার মাসিক বাজেট</label>
-<input id="budget" type="number" min="0" placeholder="30000">
-<button id="saveBudget">বাজেট সংরক্ষণ</button>
-
-<div class="stats">
-<div class="stat"><small id="budgetText">মাসিক বাজেট</small><strong id="budgetValue">৳0</strong></div>
-<div class="stat"><small id="spentText">মোট খরচ</small><strong id="spentValue">৳0</strong></div>
-<div class="stat"><small id="remainingText">অবশিষ্ট</small><strong id="remainingValue">৳0</strong></div>
+<option value="bn">বাংলা</option><option value="en-GB">English (UK)</option><option value="en-US">English (US)</option>
+<option value="ar">العربية</option><option value="fr">Français</option><option value="de">Deutsch</option>
+<option value="it">Italiano</option><option value="es">Español</option><option value="pt">Português</option><option value="nl">Nederlands</option>
+</select></div>
+<div><label id="currencyLabel" for="currency"></label>
+<select id="currency"><option value="BDT">BDT ৳</option><option value="USD">USD $</option><option value="GBP">GBP £</option><option value="EUR">EUR €</option></select></div>
 </div>
-<div id="alert" class="notice">বাজেট সেট করুন।</div>
+<p id="currencyHint" class="hint"></p>
 </section>
 
 <section class="panel">
-<h2 id="addTitle">নতুন খরচ যোগ করুন</h2>
-<label id="amountLabel">খরচের পরিমাণ</label>
-<input id="amount" type="number" min="0" placeholder="500">
+<h2 id="budgetTitle"></h2>
+<label id="budgetLabel" for="budget"></label>
+<input id="budget" type="number" min="0" step="0.01" inputmode="decimal">
+<button id="saveBudget"></button>
+<div class="stats">
+<div class="stat"><small id="budgetText"></small><strong id="budgetValue">৳0</strong></div>
+<div class="stat"><small id="incomeText"></small><strong id="incomeValue">৳0</strong></div>
+<div class="stat"><small id="spentText"></small><strong id="spentValue">৳0</strong></div>
+<div class="stat"><small id="remainingText"></small><strong id="remainingValue">৳0</strong></div>
+</div>
+<div id="alert" class="notice"></div>
+</section>
 
-<label id="categoryLabel">খরচের ধরন</label>
+<section class="panel">
+<h2 id="addExpenseTitle"></h2>
+<label id="expenseAmountLabel" for="amount"></label>
+<input id="amount" type="number" min="0" step="0.01" inputmode="decimal">
+<label id="categoryLabel" for="category"></label>
 <select id="category">
-<option value="food">খাবার</option>
-<option value="transport">যাতায়াত</option>
-<option value="home">বাসা</option>
-<option value="shopping">কেনাকাটা</option>
-<option value="health">স্বাস্থ্য</option>
-<option value="bills">বিল</option>
-<option value="other">অন্যান্য</option>
+<option value="food"></option><option value="transport"></option><option value="home"></option><option value="shopping"></option><option value="health"></option><option value="bills"></option><option value="other"></option>
 </select>
-
-<label id="noteLabel">বিবরণ</label>
-<input id="note" placeholder="খরচের বিবরণ">
-
-<button id="addExpense">খরচ যোগ করুন</button>
+<label id="noteLabel" for="note"></label>
+<input id="note">
+<button id="addExpense"></button>
 </section>
 
 <section class="panel">
-<h2 id="historyTitle">এই মাসের খরচ</h2>
-<div id="expenseList">এখনো কোনো খরচ যোগ করা হয়নি।</div>
-<button id="download">রিপোর্ট ডাউনলোড</button>
-<button class="danger" id="clear">সব হিসাব মুছুন</button>
+<h2 id="addIncomeTitle"></h2>
+<label id="incomeAmountLabel" for="incomeAmount"></label>
+<input id="incomeAmount" type="number" min="0" step="0.01" inputmode="decimal">
+<label id="incomeNoteLabel" for="incomeNote"></label>
+<input id="incomeNote">
+<button id="addIncome" class="green"></button>
 </section>
 
 <section class="panel">
-<h2>Smart AI Assistant</h2>
-<p id="assistantIntro">আপনার খরচ বিশ্লেষণ করে পরামর্শ নিন।</p>
-<div id="assistantReply" class="chat">আপনার বাজেট ও খরচ যোগ করে বিশ্লেষণ করুন।</div>
-<button id="analyze">বিশ্লেষণ করুন</button>
-
-<label>সহকারীকে প্রশ্ন করুন</label>
-<input id="aiQuestion" placeholder="আমার মোট খরচ কত?">
-<button id="askAI">প্রশ্ন পাঠান</button>
-
-<p id="disclosure" style="font-size:13px;color:#667085">
-এটি নিয়মভিত্তিক স্মার্ট সহকারী। প্রকৃত AI API এখনো সংযুক্ত নয়।
-</p>
+<h2 id="historyTitle"></h2>
+<div id="expenseList"></div>
+<div class="actions"><button id="download"></button><button class="danger" id="clear"></button></div>
 </section>
 
 <section class="panel">
-<h2>যোগাযোগ / Contact</h2>
-<p>মোবাইল: <strong>01917716922</strong></p>
-<a class="contact" style="background:#155eef" href="tel:+8801917716922">📞 Call</a>
-<a class="contact" style="background:#087443" href="https://wa.me/8801917716922" target="_blank" rel="noopener">WhatsApp</a>
+<h2 id="assistantTitle"></h2>
+<p id="assistantIntro"></p>
+<div id="assistantReply" class="chat" aria-live="polite"></div>
+<button id="analyze"></button>
+<label id="questionLabel" for="aiQuestion"></label>
+<input id="aiQuestion">
+<button id="askAI"></button>
+<p id="disclosure" class="hint"></p>
 </section>
 
+<section class="panel">
+<h2 id="contactTitle"></h2>
+<p><span id="mobileLabel"></span>: <strong>01917716922</strong></p>
+<a class="contact" href="tel:+8801917716922" id="callLink">📞 <span id="callText"></span></a>
+<a class="contact green" href="https://wa.me/8801917716922" target="_blank" rel="noopener noreferrer" id="whatsappLink">WhatsApp</a>
+</section>
 <footer>Cost Alarm - Smart Expense Manager</footer>
 </main>
 
 <script>
-const $=id=>document.getElementById(id);
+"use strict";
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = "costAlarmDataV2";
+const LANG_KEY = "costAlarmLang";
+const localeMap = {"bn":"bn-BD","en-GB":"en-GB","en-US":"en-US","ar":"ar","fr":"fr-FR","de":"de-DE","it":"it-IT","es":"es-ES","pt":"pt-PT","nl":"nl-NL"};
 
-const translations={
-bn:{budget:"মাসিক বাজেট",spent:"মোট খরচ",remaining:"অবশিষ্ট",save:"বাজেট সংরক্ষণ",add:"খরচ যোগ করুন",history:"এই মাসের খরচ",empty:"এখনো কোনো খরচ যোগ করা হয়নি।",analyze:"বিশ্লেষণ করুন",need:"আগে বাজেট ও অন্তত একটি খরচ যোগ করুন।",safe:"আপনি বাজেটের মধ্যে আছেন।",warn:"সতর্কতা: বাজেটের ৭৫% খরচ হয়েছে।",over:"আপনার বাজেট অতিক্রম হয়েছে।",top:"সবচেয়ে বেশি খরচের বিভাগ:",forecast:"মাস শেষে সম্ভাব্য খরচ:",tip:"পরামর্শ: অপ্রয়োজনীয় খরচ কমান।",food:"খাবার",transport:"যাতায়াত",home:"বাসা",shopping:"কেনাকাটা",health:"স্বাস্থ্য",bills:"বিল",other:"অন্যান্য"},
-"en-GB":{budget:"Monthly budget",spent:"Total spent",remaining:"Remaining",save:"Save budget",add:"Add expense",history:"Monthly expenses",empty:"No expenses yet.",analyze:"Analyse",need:"Set a budget and add an expense first.",safe:"You are within budget.",warn:"Warning: 75% of your budget has been spent.",over:"You are over budget.",top:"Highest spending category:",forecast:"Estimated month-end spending:",tip:"Tip: Reduce unnecessary expenses.",food:"Food",transport:"Transport",home:"Home",shopping:"Shopping",health:"Health",bills:"Bills",other:"Other"},
-"en-US":{budget:"Monthly budget",spent:"Total spent",remaining:"Remaining",save:"Save budget",add:"Add expense",history:"Monthly expenses",empty:"No expenses yet.",analyze:"Analyze",need:"Set a budget and add an expense first.",safe:"You are within budget.",warn:"Warning: 75% of your budget has been spent.",over:"You are over budget.",top:"Highest spending category:",forecast:"Estimated month-end spending:",tip:"Tip: Reduce unnecessary expenses.",food:"Food",transport:"Transportation",home:"Home",shopping:"Shopping",health:"Health",bills:"Bills",other:"Other"},
-ar:{budget:"الميزانية الشهرية",spent:"إجمالي الإنفاق",remaining:"المتبقي",save:"حفظ الميزانية",add:"إضافة مصروف",history:"مصروفات الشهر",empty:"لا توجد مصروفات بعد",analyze:"تحليل",need:"حدد ميزانية وأضف مصروفاً أولاً",safe:"أنت ضمن الميزانية",warn:"تحذير: تم إنفاق 75٪ من الميزانية",over:"لقد تجاوزت الميزانية",top:"أعلى فئة إنفاق:",forecast:"الإنفاق المتوقع:",tip:"نصيحة: قلل النفقات غير الضرورية",food:"طعام",transport:"مواصلات",home:"المنزل",shopping:"تسوق",health:"الصحة",bills:"فواتير",other:"أخرى"},
-fr:{budget:"Budget mensuel",spent:"Total dépensé",remaining:"Restant",save:"Enregistrer",add:"Ajouter dépense",history:"Dépenses du mois",empty:"Aucune dépense.",analyze:"Analyser",need:"Définissez un budget et ajoutez une dépense.",safe:"Vous respectez votre budget.",warn:"Alerte : 75 % du budget dépensé.",over:"Budget dépassé.",top:"Catégorie principale :",forecast:"Dépenses estimées :",tip:"Conseil : réduisez les dépenses inutiles.",food:"Alimentation",transport:"Transport",home:"Logement",shopping:"Achats",health:"Santé",bills:"Factures",other:"Autre"},
-de:{budget:"Monatsbudget",spent:"Ausgaben",remaining:"Übrig",save:"Speichern",add:"Ausgabe hinzufügen",history:"Ausgaben des Monats",empty:"Keine Ausgaben.",analyze:"Analysieren",need:"Budget festlegen und Ausgabe hinzufügen.",safe:"Sie liegen im Budget.",warn:"Warnung: 75 % des Budgets ausgegeben.",over:"Budget überschritten.",top:"Höchste Ausgabenkategorie:",forecast:"Geschätzte Monatsausgaben:",tip:"Tipp: Unnötige Ausgaben reduzieren.",food:"Essen",transport:"Transport",home:"Wohnen",shopping:"Einkaufen",health:"Gesundheit",bills:"Rechnungen",other:"Sonstiges"},
-it:{budget:"Budget mensile",spent:"Totale speso",remaining:"Rimanente",save:"Salva",add:"Aggiungi spesa",history:"Spese del mese",empty:"Nessuna spesa.",analyze:"Analizza",need:"Imposta un budget e aggiungi una spesa.",safe:"Sei nel budget.",warn:"Attenzione: speso il 75% del budget.",over:"Budget superato.",top:"Categoria principale:",forecast:"Spesa prevista:",tip:"Consiglio: riduci le spese inutili.",food:"Cibo",transport:"Trasporti",home:"Casa",shopping:"Acquisti",health:"Salute",bills:"Bollette",other:"Altro"},
-es:{budget:"Presupuesto mensual",spent:"Total gastado",remaining:"Restante",save:"Guardar",add:"Añadir gasto",history:"Gastos del mes",empty:"No hay gastos.",analyze:"Analizar",need:"Define un presupuesto y añade un gasto.",safe:"Estás dentro del presupuesto.",warn:"Aviso: gastaste el 75% del presupuesto.",over:"Presupuesto superado.",top:"Categoría principal:",forecast:"Gasto estimado:",tip:"Consejo: reduce gastos innecesarios.",food:"Comida",transport:"Transporte",home:"Hogar",shopping:"Compras",health:"Salud",bills:"Facturas",other:"Otros"},
-pt:{budget:"Orçamento mensal",spent:"Total gasto",remaining:"Restante",save:"Guardar",add:"Adicionar despesa",history:"Despesas do mês",empty:"Sem despesas.",analyze:"Analisar",need:"Defina um orçamento e adicione uma despesa.",safe:"Está dentro do orçamento.",warn:"Alerta: 75% do orçamento gasto.",over:"Orçamento ultrapassado.",top:"Categoria principal:",forecast:"Gasto estimado:",tip:"Dica: reduza despesas desnecessárias.",food:"Comida",transport:"Transporte",home:"Casa",shopping:"Compras",health:"Saúde",bills:"Contas",other:"Outros"},
-nl:{budget:"Maandbudget",spent:"Totaal uitgegeven",remaining:"Over",save:"Opslaan",add:"Uitgave toevoegen",history:"Uitgaven deze maand",empty:"Nog geen uitgaven.",analyze:"Analyseren",need:"Stel een budget in en voeg een uitgave toe.",safe:"U blijft binnen uw budget.",warn:"Waarschuwing: 75% van budget uitgegeven.",over:"Budget overschreden.",top:"Hoogste uitgavencategorie:",forecast:"Geschatte maanduitgaven:",tip:"Tip: beperk onnodige uitgaven.",food:"Eten",transport:"Vervoer",home:"Wonen",shopping:"Winkelen",health:"Gezondheid",bills:"Rekeningen",other:"Overig"}
-};
-
-let lang=localStorage.getItem("costAlarmLang")||"bn";
-let data=JSON.parse(localStorage.getItem("costAlarmDataV2")||'{"budget":0,"currency":"BDT","expenses":[]}');
-
-function t(key){return (translations[lang]||translations.bn)[key]||translations.bn[key]||key}
-function money(n){
-return new Intl.NumberFormat(lang,{style:"currency",currency:data.currency||"BDT",maximumFractionDigits:2}).format(n||0);
-}
-function save(){localStorage.setItem("costAlarmDataV2",JSON.stringify(data))}
-function total(){return data.expenses.reduce((s,e)=>s+e.amount,0)}
-function safeText(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-
-function render(){
-$("budget").value=data.budget||"";
-$("currency").value=data.currency;
-let sum=total(),left=data.budget-sum;
-$("budgetValue").textContent=money(data.budget);
-$("spentValue").textContent=money(sum);
-$("remainingValue").textContent=money(left);
-
-let alertBox=$("alert");
-if(!data.budget){alertBox.textContent="বাজেট সেট করুন।";alertBox.className="notice"}
-else if(sum>data.budget){alertBox.textContent=t("over");alertBox.className="notice bad"}
-else if(sum>=data.budget*.75){alertBox.textContent=t("warn");alertBox.className="notice"}
-else{alertBox.textContent=t("safe");alertBox.className="notice good"}
-
-if(!data.expenses.length){
-$("expenseList").textContent=t("empty");
-}else{
-$("expenseList").innerHTML=data.expenses.slice().reverse().map(e=>
-`<div class="item"><div><b>${safeText(e.note||t(e.category))}</b><small>${t(e.category)} · ${e.date}</small></div><div><b>${money(e.amount)}</b><br><button class="danger" onclick="removeExpense('${e.id}')">Delete</button></div></div>`
-).join("");
-}
-}
-
-function removeExpense(id){
-data.expenses=data.expenses.filter(e=>e.id!==id);
-save();render();
-}
-
-function applyLanguage(){
-lang=$("language").value;
-localStorage.setItem("costAlarmLang",lang);
-$("budgetTitle").textContent=t("budget");
-$("budgetLabel").textContent=t("budget");
-$("budgetText").textContent=t("budget");
-$("spentText").textContent=t("spent");
-$("remainingText").textContent=t("remaining");
-$("saveBudget").textContent=t("save");
-$("addExpense").textContent=t("add");
-$("historyTitle").textContent=t("history");
-$("analyze").textContent=t("analyze");
-[...$("category").options].forEach(o=>o.textContent=t(o.value));
-document.documentElement.lang=lang;
-document.documentElement.dir=lang==="ar"?"rtl":"ltr";
-render();
-}
-
-$("language").value=lang;
-$("language").onchange=applyLanguage;
-$("currency").onchange=()=>{data.currency=$("currency").value;save();render()};
-
-$("saveBudget").onclick=()=>{
-data.budget=Math.max(0,Number($("budget").value)||0);
-data.currency=$("currency").value;
-save();render();alert("Budget saved");
-};
-
-$("addExpense").onclick=()=>{
-let amount=Number($("amount").value);
-if(!amount||amount<=0){alert("সঠিক পরিমাণ লিখুন");return}
-data.expenses.push({
-id:Date.now().toString(),
-amount,
-category:$("category").value,
-note:$("note").value.trim(),
-date:new Date().toLocaleDateString()
-});
-$("amount").value="";
-$("note").value="";
-save();render();
-};
-
-$("clear").onclick=()=>{
-if(confirm("সব হিসাব মুছে ফেলবেন?")){
-data={budget:0,currency:$("currency").value,expenses:[]};
-save();render();
+const translations = {
+"bn":{
+subtitle:"আপনার আয়-ব্যয় ও বাজেটের সহজ হিসাব",language:"ভাষা",currency:"মুদ্রা",currencyHint:"মুদ্রা পরিবর্তন করলে শুধু প্রদর্শনের চিহ্ন/ফরম্যাট বদলাবে; আগের টাকার অঙ্ক স্বয়ংক্রিয়ভাবে রূপান্তর হবে না।",
+budgetTitle:"মাসিক বাজেট",budgetLabel:"আপনার মাসিক বাজেট",saveBudget:"বাজেট সংরক্ষণ",budget:"মাসিক বাজেট",income:"এই মাসের আয়",spent:"এই মাসের খরচ",remaining:"বাজেটের অবশিষ্ট",setBudget:"বাজেট সেট করুন।",safe:"আপনি বাজেটের মধ্যে আছেন।",warn:"সতর্কতা: বাজেটের ৭৫% বা তার বেশি খরচ হয়েছে।",over:"সতর্কতা: আপনার বাজেট অতিক্রম হয়েছে।",
+addExpenseTitle:"নতুন খরচ যোগ করুন",expenseAmount:"খরচের পরিমাণ",category:"খরচের ধরন",note:"বিবরণ (ঐচ্ছিক)",addExpense:"খরচ যোগ করুন",addIncomeTitle:"নতুন আয় যোগ করুন",incomeAmount:"আয়ের পরিমাণ",incomeNote:"আয়ের বিবরণ (ঐচ্ছিক)",addIncome:"আয় যোগ করুন",history:"এই মাসের লেনদেন",empty:"এই মাসে এখনো কোনো লেনদেন নেই।",delete:"মুছুন",download:"CSV রিপোর্ট ডাউনলোড",clear:"সব হিসাব মুছুন",
+assistantTitle:"স্মার্ট খরচ সহকারী",assistantIntro:"আপনার এই মাসের আয়, খরচ ও বাজেট বিশ্লেষণ করুন।",assistantStart:"বিশ্লেষণ করতে বাজেট অথবা লেনদেন যোগ করুন।",analyze:"বিশ্লেষণ করুন",question:"সহকারীকে প্রশ্ন করুন",questionPlaceholder:"যেমন: আমার মোট খরচ কত?",ask:"প্রশ্ন পাঠান",disclosure:"এটি নিয়মভিত্তিক স্মার্ট সহকারী; প্রকৃত AI API এখনো যুক্ত করা হয়নি।",
+need:"বিশ্লেষণের জন্য আগে বাজেট বা অন্তত একটি লেনদেন যোগ করুন।",top:"সবচেয়ে বেশি খরচের বিভাগ:",forecast:"মাস শেষে সম্ভাব্য খরচ:",tip:"পরামর্শ: প্রয়োজনীয় খরচ আগে রাখুন এবং অপ্রয়োজনীয় খরচ কমান।",saved:"বাজেট সংরক্ষণ হয়েছে।",invalid:"অনুগ্রহ করে শূন্যের বেশি সঠিক পরিমাণ লিখুন।",deleted:"লেনদেনটি মুছে ফেলা হয়েছে।",confirmClear:"এই ডিভাইসে সংরক্ষিত সব বাজেট ও লেনদেন মুছে ফেলবেন?",cleared:"সব হিসাব মুছে ফেলা হয়েছে।",noQuestion:"অনুগ্রহ করে একটি প্রশ্ন লিখুন।",unknown:"দুঃখিত, এই প্রশ্নটি এখনো বুঝতে পারছি না। মোট খরচ, আয়, অবশিষ্ট বাজেট, অথবা সবচেয়ে বেশি খরচের বিভাগ সম্পর্কে জিজ্ঞাসা করুন।",
+food:"খাবার",transport:"যাতায়াত",home:"বাসা",shopping:"কেনাকাটা",health:"স্বাস্থ্য",bills:"বিল",other:"অন্যান্য",expense:"খরচ",incomeType:"আয়",call:"কল করুন",mobile:"মোবাইল"
+},
+"en-GB":{
+subtitle:"A simple way to track your income, spending and budget",language:"Language",currency:"Currency",currencyHint:"Changing currency changes the display format only. Existing amounts are not automatically converted.",
+budgetTitle:"Monthly budget",budgetLabel:"Your monthly budget",saveBudget:"Save budget",budget:"Monthly budget",income:"Income this month",spent:"Spent this month",remaining:"Budget remaining",setBudget:"Set a budget to get started.",safe:"You are within budget.",warn:"Warning: 75% or more of your budget has been spent.",over:"Warning: You have exceeded your budget.",
+addExpenseTitle:"Add a new expense",expenseAmount:"Expense amount",category:"Expense category",note:"Description (optional)",addExpense:"Add expense",addIncomeTitle:"Add new income",incomeAmount:"Income amount",incomeNote:"Income description (optional)",addIncome:"Add income",history:"This month's transactions",empty:"No transactions this month yet.",delete:"Delete",download:"Download CSV report",clear:"Clear all records",
+assistantTitle:"Smart spending assistant",assistantIntro:"Review your income, spending and budget for this month.",assistantStart:"Add a budget or transaction to begin the analysis.",analyze:"Analyse",question:"Ask the assistant",questionPlaceholder:"For example: How much have I spent?",ask:"Ask",disclosure:"This is a rule-based smart assistant. A real AI API has not been connected yet.",
+need:"Add a budget or at least one transaction before analysis.",top:"Highest spending category:",forecast:"Estimated month-end spending:",tip:"Tip: Prioritise essential costs and reduce unnecessary spending.",saved:"Budget saved.",invalid:"Please enter a valid amount greater than zero.",deleted:"Transaction deleted.",confirmClear:"Delete all budgets and transactions saved on this device?",cleared:"All records have been cleared.",noQuestion:"Please enter a question.",unknown:"Sorry, I don't understand that question yet. Ask about total spending, income, remaining budget or your highest spending category.",
+food:"Food",transport:"Transport",home:"Home",shopping:"Shopping",health:"Health",bills:"Bills",other:"Other",expense:"Expense",incomeType:"Income",call:"Call",mobile:"Mobile"
+},
+"en-US":{
+subtitle:"An easy way to track income, spending, and your budget",language:"Language",currency:"Currency",currencyHint:"Changing currency only changes the display format. Existing amounts are not automatically converted.",
+budgetTitle:"Monthly budget",budgetLabel:"Your monthly budget",saveBudget:"Save budget",budget:"Monthly budget",income:"Income this month",spent:"Spent this month",remaining:"Budget remaining",setBudget:"Set a budget to get started.",safe:"You are within budget.",warn:"Warning: 75% or more of your budget has been spent.",over:"Warning: You have exceeded your budget.",
+addExpenseTitle:"Add a new expense",expenseAmount:"Expense amount",category:"Expense category",note:"Description (optional)",addExpense:"Add expense",addIncomeTitle:"Add new income",incomeAmount:"Income amount",incomeNote:"Income description (optional)",addIncome:"Add income",history:"This month's transactions",empty:"No transactions this month yet.",delete:"Delete",download:"Download CSV report",clear:"Clear all records",
+assistantTitle:"Smart spending assistant",assistantIntro:"Review this month's income, spending, and budget.",assistantStart:"Add a budget or transaction to begin the analysis.",analyze:"Analyze",question:"Ask the assistant",questionPlaceholder:"For example: How much have I spent?",ask:"Ask",disclosure:"This is a rule-based smart assistant. A real AI API has not been connected yet.",
+need:"Add a budget or at least one transaction before analysis.",top:"Highest spending category:",forecast:"Estimated month-end spending:",tip:"Tip: Prioritize essential costs and reduce unnecessary spending.",saved:"Budget saved.",invalid:"Please enter a valid amount greater than zero.",deleted:"Transaction deleted.",confirmClear:"Delete all budgets and transactions saved on this device?",cleared:"All records have been cleared.",noQuestion:"Please enter a question.",unknown:"Sorry, I don't understand that question yet. Ask about total spending, income, remaining budget, or your highest spending category.",
+food:"Food",transport:"Transportation",home:"Home",shopping:"Shopping",health:"Health",bills:"Bills",other:"Other",expense:"Expense",incomeType:"Income",call:"Call",mobile:"Mobile"
+},
+"ar":{
+subtitle:"طريقة سهلة لمتابعة الدخل والمصروفات والميزانية",language:"اللغة",currency:"العملة",currencyHint:"تغيير العملة يغيّر طريقة العرض فقط، ولا يحوّل المبالغ السابقة تلقائياً.",
+budgetTitle:"الميزانية الشهرية",budgetLabel:"ميزانيتك الشهرية",saveBudget:"حفظ الميزانية",budget:"الميزانية الشهرية",income:"دخل هذا الشهر",spent:"مصروف هذا الشهر",remaining:"المتبقي من الميزانية",setBudget:"حدد ميزانية للبدء.",safe:"أنت ضمن الميزانية.",warn:"تحذير: تم إنفاق 75٪ أو أكثر من الميزانية.",over:"تحذير: لقد تجاوزت الميزانية.",
+addExpenseTitle:"إضافة مصروف جديد",expenseAmount:"قيمة المصروف",category:"فئة المصروف",note:"الوصف (اختياري)",addExpense:"إضافة مصروف",addIncomeTitle:"إضافة دخل جديد",incomeAmount:"قيمة الدخل",incomeNote:"وصف الدخل (اختياري)",addIncome:"إضافة دخل",history:"معاملات هذا الشهر",empty:"لا توجد معاملات هذا الشهر بعد.",delete:"حذف",download:"تنزيل تقرير CSV",clear:"مسح جميع السجلات",
+assistantTitle:"مساعد الإنفاق الذكي",assistantIntro:"راجع دخلك ومصروفاتك وميزانيتك لهذا الشهر.",assistantStart:"أضف ميزانية أو معاملة لبدء التحليل.",analyze:"تحليل",question:"اسأل المساعد",questionPlaceholder:"مثال: كم أنفقت؟",ask:"إرسال السؤال",disclosure:"هذا مساعد ذكي قائم على القواعد. لم يتم ربط واجهة AI حقيقية بعد.",
+need:"أضف ميزانية أو معاملة واحدة على الأقل قبل التحليل.",top:"أعلى فئة إنفاق:",forecast:"الإنفاق المتوقع في نهاية الشهر:",tip:"نصيحة: أعطِ الأولوية للنفقات الضرورية وقلل غير الضروري.",saved:"تم حفظ الميزانية.",invalid:"يرجى إدخال مبلغ صحيح أكبر من صفر.",deleted:"تم حذف المعاملة.",confirmClear:"هل تريد حذف جميع الميزانيات والمعاملات المحفوظة على هذا الجهاز؟",cleared:"تم مسح جميع السجلات.",noQuestion:"يرجى كتابة سؤال.",unknown:"عذراً، لا أفهم هذا السؤال بعد. اسأل عن إجمالي الإنفاق أو الدخل أو المتبقي أو أعلى فئة إنفاق.",
+food:"طعام",transport:"مواصلات",home:"المنزل",shopping:"تسوق",health:"الصحة",bills:"فواتير",other:"أخرى",expense:"مصروف",incomeType:"دخل",call:"اتصال",mobile:"الهاتف"
+},
+"fr":{
+subtitle:"Suivez simplement vos revenus, dépenses et votre budget",language:"Langue",currency:"Devise",currencyHint:"Changer la devise modifie uniquement l'affichage. Les montants existants ne sont pas convertis automatiquement.",
+budgetTitle:"Budget mensuel",budgetLabel:"Votre budget mensuel",saveBudget:"Enregistrer le budget",budget:"Budget mensuel",income:"Revenus du mois",spent:"Dépenses du mois",remaining:"Budget restant",setBudget:"Définissez un budget pour commencer.",safe:"Vous respectez votre budget.",warn:"Attention : 75 % ou plus du budget a été dépensé.",over:"Attention : votre budget est dépassé.",
+addExpenseTitle:"Ajouter une dépense",expenseAmount:"Montant de la dépense",category:"Catégorie de dépense",note:"Description (facultatif)",addExpense:"Ajouter la dépense",addIncomeTitle:"Ajouter un revenu",incomeAmount:"Montant du revenu",incomeNote:"Description du revenu (facultatif)",addIncome:"Ajouter le revenu",history:"Transactions du mois",empty:"Aucune transaction ce mois-ci.",delete:"Supprimer",download:"Télécharger le rapport CSV",clear:"Effacer toutes les données",
+assistantTitle:"Assistant de dépenses intelligent",assistantIntro:"Analysez vos revenus, dépenses et budget du mois.",assistantStart:"Ajoutez un budget ou une transaction pour commencer.",analyze:"Analyser",question:"Interroger l'assistant",questionPlaceholder:"Exemple : combien ai-je dépensé ?",ask:"Envoyer",disclosure:"Cet assistant fonctionne avec des règles. Aucune véritable API IA n'est encore connectée.",
+need:"Ajoutez un budget ou au moins une transaction avant l'analyse.",top:"Catégorie la plus dépensière :",forecast:"Dépenses estimées en fin de mois :",tip:"Conseil : privilégiez les dépenses essentielles et réduisez les dépenses inutiles.",saved:"Budget enregistré.",invalid:"Veuillez saisir un montant valide supérieur à zéro.",deleted:"Transaction supprimée.",confirmClear:"Supprimer tous les budgets et transactions enregistrés sur cet appareil ?",cleared:"Toutes les données ont été effacées.",noQuestion:"Veuillez saisir une question.",unknown:"Désolé, je ne comprends pas encore cette question. Demandez le total des dépenses, les revenus, le budget restant ou la catégorie principale.",
+food:"Nourriture",transport:"Transport",home:"Maison",shopping:"Achats",health:"Santé",bills:"Factures",other:"Autre",expense:"Dépense",incomeType:"Revenu",call:"Appeler",mobile:"Téléphone"
+},
+"de":{
+subtitle:"Behalten Sie Einnahmen, Ausgaben und Budget einfach im Blick",language:"Sprache",currency:"Währung",currencyHint:"Ein Währungswechsel ändert nur die Anzeige. Vorhandene Beträge werden nicht automatisch umgerechnet.",
+budgetTitle:"Monatsbudget",budgetLabel:"Ihr Monatsbudget",saveBudget:"Budget speichern",budget:"Monatsbudget",income:"Einnahmen in diesem Monat",spent:"Ausgaben in diesem Monat",remaining:"Verbleibendes Budget",setBudget:"Legen Sie zunächst ein Budget fest.",safe:"Sie liegen innerhalb Ihres Budgets.",warn:"Warnung: 75 % oder mehr Ihres Budgets wurden ausgegeben.",over:"Warnung: Sie haben Ihr Budget überschritten.",
+addExpenseTitle:"Neue Ausgabe hinzufügen",expenseAmount:"Ausgabenbetrag",category:"Ausgabenkategorie",note:"Beschreibung (optional)",addExpense:"Ausgabe hinzufügen",addIncomeTitle:"Neue Einnahme hinzufügen",incomeAmount:"Einnahmenbetrag",incomeNote:"Beschreibung der Einnahme (optional)",addIncome:"Einnahme hinzufügen",history:"Transaktionen dieses Monats",empty:"In diesem Monat gibt es noch keine Transaktionen.",delete:"Löschen",download:"CSV-Bericht herunterladen",clear:"Alle Einträge löschen",
+assistantTitle:"Intelligenter Ausgabenassistent",assistantIntro:"Analysieren Sie Ihre Einnahmen, Ausgaben und Ihr Budget für diesen Monat.",assistantStart:"Fügen Sie ein Budget oder eine Transaktion hinzu, um zu beginnen.",analyze:"Analysieren",question:"Fragen Sie den Assistenten",questionPlaceholder:"Zum Beispiel: Wie viel habe ich ausgegeben?",ask:"Frage senden",disclosure:"Dieser Assistent arbeitet regelbasiert. Eine echte KI-API ist noch nicht verbunden.",
+need:"Fügen Sie vor der Analyse ein Budget oder mindestens eine Transaktion hinzu.",top:"Ausgabenkategorie mit den höchsten Kosten:",forecast:"Geschätzte Ausgaben am Monatsende:",tip:"Tipp: Priorisieren Sie notwendige Ausgaben und reduzieren Sie unnötige Kosten.",saved:"Budget gespeichert.",invalid:"Bitte geben Sie einen gültigen Betrag größer als null ein.",deleted:"Transaktion gelöscht.",confirmClear:"Alle auf diesem Gerät gespeicherten Budgets und Transaktionen löschen?",cleared:"Alle Einträge wurden gelöscht.",noQuestion:"Bitte geben Sie eine Frage ein.",unknown:"Diese Frage verstehe ich noch nicht. Fragen Sie nach Gesamtausgaben, Einnahmen, Restbudget oder der höchsten Ausgabenkategorie.",
+food:"Essen",transport:"Transport",home:"Wohnen",shopping:"Einkaufen",health:"Gesundheit",bills:"Rechnungen",other:"Sonstiges",expense:"Ausgabe",incomeType:"Einnahme",call:"Anrufen",mobile:"Mobil"
+},
+"it":{
+subtitle:"Tieni sotto controllo entrate, spese e budget",language:"Lingua",currency:"Valuta",currencyHint:"Cambiare valuta modifica solo la visualizzazione. Gli importi esistenti non vengono convertiti automaticamente.",
+budgetTitle:"Budget mensile",budgetLabel:"Il tuo budget mensile",saveBudget:"Salva budget",budget:"Budget mensile",income:"Entrate del mese",spent:"Spese del mese",remaining:"Budget rimanente",setBudget:"Imposta un budget per iniziare.",safe:"Sei entro il budget.",warn:"Attenzione: hai speso almeno il 75% del budget.",over:"Attenzione: hai superato il budget.",
+addExpenseTitle:"Aggiungi una spesa",expenseAmount:"Importo della spesa",category:"Categoria della spesa",note:"Descrizione (facoltativa)",addExpense:"Aggiungi spesa",addIncomeTitle:"Aggiungi un'entrata",incomeAmount:"Importo dell'entrata",incomeNote:"Descrizione dell'entrata (facoltativa)",addIncome:"Aggiungi entrata",history:"Transazioni di questo mese",empty:"Nessuna transazione questo mese.",delete:"Elimina",download:"Scarica rapporto CSV",clear:"Cancella tutti i dati",
+assistantTitle:"Assistente intelligente alle spese",assistantIntro:"Analizza entrate, spese e budget di questo mese.",assistantStart:"Aggiungi un budget o una transazione per iniziare.",analyze:"Analizza",question:"Chiedi all'assistente",questionPlaceholder:"Ad esempio: quanto ho speso?",ask:"Invia domanda",disclosure:"Questo assistente usa regole. Non è ancora collegata una vera API di IA.",
+need:"Aggiungi un budget o almeno una transazione prima dell'analisi.",top:"Categoria con la spesa maggiore:",forecast:"Spesa prevista a fine mese:",tip:"Suggerimento: dai priorità alle spese essenziali e riduci quelle superflue.",saved:"Budget salvato.",invalid:"Inserisci un importo valido maggiore di zero.",deleted:"Transazione eliminata.",confirmClear:"Eliminare tutti i budget e le transazioni salvati su questo dispositivo?",cleared:"Tutti i dati sono stati cancellati.",noQuestion:"Inserisci una domanda.",unknown:"Non capisco ancora questa domanda. Chiedi delle spese totali, delle entrate, del budget rimanente o della categoria principale.",
+food:"Cibo",transport:"Trasporti",home:"Casa",shopping:"Acquisti",health:"Salute",bills:"Bollette",other:"Altro",expense:"Spesa",incomeType:"Entrata",call:"Chiama",mobile:"Telefono"
+},
+"es":{
+subtitle:"Controla fácilmente tus ingresos, gastos y presupuesto",language:"Idioma",currency:"Moneda",currencyHint:"Cambiar la moneda solo modifica el formato de visualización. Los importes existentes no se convierten automáticamente.",
+budgetTitle:"Presupuesto mensual",budgetLabel:"Tu presupuesto mensual",saveBudget:"Guardar presupuesto",budget:"Presupuesto mensual",income:"Ingresos de este mes",spent:"Gastos de este mes",remaining:"Presupuesto restante",setBudget:"Establece un presupuesto para comenzar.",safe:"Estás dentro del presupuesto.",warn:"Aviso: has gastado el 75 % o más del presupuesto.",over:"Aviso: has superado el presupuesto.",
+addExpenseTitle:"Añadir un gasto",expenseAmount:"Importe del gasto",category:"Categoría del gasto",note:"Descripción (opcional)",addExpense:"Añadir gasto",addIncomeTitle:"Añadir un ingreso",incomeAmount:"Importe del ingreso",incomeNote:"Descripción del ingreso (opcional)",addIncome:"Añadir ingreso",history:"Transacciones de este mes",empty:"Todavía no hay transacciones este mes.",delete:"Eliminar",download:"Descargar informe CSV",clear:"Borrar todos los registros",
+assistantTitle:"Asistente inteligente de gastos",assistantIntro:"Analiza tus ingresos, gastos y presupuesto de este mes.",assistantStart:"Añade un presupuesto o una transacción para comenzar.",analyze:"Analizar",question:"Pregunta al asistente",questionPlaceholder:"Por ejemplo: ¿Cuánto he gastado?",ask:"Enviar pregunta",disclosure:"Este asistente funciona con reglas. Todavía no hay una API de IA real conectada.",
+need:"Añade un presupuesto o al menos una transacción antes del análisis.",top:"Categoría con más gastos:",forecast:"Gasto estimado al final del mes:",tip:"Consejo: prioriza los gastos esenciales y reduce los innecesarios.",saved:"Presupuesto guardado.",invalid:"Introduce un importe válido mayor que cero.",deleted:"Transacción eliminada.",confirmClear:"¿Eliminar todos los presupuestos y transacciones guardados en este dispositivo?",cleared:"Se han borrado todos los registros.",noQuestion:"Escribe una pregunta.",unknown:"Todavía no entiendo esa pregunta. Pregunta por los gastos totales, ingresos, presupuesto restante o la categoría con más gastos.",
+food:"Comida",transport:"Transporte",home:"Hogar",shopping:"Compras",health:"Salud",bills:"Facturas",other:"Otros",expense:"Gasto",incomeType:"Ingreso",call:"Llamar",mobile:"Móvil"
+},
+"pt":{
+subtitle:"Acompanhe facilmente suas receitas, despesas e orçamento",language:"Idioma",currency:"Moeda",currencyHint:"Alterar a moeda muda apenas a apresentação. Os valores existentes não são convertidos automaticamente.",
+budgetTitle:"Orçamento mensal",budgetLabel:"Seu orçamento mensal",saveBudget:"Guardar orçamento",budget:"Orçamento mensal",income:"Receitas deste mês",spent:"Despesas deste mês",remaining:"Orçamento restante",setBudget:"Defina um orçamento para começar.",safe:"Está dentro do orçamento.",warn:"Atenção: 75% ou mais do orçamento foi gasto.",over:"Atenção: o orçamento foi ultrapassado.",
+addExpenseTitle:"Adicionar uma despesa",expenseAmount:"Valor da despesa",category:"Categoria da despesa",note:"Descrição (opcional)",addExpense:"Adicionar despesa",addIncomeTitle:"Adicionar receita",incomeAmount:"Valor da receita",incomeNote:"Descrição da receita (opcional)",addIncome:"Adicionar receita",history:"Transações deste mês",empty:"Ainda não há transações neste mês.",delete:"Excluir",download:"Baixar relatório CSV",clear:"Apagar todos os registros",
+assistantTitle:"Assistente inteligente de despesas",assistantIntro:"Analise suas receitas, despesas e orçamento deste mês.",assistantStart:"Adicione um orçamento ou uma transação para começar.",analyze:"Analisar",question:"Pergunte ao assistente",questionPlaceholder:"Por exemplo: quanto eu gastei?",ask:"Enviar pergunta",disclosure:"Este assistente funciona com regras. Uma API de IA real ainda não foi conectada.",
+need:"Adicione um orçamento ou pelo menos uma transação antes da análise.",top:"Categoria com maiores gastos:",forecast:"Despesa estimada no fim do mês:",tip:"Dica: priorize despesas essenciais e reduza as desnecessárias.",saved:"Orçamento salvo.",invalid:"Digite um valor válido maior que zero.",deleted:"Transação excluída.",confirmClear:"Apagar todos os orçamentos e transações salvos neste dispositivo?",cleared:"Todos os registros foram apagados.",noQuestion:"Digite uma pergunta.",unknown:"Ainda não entendi essa pergunta. Pergunte sobre despesas totais, receitas, orçamento restante ou categoria com maiores gastos.",
+food:"Comida",transport:"Transporte",home:"Casa",shopping:"Compras",health:"Saúde",bills:"Contas",other:"Outros",expense:"Despesa",incomeType:"Receita",call:"Ligar",mobile:"Celular"
+},
+"nl":{
+subtitle:"Houd eenvoudig uw inkomsten, uitgaven en budget bij",language:"Taal",currency:"Valuta",currencyHint:"Een andere valuta verandert alleen de weergave. Bestaande bedragen worden niet automatisch omgerekend.",
+budgetTitle:"Maandbudget",budgetLabel:"Uw maandbudget",saveBudget:"Budget opslaan",budget:"Maandbudget",income:"Inkomsten deze maand",spent:"Uitgaven deze maand",remaining:"Resterend budget",setBudget:"Stel een budget in om te beginnen.",safe:"U blijft binnen uw budget.",warn:"Waarschuwing: 75% of meer van uw budget is uitgegeven.",over:"Waarschuwing: u heeft uw budget overschreden.",
+addExpenseTitle:"Nieuwe uitgave toevoegen",expenseAmount:"Bedrag van de uitgave",category:"Categorie van de uitgave",note:"Omschrijving (optioneel)",addExpense:"Uitgave toevoegen",addIncomeTitle:"Nieuwe inkomsten toevoegen",incomeAmount:"Bedrag van de inkomsten",incomeNote:"Omschrijving van inkomsten (optioneel)",addIncome:"Inkomsten toevoegen",history:"Transacties van deze maand",empty:"Deze maand zijn er nog geen transacties.",delete:"Verwijderen",download:"CSV-rapport downloaden",clear:"Alle gegevens wissen",
+assistantTitle:"Slimme uitgavenassistent",assistantIntro:"Bekijk uw inkomsten, uitgaven en budget van deze maand.",assistantStart:"Voeg een budget of transactie toe om te beginnen.",analyze:"Analyseren",question:"Stel de assistent een vraag",questionPlaceholder:"Bijvoorbeeld: hoeveel heb ik uitgegeven?",ask:"Vraag versturen",disclosure:"Dit is een regelgebaseerde slimme assistent. Er is nog geen echte AI-API gekoppeld.",
+need:"Voeg een budget of minstens één transactie toe voordat u analyseert.",top:"Categorie met de hoogste uitgaven:",forecast:"Geschatte uitgaven aan het einde van de maand:",tip:"Tip: geef prioriteit aan noodzakelijke uitgaven en beperk onnodige kosten.",saved:"Budget opgeslagen.",invalid:"Voer een geldig bedrag groter dan nul in.",deleted:"Transactie verwijderd.",confirmClear:"Alle budgetten en transacties op dit apparaat verwijderen?",cleared:"Alle gegevens zijn gewist.",noQuestion:"Voer een vraag in.",unknown:"Sorry, ik begrijp deze vraag nog niet. Vraag naar totale uitgaven, inkomsten, resterend budget of de categorie met de hoogste uitgaven.",
+food:"Eten",transport:"Vervoer",home:"Wonen",shopping:"Winkelen",health:"Gezondheid",bills:"Rekeningen",other:"Overig",expense:"Uitgave",incomeType:"Inkomsten",call:"Bellen",mobile:"Mobiel"
 }
 };
-
-$("download").onclick=()=>{
-let rows=[["Date","Category","Description","Amount","Currency"],
-...data.expenses.map(e=>[e.date,e.category,e.note,e.amount,data.currency])];
-let csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n");
-let a=document.createElement("a");
-a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));
-a.download="cost-alarm-report.csv";
-a.click();
-URL.revokeObjectURL(a.href);
-};
-
-function analyze(){
-let sum=total();
-if(!data.budget||!data.expenses.length){
-$("assistantReply").textContent=t("need");return;
-}
-let categories={};
-data.expenses.forEach(e=>categories[e.category]=(categories[e.category]||0)+e.amount);
-let top=Object.entries(categories).sort((a,b)=>b[1]-a[1])[0];
-let day=new Date().getDate();
-let days=new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate();
-let forecast=day?sum/day*days:sum;
-let status=sum>data.budget?t("over"):sum>=data.budget*.75?t("warn"):t("safe");
-$("assistantReply").textContent=
-status+"\n"+t("top")+" "+t(top[0])+" ("+money(top[1])+")\n"+
-t("forecast")+" "+money(forecast)+"\n"+t("tip");
-}
-
-$("analyze").onclick=analyze;
-
-$("askAI").onclick=()=>{
-let q=$("aiQuestion").value.toLowerCase().trim();
-if(!q){analyze();return}
-if(!data.budget||!data.expenses.length){
-$("assistantReply").textContent=t("need");return;
-}
-let sum=total(),left=data.budget-sum;
-let categories={};
-data.expenses.forEach(e=>categories[e.category]=(categories[e.category]||0)+e.amount);
-let top=Object.entries(categories).sort((a,b)=>b[1]-a[1])[0];
-let day=new Date().getDate();
-let days=new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate();
-let forecast=day?sum/day*days:sum;
-if(/বাকি|অবশিষ্ট|remaining|left|over/.test(q)){
-$("assistantReply").textContent=t("remaining")+": "+money(left);
-}else if(/বাজেট|budget/.test(q)){
-$("assistantReply").textContent=t("budget")+": "+money(data.budget)+"\n"+t("spent")+": "+money(sum);
-}else if(/আগামী|অনুমান|forecast|predict|estimate|মাস শেষে/.test(q)){
-$("assistantReply").textContent=t("forecast")+" "+money(forecast);
-}else if(/বেশি|কোন খাতে|highest|category|most/.test(q)){
-$("assistantReply").textContent=t("top")+" "+t(top[0])+" ("+money(top[1])+")";
-}else if(/খরচ|spent|expense/.test(q)){
-$("assistantReply").textContent=t("spent")+": "+money(sum);
-}else{
-analyze();
-}
-};
-$("aiQuestion").addEventListener("keydown",e=>{if(e.key==="Enter")$("askAI").click()});
-
-applyLanguage();
-render();
-</script>
-</body>
-</html>
