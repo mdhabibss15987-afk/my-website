@@ -1,88 +1,78 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="hfuqSklG5FlxD3rpXHG-gSVT1YdgVQy6-VWXMHvyjWc" />
-<meta name="description" content="Cost Alarm Software - Save Money. USA UK Europe Arabic Pakistan Bangladesh. Price Only $10.">
-<title>Cost Alarm Software - Save Money | $10</title>
+<title>Cost Alarm Software - Save Money</title>
 <style>
-body{background:#f0f2f5;font-family:sans-serif;margin:0;padding:12px;text-align:center}
-.box{background:white;padding:20px;border-radius:20px;max-width:580px;margin:auto}
-.top-phone{background:#1877f2;color:white;padding:12px;border-radius:12px;font-size:19px;font-weight:bold}
-.lang-btn{padding:8px 11px;margin:3px;border:1px solid #1877f2;border-radius:20px;background:white;cursor:pointer;font-size:13px}
+body{background:#f0f2f5;font-family:sans-serif;margin:0;padding:15px}
+.box{background:white;padding:20px;border-radius:12px;margin-bottom:15px}
+.top-phone{background:#1877f2;color:white;padding:12px;text-align:center;border-radius:10px;font-weight:bold;font-size:18px}
+.lang-btn{padding:8px 11px;margin:3px;border:1px solid #ccc;border-radius:8px;background:white}
 .lang-btn.active{background:#1877f2;color:white}
-.price-box{background:#FFF3CD;padding:15px;border-radius:15px;border:2px dashed #FF9800;margin:15px 0}
-.feature{background:#EEF6FF;padding:12px;border-radius:12px;margin:8px 0;text-align:left}
-.review{background:#F0FFF0;padding:12px;border-radius:12px;margin:8px 0;text-align:left}
-input{width:90%;padding:12px;margin:8px;border:1px solid #ccc;border-radius:10px;font-size:16px}
-.main-btn{background:#1877f2;color:white;padding:13px 25px;border:none;border-radius:30px;font-size:17px;font-weight:bold;cursor:pointer}
-#alarm{display:none;background:#ff3333;color:white;padding:15px;border-radius:15px;margin-top:15px;font-weight:bold;font-size:18px}
-#ok{display:none;background:#25D366;color:white;padding:15px;border-radius:15px;margin-top:15px;font-weight:bold}
-.whatsapp-btn{display:block;background:#25D366;color:white;padding:16px;border-radius:30px;text-decoration:none;font-weight:bold;margin:15px 0;font-size:19px}
-.pay-box{background:#f8f8f8;padding:12px;border-radius:12px;font-size:14px}
-.big-phone{font-size:22px;font-weight:bold;color:#1877f2}
+.feature{background:#EEF6FF;padding:12px;border-radius:10px;margin-top:10px}
+.price-box{background:#FFF3CD;padding:15px;border-radius:10px}
+input{padding:10px;width:150px;border:1px solid #ccc;border-radius:8px}
+button{padding:10px 15px;background:#1877f2;color:white;border:none;border-radius:8px}
+.call-btn{display:block;background:#25D366;color:white;text-align:center;padding:12px;border-radius:10px;text-decoration:none;font-weight:bold;margin-top:10px}
 </style>
 </head>
 <body>
+
+<div class="top-phone">Cost Alarm Software - Call: 01917716922</div>
+
 <div class="box">
-<div class="top-phone">📞 Call / WhatsApp: +8801917716922<br>MD Habib - 24 Hours Online</div>
-<h2>🌍 Choose Language / ভাষা বাছুন / اختر اللغة</h2>
-<p>Available Languages: English USA, English UK, Arabic, French France, German Europe, Spanish Europe, Italian Europe, Urdu Pakistan, Bangla</p>
-<button class="lang-btn active" onclick="setLang('en',this)">English - USA 🇺🇸</button>
-<button class="lang-btn" onclick="setLang('uk',this)">English - UK 🇬🇧</button>
-<button class="lang-btn" onclick="setLang('ar',this)">Arabic - العربية 🇸🇦</button>
-<button class="lang-btn" onclick="setLang('fr',this)">Francais - France 🇫🇷</button>
-<button class="lang-btn" onclick="setLang('de',this)">Deutsch - Germany / Europe 🇩🇪</button>
-<button class="lang-btn" onclick="setLang('es',this)">Espanol - Spain / Europe 🇪🇸</button>
-<button class="lang-btn" onclick="setLang('it',this)">Italiano - Italy / Europe 🇮🇹</button>
-<button class="lang-btn" onclick="setLang('ur',this)">Urdu - Pakistan 🇵🇰</button>
-<button class="lang-btn" onclick="setLang('bn',this)">বাংলা - Bangladesh 🇧🇩</button>
-<h1 id="t1">Cost Alarm Software</h1>
-<p id="t2">For USA, UK, Europe, Arabic, Pakistan, Bangladesh. If your cost increases, this software will ALARM you instantly.</p>
-<div class="price-box"><h2>Price: Only $10 One Time</h2><p id="tPrice">No Monthly Fee - Lifetime Use - 100% Safe</p><p class="big-phone">📞 +8801917716922</p></div>
-<div class="feature">✅ <b id="f1">Save Money:</b> <span id="f1d">Know before your cost becomes high.</span></div>
-<div class="feature">🔔 <b id="f2">Instant Alarm:</b> <span id="f2d">Red alarm when cost is over limit.</span></div>
-<div class="feature">🌍 <b id="f3">For All Countries:</b> <span id="f3d">USA, UK, Europe, Arabic, Pakistan, Bangladesh - All can use.</span></div>
-<div class="review">⭐ <span id="tReview">Customer Review: Very Good Software - It saved my money!</span></div>
-<h3 id="tTest">FREE TEST - Try Now</h3>
-<p><b id="t3">Your Monthly Limit ($):</b></p><input id="limit" type="number" placeholder="Example: 100">
-<p><b id="t4">Today Your Cost ($):</b></p><input id="cost" type="number" placeholder="Example: 150"><br><br>
-<button class="main-btn" onclick="check()" id="t5">Check My Cost - FREE TEST</button>
-<div id="alarm">ALARM! Your cost is HIGH!</div>
-<div id="ok">OK. Your cost is normal.</div>
-<h3 id="tHow">How To Buy?</h3>
-<p id="tHowD">1. Click Buy Now button below<br>2. Send message on WhatsApp<br>3. Pay and get software</p>
-<div class="pay-box"><b>Payment Methods:</b><br>USA / UK / Europe: Wise, PayPal<br>Arabic Countries: PayPal, Wise<br>Pakistan / Bangladesh: bKash, Nagad, Bank Transfer</div>
-<p id="t6">Do you want this Alarm Software? Buy Now:</p>
-<a class="whatsapp-btn" href="https://wa.me/8801917716922">Buy Now - WhatsApp MD Habib</a>
-<p><b class="big-phone">Mobile: +8801917716922</b><br><b>Mobile: 01917716922</b><br>Owner: MD Habib<br>24 Hours Online - Fast Reply</p>
-<p style="font-size:12px;color:#777">© 2026 Cost Alarm Software - MD Habib. All Rights Reserved.</p>
+<h2>Cost Alarm</h2>
+<p>তোমার খরচ বেশি হলে এই সফটওয়্যার তোমাকে আগেই সাবধান করে দিবে।</p>
+
+<p><b>ভাষা বাছো / Select Language:</b></p>
+<button class="lang-btn active">বাংলা</button>
+<button class="lang-btn">English (UK)</button>
+<button class="lang-btn">Italiano (Italy)</button>
+<button class="lang-btn">العربية (Arabic)</button>
+<button class="lang-btn">Français (France)</button>
+<button class="lang-btn">Deutsch (Germany)</button>
+<button class="lang-btn">Español (Spain)</button>
+<button class="lang-btn">Português (Portugal)</button>
+<button class="lang-btn">Nederlands</button>
+
+<div class="feature">✅ দৈনিক খরচের হিসাব</div>
+<div class="feature">✅ বাজেট শেষ হওয়ার আগে অ্যালার্ম</div>
+<div class="feature">✅ মাস শেষে রিপোর্ট</div>
+<div class="feature">✅ UK, Italy, Arabic, European সব ভাষা সাপোর্ট</div>
 </div>
+
+<div class="box">
+<h2>স্মার্ট খরচ ক্যালকুলেটর + ছোট AI</h2>
+<p>হাতে লিখে হিসাব রাখো, AI তোমাকে বাঁচাতে সাহায্য করবে। একদম ফ্রি।</p>
+<p>আজকের খরচ: <input type="number" id="khoroch" placeholder="টাকা লিখো"> <button onclick="check()">চেক করো</button></p>
+<p id="result" style="font-weight:bold"></p>
 <script>
-const L = {
-en:{t1:"Cost Alarm Software",t2:"For USA, UK, Europe, Arabic, Pakistan, Bangladesh. If your cost increases, this software will ALARM you instantly.",tPrice:"No Monthly Fee - Lifetime Use - 100% Safe",f1:"Save Money:",f1d:"Know before your cost becomes high.",f2:"Instant Alarm:",f2d:"Red alarm when cost is over limit.",f3:"For All Countries:",f3d:"USA, UK, Europe, Arabic, Pakistan, Bangladesh - All can use.",tReview:"Customer Review: Very Good Software - It saved my money!",tTest:"FREE TEST - Try Now",t3:"Your Monthly Limit ($):",t4:"Today Your Cost ($):",t5:"Check My Cost - FREE TEST",tHow:"How To Buy?",tHowD:"1. Click Buy Now button below<br>2. Send message on WhatsApp<br>3. Pay and get software",t6:"Do you want this Alarm Software? Buy Now:"},
-uk:{t1:"Cost Alarm Software - UK",t2:"For UK, USA and Europe. If your cost goes up, this software will ALARM you instantly.",tPrice:"No Monthly Fee - Lifetime Use - 100% Safe - UK Support",f1:"Save Money:",f1d:"Know before your cost becomes high in UK.",f2:"Instant Alarm:",f2d:"Red alarm when cost is over limit.",f3:"For All Countries:",f3d:"UK, USA, Europe, Arabic, Pakistan, Bangladesh - All can use.",tReview:"UK Customer: Very Good Software - It saved my money!",tTest:"FREE TEST - Try Now UK",t3:"Your Monthly Limit (£):",t4:"Today Your Cost (£):",t5:"Check My Cost - FREE TEST",tHow:"How To Buy in UK?",tHowD:"1. Click Buy Now below<br>2. Message on WhatsApp<br>3. Pay by Wise / PayPal and get software",t6:"Do you want this Alarm Software? Buy Now:"},
-ar:{t1:"برنامج إنذار التكلفة",t2:"لأمريكا وبريطانيا وأوروبا والدول العربية وباكستان وبنغلاديش. إذا زادت تكلفتك، سينبهك هذا البرنامج فورا.",tPrice:"بدون رسوم شهرية - استخدام مدى الحياة - آمن 100٪",f1:"وفّر المال:",f1d:"اعرف قبل أن تصبح تكلفتك مرتفعة.",f2:"إنذار فوري:",f2d:"إنذار أحمر عند تجاوز الحد.",f3:"لجميع الدول:",f3d:"أمريكا، بريطانيا، أوروبا، الدول العربية، باكستان، بنغلاديش - الجميع يمكنه الاستخدام.",tReview:"رأي العميل: برنامج جيد جدا - لقد وفّر أموالي!",tTest:"تجربة مجانية - جرّب الآن",t3:"حدك الشهري ($):",t4:"تكلفتك اليوم ($):",t5:"تحقق من تكلفتي - تجربة مجانية",tHow:"كيف تشتري؟",tHowD:"1. اضغط زر الشراء بالأسفل<br>2. أرسل رسالة على واتساب<br>3. ادفع واحصل على البرنامج",t6:"هل تريد برنامج الإنذار هذا؟ اشتر الآن:"},
-fr:{t1:"Logiciel Alarme Coût - France",t2:"Pour France, Europe, USA, UK, Arabe, Pakistan, Bangladesh. Si votre coût augmente, ce logiciel vous ALERTE instantanément.",tPrice:"Pas de Frais Mensuel - Utilisation à Vie - 100% Sûr",f1:"Économiser:",f1d:"Sachez avant que votre coût devienne élevé.",f2:"Alarme Instantanée:",f2d:"Alarme rouge quand le coût dépasse la limite.",f3:"Pour Tous les Pays:",f3d:"France, Europe, USA, UK, Arabe, Pakistan, Bangladesh.",tReview:"Avis Client France: Très Bon Logiciel - Il a économisé mon argent!",tTest:"TEST GRATUIT - Essayez Maintenant",t3:"Votre Limite Mensuelle (€):",t4:"Votre Coût Aujourd'hui (€):",t5:"Vérifier Mon Coût - TEST GRATUIT",tHow:"Comment Acheter?",tHowD:"1. Cliquez sur Acheter ci-dessous<br>2. Envoyez un message WhatsApp<br>3. Payez et recevez le logiciel",t6:"Voulez-vous ce logiciel d'alarme? Achetez Maintenant:"},
-de:{t1:"Kosten-Alarm Software - Deutschland / Europa",t2:"Für Deutschland, Europa, USA, UK, Arabische Länder, Pakistan, Bangladesch. Wenn Ihre Kosten steigen, warnt Sie diese Software sofort.",tPrice:"Keine Monatsgebühr - Lebenslange Nutzung - 100% Sicher",f1:"Geld Sparen:",f1d:"Wissen Sie es, bevor Ihre Kosten hoch werden.",f2:"Sofort-Alarm:",f2d:"Roter Alarm bei Überschreitung des Limits.",f3:"Für Alle Länder:",f3d:"Deutschland, Europa, USA, UK, Arabisch, Pakistan, Bangladesch.",tReview:"Kundenbewertung Deutschland: Sehr Gute Software - Sie hat mein Geld gespart!",tTest:"KOSTENLOSER TEST - Jetzt Testen",t3:"Ihr Monatliches Limit (€):",t4:"Ihre Kosten Heute (€):",t5:"Meine Kosten Prüfen - KOSTENLOSER TEST",tHow:"Wie Kaufen?",tHowD:"1. Klicken Sie unten auf Jetzt Kaufen<br>2. Nachricht auf WhatsApp senden<br>3. Bezahlen und Software erhalten",t6:"Wollen Sie diese Alarm-Software? Jetzt Kaufen:"},
-es:{t1:"Software Alarma Costo - España / Europa",t2:"Para España, Europa, USA, UK, Árabe, Pakistán, Bangladesh. Si su costo sube, este software le ALARMA al instante.",tPrice:"Sin Cuota Mensual - Uso de Por Vida - 100% Seguro",f1:"Ahorrar Dinero:",f1d:"Sepa antes de que su costo sea alto.",f2:"Alarma Instantánea:",f2d:"Alarma roja cuando el costo supera el límite.",f3:"Para Todos los Países:",f3d:"España, Europa, USA, UK, Árabe, Pakistán, Bangladesh.",tReview:"Opinión Cliente España: Muy Buen Software - ¡Me ahorró dinero!",tTest:"PRUEBA GRATIS - Prueba Ahora",t3:"Tu Límite Mensual (€):",t4:"Tu Costo Hoy (€):",t5:"Revisar Mi Costo - PRUEBA GRATIS",tHow:"¿Cómo Comprar?",tHowD:"1. Haz clic en Comprar abajo<br>2. Envía mensaje por WhatsApp<br>3. Paga y recibe el software",t6:"¿Quieres este Software de Alarma? Compra Ahora:"},
-it:{t1:"Software Allarme Costo - Italia / Europa",t2:"Per Italia, Europa, USA, UK, Arabo, Pakistan, Bangladesh. Se il tuo costo aumenta, questo software ti ALLARMA subito.",tPrice:"Nessun Costo Mensile - Uso a Vita - 100% Sicuro",f1:"Risparmia Soldi:",f1d:"Sapere prima che il tuo costo diventi alto.",f2:"Allarme Istantaneo:",f2d:"Allarme rosso quando il costo supera il limite.",f3:"Per Tutti i Paesi:",f3d:"Italia, Europa, USA, UK, Arabo, Pakistan, Bangladesh.",tReview:"Recensione Italia: Ottimo Software - Mi ha fatto risparmiare!",tTest:"PROVA GRATUITA - Prova Ora",t3:"Il Tuo Limite Mensile (€):",t4:"Il Tuo Costo Oggi (€):",t5:"Controlla Il Mio Costo - PROVA GRATUITA",tHow:"Come Comprare?",tHowD:"1. Clicca Compra Ora qui sotto<br>2. Invia messaggio su WhatsApp<br>3. Paga e ricevi il software",t6:"Vuoi questo Software di Allarme? Compra Ora:"},
-ur:{t1:"لاگت الارم سافٹ ویئر - پاکستان",t2:"امریکہ، برطانیہ، یورپ، عرب ممالک، پاکستان، بنگلہ دیش کے لیے۔ اگر آپ کی لاگت بڑھ جائے تو یہ سافٹ ویئر فوراً الارم دے گا۔",tPrice:"ماہانہ فیس نہیں - زندگی بھر استعمال - 100% محفوظ",f1:"پیسے بچائیں:",f1d:"لاگت زیادہ ہونے سے پہلے جان لیں۔",f2:"فوری الارم:",f2d:"حد سے زیادہ ہونے پر سرخ الارم۔",f3:"تمام ممالک کے لیے:",f3d:"امریکہ، برطانیہ، یورپ، عرب، پاکستان، بنگلہ دیش۔",tReview:"گاہک کا جائزہ: بہت اچھا سافٹ ویئر - اس نے میرے پیسے بچائے!",tTest:"مفت ٹیسٹ - ابھی آزمائیں",t3:"آپ کی ماہانہ حد ($):",t4:"آج آپ کی لاگت ($):",t5:"میری لاگت چیک کریں - مفت ٹیسٹ",tHow:"کیسے خریدیں؟",tHowD:"1. نیچے خریدیں بٹن پر کلک کریں<br>2. واٹس ایپ پر پیغام بھیجیں<br>3. ادائیگی کریں اور سافٹ ویئر حاصل کریں",t6:"کیا آپ یہ الارم سافٹ ویئر چاہتے ہیں؟ ابھی خریدیں:"},
-bn:{t1:"খরচের এলার্ম সফটওয়্যার",t2:"USA, UK, ইউরোপ, আরবি, পাকিস্তান, বাংলাদেশ সবার জন্য। খরচ বাড়লেই এই সফটওয়্যার সাথে সাথে এলার্ম দিবে।",tPrice:"মাসিক ফি নাই - সারাজীবন ব্যবহার - ১০০% নিরাপদ",f1:"টাকা বাঁচান:",f1d:"খরচ বেশি হওয়ার আগেই জেনে যান।",f2:"সাথে সাথে এলার্ম:",f2d:"লিমিট পার হলেই লাল এলার্ম।",f3:"সব দেশের জন্য:",f3d:"USA, UK, ইউরোপ, আরবি, পাকিস্তান, বাংলাদেশ - সবাই ব্যবহার করতে পারবে।",tReview:"কাস্টমার রিভিউ: খুব ভালো সফটওয়্যার - আমার টাকা বাঁচাইছে!",tTest:"ফ্রি টেস্ট - এখনই চেষ্টা করুন",t3:"আপনার মাসিক লিমিট (টাকা / $):",t4:"আজ আপনার খরচ (টাকা / $):",t5:"আমার খরচ চেক করুন - ফ্রি টেস্ট",tHow:"কিভাবে কিনবেন?",tHowD:"1. নিচে Buy Now বাটনে চাপ দিন<br>2. WhatsApp এ মেসেজ দিন<br>3. পেমেন্ট করে সফটওয়্যার নিন",t6:"আপনি কি এই এলার্ম সফটওয়্যার চান? এখনই কিনুন:"}
-};
-function setLang(l,btn){
-document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
-btn.classList.add('active');
-let d=L[l];
-for(let k in d){let e=document.getElementById(k); if(e) e.innerHTML=d[k];}
-}
 function check(){
-let l=document.getElementById('limit').value;
-let c=document.getElementById('cost').value;
-if(c>l){document.getElementById('alarm').style.display='block';document.getElementById('ok').style.display='none';}
-else{document.getElementById('alarm').style.display='none';document.getElementById('ok').style.display='block';}
+let t = document.getElementById('khoroch').value;
+if(t == ""){
+document.getElementById('result').innerHTML = "ভাই, আগে টাকার পরিমাণটা লিখো।";
+}
+else if(t > 2000){
+document.getElementById('result').innerHTML = "ভাই, আজ খরচ বেশি হয়ে যাচ্ছে। একটু খেয়াল কইরো।";
+} else {
+document.getElementById('result').innerHTML = "ভালো চলছে ভাই। এইভাবেই চালিয়ে যাও।";
+}
 }
 </script>
+<p>সাবধান! তোমার বাজেটের ৭৫% শেষ হলে AI তোমাকে জানিয়ে দিবে।</p>
+<p>বাজেট শেষ হয়ে গেলে AI বলবে - বাজেট শেষ হয়ে গেছে ভাই, এই মাসে আর নতুন খরচ না করাই ভালো হবে।</p>
+<p>এটা ম্যানুয়াল ক্যালকুলেটর। তুমি নিজে লিখবা, AI তোমাকে হিসাব করে সাবধান করবে।</p>
+</div>
+
+<div class="box price-box">
+<h3>প্রাইস</h3>
+<p>বেসিক - ফ্রি</p>
+<p>প্রো - সামনে আসছে</p>
+<a class="call-btn" href="tel:01917716922">📞 এখনই কল করো - 01917716922</a>
+<p style="text-align:center">মোবাইল: 01917716922</p>
+</div>
+
 </body>
 </html>
