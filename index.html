@@ -4,321 +4,508 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#123b66">
-<title>Cost Alarm - Smart Business Management</title>
+<title>Cost Alarm — Business Manager</title>
 <style>
-:root{--navy:#123b66;--blue:#1769aa;--bg:#f3f6fb;--ink:#182230;--muted:#718096;--green:#159765;--red:#dc3545;--border:#e5eaf1}
+:root {
+  --navy:#123b66;
+  --blue:#1769aa;
+  --bg:#f3f6fb;
+  --card:#fff;
+  --ink:#182230;
+  --muted:#68778a;
+  --green:#16834a;
+  --red:#d93636;
+  --border:#e4eaf1;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:linear-gradient(135deg,#123b66,#1769aa);color:white;padding:22px 16px}
-.header-inner,.container{max-width:1100px;margin:auto}
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+}
+header{
+  background:linear-gradient(135deg,#123b66,#1769aa);
+  color:white;
+  padding:22px 16px;
+}
+.header-inner{max-width:1000px;margin:auto}
 header h1{margin:0;font-size:25px}
-header p{margin:7px 0 0;font-size:13px}
-.container{padding:16px}
-.nav{display:flex;gap:8px;overflow-x:auto;margin-bottom:17px}
-.nav button{border:0;background:white;color:var(--navy);padding:12px 16px;border-radius:9px;font-weight:bold;white-space:nowrap;cursor:pointer}
-.nav button.active{background:var(--navy);color:white}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.card{background:white;padding:17px;border-radius:13px;box-shadow:0 3px 12px #1822300a;margin-bottom:15px}
-.stat-title{font-size:13px;color:var(--muted)}
-.stat-value{font-size:23px;font-weight:bold;margin-top:10px;overflow-wrap:anywhere}
-.green{color:var(--green)}.red{color:var(--red)}
-h2{font-size:19px;margin:0 0 16px}
-h3{font-size:16px;margin:0 0 13px}
-input,select,textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:15px;background:white;margin-top:6px}
-label{display:block;font-size:13px;font-weight:bold;margin-top:13px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn{border:0;padding:12px 17px;border-radius:8px;background:var(--blue);color:white;font-weight:bold;cursor:pointer;margin-top:15px}
-.btn-danger{background:var(--red)}.btn-green{background:var(--green)}
-.btn-light{background:#eaf2fa;color:var(--navy)}
-.full{width:100%}
+header p{margin:7px 0 0;color:#dcecff;font-size:14px}
+main{max-width:1000px;margin:18px auto;padding:0 13px 35px}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:16px;
+  margin-bottom:15px;
+  box-shadow:0 3px 12px #102b4b0b;
+}
+h2{font-size:18px;margin:0 0 14px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.stat{
+  padding:15px;
+  border-radius:12px;
+  background:#f7f9fc;
+  border:1px solid var(--border);
+}
+.stat small{color:var(--muted);font-size:13px}
+.stat strong{
+  display:block;
+  font-size:21px;
+  margin-top:9px;
+  overflow-wrap:anywhere;
+}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.blue{color:var(--blue)}
+label{
+  display:block;
+  font-size:14px;
+  font-weight:bold;
+  margin:12px 0 6px;
+}
+input,select{
+  width:100%;
+  padding:12px;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  font-size:16px;
+  background:white;
+  color:var(--ink);
+}
+button{
+  border:0;
+  border-radius:8px;
+  padding:12px 15px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.primary{background:var(--blue);color:white}
+.secondary{background:#e8f1fb;color:var(--navy)}
+.danger{background:#ffeded;color:var(--red)}
+button:active{transform:scale(.98)}
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.full{grid-column:1/-1}
+.actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.actions button{flex:1}
+.notice{
+  border-radius:9px;
+  padding:12px;
+  margin-top:12px;
+  font-size:14px;
+  line-height:1.6;
+  background:#eaf3ff;
+  color:#123b66;
+}
+.notice.warning{background:#fff3dd;color:#865400}
+.notice.danger-notice{background:#ffeded;color:#a52020}
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:520px}
-th,td{padding:12px 9px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}
-th{background:#f5f8fc}
+table{width:100%;border-collapse:collapse;min-width:480px}
+th,td{
+  text-align:left;
+  padding:11px 8px;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+}
+th{color:var(--muted);background:#f8fafc}
+td button{padding:7px 9px;font-size:12px}
 .empty{text-align:center;color:var(--muted);padding:25px}
-.page{display:none}.page.active{display:block}
-.badge{padding:5px 9px;border-radius:20px;font-size:11px;font-weight:bold}
-.badge-income{background:#e4f7ee;color:var(--green)}
-.badge-expense{background:#fff0f0;color:var(--red)}
-.small-btn{padding:6px 9px;border:0;border-radius:6px;background:#ffe8e8;color:var(--red);cursor:pointer}
-footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
-@media(max-width:750px){.grid{grid-template-columns:repeat(2,1fr)}.stat-value{font-size:19px}}
-@media(max-width:450px){.form-grid{grid-template-columns:1fr}.container{padding:11px}header h1{font-size:22px}}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
+@media(min-width:650px){
+  .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .form-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:380px){
+  .stat strong{font-size:18px}
+  .card{padding:13px}
+}
 </style>
 </head>
 <body>
+
 <header>
-<div class="header-inner">
-<h1>Cost Alarm</h1>
-<p>Smart Business Management System</p>
-</div>
+  <div class="header-inner">
+    <h1>Cost Alarm</h1>
+    <p>আপনার ব্যবসার আয়, খরচ ও লাভের হিসাব</p>
+  </div>
 </header>
 
-<div class="container">
-<div class="nav">
-<button class="active" onclick="showPage('dashboard',this)">ড্যাশবোর্ড</button>
-<button onclick="showPage('add',this)">আয় / খরচ</button>
-<button onclick="showPage('history',this)">হিসাবের তালিকা</button>
-<button onclick="showPage('report',this)">রিপোর্ট</button>
-<button onclick="showPage('settings',this)">সেটিংস</button>
-</div>
+<main>
 
-<section id="dashboard" class="page active">
-<div class="grid">
-<div class="card"><div class="stat-title">মোট আয়</div><div class="stat-value green" id="totalIncome">৳0</div></div>
-<div class="card"><div class="stat-title">মোট খরচ</div><div class="stat-value red" id="totalExpense">৳0</div></div>
-<div class="card"><div class="stat-title">লাভ / লোকসান</div><div class="stat-value" id="balance">৳0</div></div>
-<div class="card"><div class="stat-title">মোট লেনদেন</div><div class="stat-value" id="totalCount">0</div></div>
-</div>
-<div class="card">
-<h2>সাম্প্রতিক হিসাব</h2>
-<div class="table-wrap">
-<table>
-<thead><tr><th>তারিখ</th><th>বিবরণ</th><th>ধরন</th><th>টাকা</th></tr></thead>
-<tbody id="recentTable"></tbody>
-</table>
-</div>
-</div>
-<div class="card">
-<h3>ব্যবসার হিসাব</h3>
-<p style="font-size:13px;color:#718096;line-height:1.8">Cost Alarm দিয়ে আপনার ব্যবসার আয়, খরচ এবং লাভ-লোকসানের হিসাব সংরক্ষণ করুন।</p>
-</div>
-</section>
+  <section class="card">
+    <h2>মাস নির্বাচন</h2>
+    <input type="month" id="monthFilter">
+  </section>
 
-<section id="add" class="page">
-<div class="card">
-<h2>নতুন হিসাব যোগ করুন</h2>
-<form id="entryForm">
-<div class="form-grid">
-<div><label>হিসাবের ধরন</label><select id="type"><option value="income">আয়</option><option value="expense">খরচ</option></select></div>
-<div><label>টাকার পরিমাণ (৳)</label><input id="amount" type="number" min="0.01" step="0.01" placeholder="5000" required></div>
-</div>
-<label>বিবরণ</label>
-<input id="description" type="text" placeholder="পণ্য বিক্রি / মালামাল কেনা" required>
-<div class="form-grid">
-<div><label>ক্যাটাগরি</label><select id="category"><option>বিক্রয়</option><option>মালামাল</option><option>বেতন</option><option>ভাড়া</option><option>বিদ্যুৎ বিল</option><option>পরিবহন</option><option>অন্যান্য</option></select></div>
-<div><label>তারিখ</label><input id="date" type="date" required></div>
-</div>
-<label>অতিরিক্ত নোট</label>
-<textarea id="note" rows="2" placeholder="প্রয়োজনে লিখুন"></textarea>
-<button class="btn btn-green full" type="submit">হিসাব সংরক্ষণ করুন</button>
-</form>
-</div>
-</section>
+  <section class="grid">
+    <div class="stat">
+      <small>মোট আয়</small>
+      <strong class="green" id="totalIncome">৳০</strong>
+    </div>
+    <div class="stat">
+      <small>মোট খরচ</small>
+      <strong class="red" id="totalExpense">৳০</strong>
+    </div>
+    <div class="stat">
+      <small>লাভ / ক্ষতি</small>
+      <strong id="profit">৳০</strong>
+    </div>
+    <div class="stat">
+      <small>লেনদেন সংখ্যা</small>
+      <strong id="count">০</strong>
+    </div>
+  </section>
 
-<section id="history" class="page">
-<div class="card">
-<h2>সকল লেনদেন</h2>
-<input id="search" type="search" placeholder="বিবরণ বা ক্যাটাগরি দিয়ে খুঁজুন..." oninput="render()">
-<div class="table-wrap" style="margin-top:15px">
-<table>
-<thead><tr><th>তারিখ</th><th>বিবরণ</th><th>ক্যাটাগরি</th><th>ধরন</th><th>টাকা</th><th>মুছুন</th></tr></thead>
-<tbody id="historyTable"></tbody>
-</table>
-</div>
-</div>
-</section>
+  <section class="card">
+    <h2>মাসিক খরচের বাজেট</h2>
+    <label for="budget">এই মাসের বাজেট (টাকা)</label>
+    <input id="budget" type="number" min="0" step="0.01"
+      placeholder="যেমন: 50000">
+    <div class="actions">
+      <button class="primary" id="saveBudget">বাজেট সংরক্ষণ</button>
+    </div>
+    <div class="stat" style="margin-top:13px">
+      <small>বাজেট থেকে অবশিষ্ট</small>
+      <strong id="remaining">৳০</strong>
+      <small id="budgetStatus">বাজেট নির্ধারণ করুন</small>
+    </div>
+    <div id="alarm" class="notice">বাজেটের সতর্কতা এখানে দেখা যাবে।</div>
+  </section>
 
-<section id="report" class="page">
-<div class="card">
-<h2>মাসিক রিপোর্ট</h2>
-<label>মাস নির্বাচন করুন</label>
-<input type="month" id="reportMonth" onchange="monthlyReport()">
-<div class="grid" style="margin-top:15px">
-<div class="card"><div class="stat-title">মাসিক আয়</div><div class="stat-value green" id="monthIncome">৳0</div></div>
-<div class="card"><div class="stat-title">মাসিক খরচ</div><div class="stat-value red" id="monthExpense">৳0</div></div>
-<div class="card"><div class="stat-title">মাসিক লাভ / লোকসান</div><div class="stat-value" id="monthBalance">৳0</div></div>
-</div>
-</div>
-</section>
+  <section class="card">
+    <h2>নতুন লেনদেন যোগ করুন</h2>
+    <form id="transactionForm">
+      <div class="form-grid">
+        <div>
+          <label for="type">লেনদেনের ধরন</label>
+          <select id="type" required>
+            <option value="income">আয়</option>
+            <option value="expense">খরচ</option>
+          </select>
+        </div>
+        <div>
+          <label for="amount">টাকার পরিমাণ</label>
+          <input id="amount" type="number" min="0.01"
+            step="0.01" required placeholder="টাকার পরিমাণ">
+        </div>
+        <div>
+          <label for="date">তারিখ</label>
+          <input id="date" type="date" required>
+        </div>
+        <div class="full">
+          <label for="description">বিবরণ</label>
+          <input id="description" type="text" maxlength="100"
+            required placeholder="যেমন: পণ্য বিক্রি / দোকান ভাড়া">
+        </div>
+        <div class="full">
+          <label for="category">ক্যাটাগরি</label>
+          <select id="category">
+            <option>বিক্রয়</option>
+            <option>পণ্য ক্রয়</option>
+            <option>বেতন</option>
+            <option>ভাড়া</option>
+            <option>বিদ্যুৎ বিল</option>
+            <option>পরিবহন</option>
+            <option>অন্যান্য</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="primary" type="submit">লেনদেন সংরক্ষণ করুন</button>
+      </div>
+    </form>
+  </section>
 
-<section id="settings" class="page">
-<div class="card">
-<h2>সেটিংস ও ডাটা ব্যবস্থাপনা</h2>
-<h3>ডাটা ব্যাকআপ</h3>
-<p style="font-size:13px;color:#718096">আপনার সব হিসাব JSON ফাইল হিসেবে ডাউনলোড করুন।</p>
-<button class="btn btn-green full" onclick="backup()">ডাটা ব্যাকআপ ডাউনলোড</button>
-<h3 style="margin-top:25px">ব্যাকআপ ফিরিয়ে আনুন</h3>
-<input type="file" id="restoreFile" accept=".json,application/json">
-<button class="btn btn-light full" onclick="restore()">ব্যাকআপ আপলোড করুন</button>
-<h3 style="margin-top:25px">সব হিসাব মুছে ফেলুন</h3>
-<p style="font-size:13px;color:#718096">সতর্কতা: এই কাজ করলে সংরক্ষিত সব হিসাব মুছে যাবে। আগে ব্যাকআপ নিন।</p>
-<button class="btn btn-danger full" onclick="clearAll()">সব ডাটা মুছে ফেলুন</button>
-</div>
-</section>
-</div>
+  <section class="card">
+    <h2>লেনদেনের তালিকা</h2>
+    <div class="actions">
+      <button class="secondary" id="exportBtn">CSV রিপোর্ট ডাউনলোড</button>
+      <button class="danger" id="clearBtn">সব ডেটা মুছুন</button>
+    </div>
+    <div class="table-wrap" style="margin-top:14px">
+      <table>
+        <thead>
+          <tr>
+            <th>তারিখ</th>
+            <th>বিবরণ</th>
+            <th>ধরন</th>
+            <th>পরিমাণ</th>
+            <th>কাজ</th>
+          </tr>
+        </thead>
+        <tbody id="transactionList"></tbody>
+      </table>
+      <div id="empty" class="empty">এখনো কোনো লেনদেন যোগ করা হয়নি।</div>
+    </div>
+  </section>
 
-<footer>Cost Alarm © 2026 | Smart Business Management</footer>
+  <div class="footer">
+    Cost Alarm — Smart Business Manager<br>
+    আপনার ডেটা এই ডিভাইসের ব্রাউজারে সংরক্ষিত হয়।
+  </div>
+</main>
 
 <script>
-const STORAGE_KEY="costAlarmDataV1";
-let records=[];
-try{
-const saved=localStorage.getItem(STORAGE_KEY);
-records=saved?JSON.parse(saved):[];
-if(!Array.isArray(records))records=[];
-}catch(e){records=[]}
+"use strict";
 
-const $=id=>document.getElementById(id);
+const STORAGE_KEY = "cost_alarm_mvp_v1";
+
+const $ = id => document.getElementById(id);
+
+let transactions = [];
+let budgets = {};
+
+function loadData(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    transactions = Array.isArray(saved.transactions)
+      ? saved.transactions : [];
+    budgets = saved.budgets && typeof saved.budgets === "object"
+      ? saved.budgets : {};
+  }catch(error){
+    transactions = [];
+    budgets = {};
+  }
+}
+
+function saveData(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    transactions,
+    budgets
+  }));
+}
+
+function currentMonth(){
+  return $("monthFilter").value;
+}
 
 function money(value){
-return "৳"+Number(value||0).toLocaleString("en-IN",{maximumFractionDigits:2});
+  return "৳" + Number(value || 0).toLocaleString("en-BD",{
+    maximumFractionDigits:2
+  });
 }
 
-function save(){
-try{localStorage.setItem(STORAGE_KEY,JSON.stringify(records))}
-catch(e){alert("ডাটা সেভ করা যায়নি। ফোনের স্টোরেজ পরীক্ষা করুন।")}
+function selectedTransactions(){
+  const month = currentMonth();
+  return transactions.filter(t => t.date.slice(0,7) === month);
 }
 
-function showPage(page,button){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-$(page).classList.add("active");
-document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
-button.classList.add("active");
-if(page==="report")monthlyReport();
-}
+function calculate(){
+  const list = selectedTransactions();
+  const income = list
+    .filter(t => t.type === "income")
+    .reduce((sum,t) => sum + Number(t.amount),0);
 
-function totals(list){
-let income=0,expense=0;
-list.forEach(item=>{
-if(item.type==="income")income+=Number(item.amount);
-else expense+=Number(item.amount);
-});
-return{income,expense,balance:income-expense};
-}
+  const expense = list
+    .filter(t => t.type === "expense")
+    .reduce((sum,t) => sum + Number(t.amount),0);
 
-function escapeHTML(value){
-return String(value??"").replace(/[&<>"']/g,char=>({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[char]));
+  return {list,income,expense,profit:income-expense};
 }
 
 function render(){
-const t=totals(records);
-$("totalIncome").textContent=money(t.income);
-$("totalExpense").textContent=money(t.expense);
-$("balance").textContent=money(t.balance);
-$("balance").className="stat-value "+(t.balance>=0?"green":"red");
-$("totalCount").textContent=records.length;
+  const {list,income,expense,profit} = calculate();
+  const budget = Number(budgets[currentMonth()] || 0);
+  const remaining = budget - expense;
 
-const recent=records.slice().sort((a,b)=>b.id-a.id).slice(0,5);
-$("recentTable").innerHTML=recent.length?recent.map(item=>`
-<tr>
-<td>${escapeHTML(item.date)}</td>
-<td>${escapeHTML(item.description)}</td>
-<td><span class="badge ${item.type==="income"?"badge-income":"badge-expense"}">${item.type==="income"?"আয়":"খরচ"}</span></td>
-<td>${money(item.amount)}</td>
-</tr>`).join(""):`<tr><td colspan="4" class="empty">এখনো কোনো হিসাব নেই</td></tr>`;
+  $("totalIncome").textContent = money(income);
+  $("totalExpense").textContent = money(expense);
+  $("profit").textContent = money(profit);
+  $("profit").className = profit >= 0 ? "green" : "red";
+  $("count").textContent = list.length.toLocaleString("en-BD");
 
-const query=$("search").value.toLowerCase().trim();
-const filtered=records.filter(item=>
-(item.description||"").toLowerCase().includes(query)||
-(item.category||"").toLowerCase().includes(query)
-).sort((a,b)=>b.id-a.id);
+  $("budget").value = budget || "";
+  $("remaining").textContent = money(remaining);
+  $("remaining").className = remaining >= 0 ? "green" : "red";
 
-$("historyTable").innerHTML=filtered.length?filtered.map(item=>`
-<tr>
-<td>${escapeHTML(item.date)}</td>
-<td>${escapeHTML(item.description)}</td>
-<td>${escapeHTML(item.category)}</td>
-<td><span class="badge ${item.type==="income"?"badge-income":"badge-expense"}">${item.type==="income"?"আয়":"খরচ"}</span></td>
-<td>${money(item.amount)}</td>
-<td><button class="small-btn" onclick="deleteRecord(${Number(item.id)})">মুছুন</button></td>
-</tr>`).join(""):`<tr><td colspan="6" class="empty">কোনো হিসাব পাওয়া যায়নি</td></tr>`;
+  const alarm = $("alarm");
+  const status = $("budgetStatus");
+
+  alarm.className = "notice";
+
+  if(!budget){
+    status.textContent = "এই মাসের বাজেট নির্ধারণ করা হয়নি।";
+    alarm.textContent = "বাজেট নির্ধারণ করলে খরচের সতর্কতা দেখতে পাবেন।";
+  }else{
+    const percent = expense / budget * 100;
+    status.textContent = "বাজেটের " +
+      percent.toFixed(1) + "% খরচ হয়েছে।";
+
+    if(percent >= 100){
+      alarm.className = "notice danger-notice";
+      alarm.textContent = "সতর্কতা! আপনার মাসিক বাজেট অতিক্রম হয়েছে।";
+    }else if(percent >= 80){
+      alarm.className = "notice warning";
+      alarm.textContent = "সতর্কতা! বাজেটের ৮০% বা তার বেশি খরচ হয়েছে।";
+    }else{
+      alarm.textContent = "ভালো! আপনার খরচ এখনো বাজেটের মধ্যে আছে।";
+    }
+  }
+
+  const tbody = $("transactionList");
+  tbody.replaceChildren();
+
+  $("empty").style.display = list.length ? "none" : "block";
+
+  list.slice().sort((a,b) =>
+    b.date.localeCompare(a.date) || b.id.localeCompare(a.id)
+  ).forEach(t => {
+    const tr = document.createElement("tr");
+
+    function cell(value){
+      const td = document.createElement("td");
+      td.textContent = value;
+      return td;
+    }
+
+    tr.appendChild(cell(t.date));
+    tr.appendChild(cell(t.description + " (" + t.category + ")"));
+    const typeCell = cell(t.type === "income" ? "আয়" : "খরচ");
+    typeCell.className = t.type === "income" ? "green" : "red";
+    tr.appendChild(typeCell);
+
+    const amountCell = cell(money(t.amount));
+    amountCell.className = t.type === "income" ? "green" : "red";
+    tr.appendChild(amountCell);
+
+    const actionCell = document.createElement("td");
+    const del = document.createElement("button");
+    del.textContent = "মুছুন";
+    del.className = "danger";
+    del.addEventListener("click",() => deleteTransaction(t.id));
+    actionCell.appendChild(del);
+    tr.appendChild(actionCell);
+
+    tbody.appendChild(tr);
+  });
 }
 
-$("entryForm").addEventListener("submit",function(e){
-e.preventDefault();
-const amount=Number($("amount").value);
-if(!Number.isFinite(amount)||amount<=0){alert("সঠিক টাকার পরিমাণ লিখুন।");return}
+function deleteTransaction(id){
+  if(!confirm("এই লেনদেনটি মুছে ফেলবেন?")) return;
+  transactions = transactions.filter(t => t.id !== id);
+  saveData();
+  render();
+}
 
-const record={
-id:Date.now(),
-type:$("type").value,
-amount,
-description:$("description").value.trim(),
-category:$("category").value,
-date:$("date").value,
-note:$("note").value.trim()
-};
+$("transactionForm").addEventListener("submit",function(event){
+  event.preventDefault();
 
-if(!record.description||!record.date){alert("সব প্রয়োজনীয় তথ্য পূরণ করুন।");return}
-records.push(record);
-save();
-render();
-this.reset();
-$("date").value=new Date().toISOString().slice(0,10);
-alert("হিসাব সফলভাবে সংরক্ষণ হয়েছে!");
+  const amount = Number($("amount").value);
+  const description = $("description").value.trim();
+  const date = $("date").value;
+
+  if(!description || !date || !Number.isFinite(amount) || amount <= 0){
+    alert("সঠিক বিবরণ, তারিখ ও টাকার পরিমাণ দিন।");
+    return;
+  }
+
+  const transaction = {
+    id: Date.now().toString() + Math.random().toString(16).slice(2),
+    type: $("type").value,
+    amount,
+    date,
+    description,
+    category: $("category").value
+  };
+
+  transactions.push(transaction);
+  saveData();
+
+  $("monthFilter").value = date.slice(0,7);
+  this.reset();
+  $("date").value = new Date().toISOString().slice(0,10);
+  render();
+  alert("লেনদেন সফলভাবে সংরক্ষণ হয়েছে।");
 });
 
-function deleteRecord(id){
-if(!confirm("এই হিসাবটি মুছে ফেলতে চান?"))return;
-records=records.filter(item=>item.id!==id);
-save();
+$("saveBudget").addEventListener("click",function(){
+  const amount = Number($("budget").value);
+
+  if(!Number.isFinite(amount) || amount < 0){
+    alert("সঠিক বাজেটের পরিমাণ লিখুন।");
+    return;
+  }
+
+  budgets[currentMonth()] = amount;
+  saveData();
+  render();
+  alert("বাজেট সংরক্ষণ হয়েছে।");
+});
+
+$("monthFilter").addEventListener("change",render);
+
+$("clearBtn").addEventListener("click",function(){
+  if(!confirm("সব লেনদেন ও বাজেট স্থায়ীভাবে মুছে ফেলবেন?")) return;
+
+  transactions = [];
+  budgets = {};
+  saveData();
+  render();
+});
+
+$("exportBtn").addEventListener("click",function(){
+  const list = selectedTransactions();
+
+  if(!list.length){
+    alert("এই মাসে রিপোর্ট করার মতো কোনো লেনদেন নেই।");
+    return;
+  }
+
+  const rows = [
+    ["তারিখ","বিবরণ","ক্যাটাগরি","ধরন","পরিমাণ"],
+    ...list.map(t => [
+      t.date,t.description,t.category,
+      t.type === "income" ? "আয়" : "খরচ",t.amount
+    ])
+  ];
+
+  const csv = "\uFEFF" + rows.map(row =>
+    row.map(value =>
+      '"' + String(value).replace(/"/g,'""') + '"'
+    ).join(",")
+  ).join("\r\n");
+
+  const blob = new Blob([csv],{
+    type:"text/csv;charset=utf-8;"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "cost-alarm-" + currentMonth() + ".csv";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+});
+
+loadData();
+
+const today = new Date();
+$("monthFilter").value =
+  today.getFullYear() + "-" +
+  String(today.getMonth()+1).padStart(2,"0");
+
+$("date").value = today.toISOString().slice(0,10);
+
 render();
-}
-
-function monthlyReport(){
-const month=$("reportMonth").value;
-const list=records.filter(item=>item.date.startsWith(month));
-const t=totals(list);
-$("monthIncome").textContent=money(t.income);
-$("monthExpense").textContent=money(t.expense);
-$("monthBalance").textContent=money(t.balance);
-$("monthBalance").className="stat-value "+(t.balance>=0?"green":"red");
-}
-
-function backup(){
-const blob=new Blob([JSON.stringify(records,null,2)],{type:"application/json"});
-const url=URL.createObjectURL(blob);
-const a=document.createElement("a");
-a.href=url;
-a.download="cost-alarm-backup.json";
-a.click();
-setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-
-function restore(){
-const file=$("restoreFile").files[0];
-if(!file){alert("প্রথমে ব্যাকআপ ফাইল নির্বাচন করুন।");return}
-const reader=new FileReader();
-reader.onload=function(){
-try{
-const data=JSON.parse(reader.result);
-if(!Array.isArray(data))throw new Error("Invalid backup");
-const valid=data.every(item=>
-item&&
-(item.type==="income"||item.type==="expense")&&
-Number.isFinite(Number(item.amount))&&
-Number(item.amount)>0&&
-typeof item.date==="string"&&
-typeof item.description==="string"
-);
-if(!valid)throw new Error("Invalid records");
-if(!confirm("বর্তমান হিসাবের পরিবর্তে ব্যাকআপের হিসাব ব্যবহার করবেন?"))return;
-records=data;
-save();
-render();
-alert("ব্যাকআপ সফলভাবে ফিরিয়ে আনা হয়েছে!");
-}catch(e){alert("ফাইলটি সঠিক ব্যাকআপ নয়।")}
-};
-reader.readAsText(file);
-}
-
-function clearAll(){
-if(!confirm("আপনি কি নিশ্চিত? সব হিসাব স্থায়ীভাবে মুছে যাবে?"))return;
-records=[];
-save();
-render();
-alert("সব হিসাব মুছে ফেলা হয়েছে।");
-}
-
-$("date").value=new Date().toISOString().slice(0,10);
-$("reportMonth").value=new Date().toISOString().slice(0,7);
-render();
-monthlyReport();
 </script>
 </body>
 </html>
