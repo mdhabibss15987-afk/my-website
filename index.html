@@ -1,4 +1,184 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123b66">
+<title>Cost Alarm — Business Manager</title>
+<style>
+:root{--navy:#123b66;--blue:#1769aa;--bg:#f3f6fb;--card:#fff;--ink:#182230;--muted:#68778a;--green:#16834a;--red:#d93636;--border:#e4eaf1}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans Bengali",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,#123b66,#1769aa);color:white;padding:22px 16px}
+.header-inner{max-width:1000px;margin:auto}
+header h1{margin:0;font-size:25px}
+header p{margin:7px 0 0;color:#dcecff;font-size:14px}
+main{max-width:1000px;margin:18px auto;padding:0 13px 35px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:16px;margin-bottom:15px;box-shadow:0 3px 12px #102b4b0b}
+h2{font-size:18px;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stat{padding:15px;border-radius:12px;background:#f7f9fc;border:1px solid var(--border)}
+.stat small{color:var(--muted);font-size:13px}
+.stat strong{display:block;font-size:21px;margin-top:9px;overflow-wrap:anywhere}
+.green{color:var(--green)}.red{color:var(--red)}.blue{color:var(--blue)}
+label{display:block;font-size:14px;font-weight:bold;margin:12px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:16px;background:white;color:var(--ink)}
+button{border:0;border-radius:8px;padding:12px 15px;font-size:15px;font-weight:bold;cursor:pointer}
+.primary{background:var(--blue);color:white}
+.secondary{background:#e8f1fb;color:var(--navy)}
+.danger{background:#ffeded;color:var(--red)}
+button:active{transform:scale(.98)}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.full{grid-column:1/-1}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.actions button{flex:1}
+.notice{border-radius:9px;padding:12px;margin-top:12px;font-size:14px;line-height:1.6;background:#eaf3ff;color:#123b66}
+.notice.warning{background:#fff3dd;color:#865400}
+.notice.danger-notice{background:#ffeded;color:#a52020}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:480px}
+th,td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--border);font-size:14px}
+th{color:var(--muted);background:#f8fafc}
+td button{padding:7px 9px;font-size:12px}
+.empty{text-align:center;color:var(--muted);padding:25px}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
+/* SIGNAL LIGHT */
+.lights{display:flex;justify-content:center;gap:20px;margin:14px 0 6px}
+.light{width:62px;height:62px;border-radius:50%;background:#e5eaf1;display:flex;align-items:center;justify-content:center;font-size:28px;opacity:.25;transition:.3s}
+.light.on{opacity:1;box-shadow:0 0 20px currentColor}
+.l-green{background:#22c55e;color:#22c55e}
+.l-yellow{background:#facc15;color:#facc15}
+.l-red{background:#ef4444;color:#ef4444}
+.bar{height:14px;background:#e5eaf1;border-radius:20px;overflow:hidden;margin-top:10px}
+.bar span{display:block;height:100%;background:#22c55e;width:0%;transition:.4s}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.form-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:380px){.stat strong{font-size:18px}.card{padding:13px}}
+</style>
+</head>
+<body>
+<header><div class="header-inner"><h1>🔔 Cost Alarm</h1><p>আপনার ব্যবসার আয়, খরচ ও লাভের হিসাব - খরচ বেশি হলেই ALARM</p></div></header>
+<main>
 
+<section class="card">
+<h2>🌍 দেশ ও মাস নির্বাচন</h2>
+<div class="form-grid">
+<div><label for="country">তোমার দেশ</label>
+<select id="country">
+<option value="৳|বাংলাদেশ">🇧🇩 বাংলাদেশ</option>
+<option value="₹|ভারত">🇮🇳 ভারত</option>
+<option value="﷼|সৌদি আরব">🇸🇦 সৌদি আরব</option>
+<option value="د.إ|দুবাই / UAE">🇦🇪 দুবাই / UAE</option>
+<option value="RM|মালয়েশিয়া">🇲🇾 মালয়েশিয়া</option>
+<option value="$|আমেরিকা">🇺🇸 আমেরিকা</option>
+<option value="£|লন্ডন / UK">🇬🇧 লন্ডন / UK</option>
+<option value="€|ইউরোপ">🇪🇺 ইউরোপ</option>
+</select></div>
+<div><label for="monthFilter">মাস নির্বাচন</label><input type="month" id="monthFilter"></div>
+</div>
+</section>
+
+<section class="grid">
+<div class="stat"><small>মোট আয়</small><strong class="green" id="totalIncome">৳০</strong></div>
+<div class="stat"><small>মোট খরচ</small><strong class="red" id="totalExpense">৳০</strong></div>
+<div class="stat"><small>লাভ / ক্ষতি</small><strong id="profit">৳০</strong></div>
+<div class="stat"><small>লেনদেন সংখ্যা</small><strong id="count">০</strong></div>
+</section>
+
+<section class="card">
+<h2>🚦 সিগন্যাল বাতি - Cost Alarm</h2>
+<div class="lights">
+<div class="light l-green" id="lGreen">●</div>
+<div class="light l-yellow" id="lYellow">●</div>
+<div class="light l-red" id="lRed">●</div>
+</div>
+<div style="text-align:center;font-weight:bold;font-size:17px" id="alarmBig">বাজেট সেট করো</div>
+<div class="bar"><span id="barFill"></span></div>
+<p id="barText" style="text-align:center;font-size:13px;color:#68778a">০% খরচ হয়েছে</p>
+
+<h2 style="margin-top:18px">মাসিক খরচের বাজেট</h2>
+<label for="budget">এই মাসের বাজেট</label>
+<input id="budget" type="number" min="0" step="0.01" placeholder="যেমন: 50000">
+<div class="actions"><button class="primary" id="saveBudget">বাজেট সংরক্ষণ</button></div>
+<div class="stat" style="margin-top:13px"><small>বাজেট থেকে অবশিষ্ট</small><strong id="remaining">৳০</strong><small id="budgetStatus">বাজেট নির্ধারণ করুন</small></div>
+<div id="alarm" class="notice">বাজেটের সতর্কতা এখানে দেখা যাবে।</div>
+</section>
+
+<section class="card">
+<h2>নতুন লেনদেন যোগ করুন</h2>
+<form id="transactionForm">
+<div class="form-grid">
+<div><label for="type">লেনদেনের ধরন</label><select id="type" required><option value="income">আয়</option><option value="expense">খরচ</option></select></div>
+<div><label for="amount">টাকার পরিমাণ</label><input id="amount" type="number" min="0.01" step="0.01" required placeholder="টাকার পরিমাণ"></div>
+<div><label for="date">তারিখ</label><input id="date" type="date" required></div>
+<div class="full"><label for="description">বিবরণ</label><input id="description" type="text" maxlength="100" required placeholder="যেমন: পণ্য বিক্রি / দোকান ভাড়া"></div>
+<div class="full"><label for="category">ক্যাটাগরি</label><select id="category"><option>বিক্রয়</option><option>পণ্য ক্রয়</option><option>বেতন</option><option>ভাড়া</option><option>বিদ্যুৎ বিল</option><option>পরিবহন</option><option>অন্যান্য</option></select></div>
+</div>
+<div class="actions"><button class="primary" type="submit">লেনদেন সংরক্ষণ করুন</button></div>
+</form>
+</section>
+
+<section class="card">
+<h2>লেনদেনের তালিকা</h2>
+<div class="actions"><button class="secondary" id="exportBtn">CSV রিপোর্ট ডাউনলোড</button><button class="danger" id="clearBtn">সব ডেটা মুছুন</button></div>
+<div class="table-wrap" style="margin-top:14px"><table><thead><tr><th>তারিখ</th><th>বিবরণ</th><th>ধরন</th><th>পরিমাণ</th><th>কাজ</th></tr></thead><tbody id="transactionList"></tbody></table><div id="empty" class="empty">এখনো কোনো লেনদেন যোগ করা হয়নি।</div></div>
+</section>
+<div class="footer">Cost Alarm — Smart Business Manager<br>আপনার ডেটা এই ডিভাইসের ব্রাউজারে সংরক্ষিত হয়।</div>
+</main>
+<script>
+"use strict";
+const STORAGE_KEY="cost_alarm_mvp_v1";
+const $=id=>document.getElementById(id);
+let transactions=[]; let budgets={};
+let currency="৳";
+function loadData(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");transactions=Array.isArray(s.transactions)?s.transactions:[];budgets=s.budgets&&typeof s.budgets==="object"?s.budgets:{};currency=s.currency||"৳";}catch(e){transactions=[];budgets={};}}
+function saveData(){localStorage.setItem(STORAGE_KEY,JSON.stringify({transactions,budgets,currency}));}
+function currentMonth(){return $("monthFilter").value;}
+function money(v){return currency+Number(v||0).toLocaleString("en-IN",{maximumFractionDigits:2});}
+function selectedTransactions(){const m=currentMonth();return transactions.filter(t=>t.date.slice(0,7)===m);}
+function calculate(){const list=selectedTransactions();const income=list.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount),0);const expense=list.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount),0);return{list,income,expense,profit:income-expense};}
+function render(){
+const {list,income,expense,profit}=calculate();
+const budget=Number(budgets[currentMonth()]||0);
+const remaining=budget-expense;
+$("totalIncome").textContent=money(income);
+$("totalExpense").textContent=money(expense);
+$("profit").textContent=money(profit);
+$("profit").className=profit>=0?"green":"red";
+$("count").textContent=list.length.toLocaleString("en-IN");
+$("budget").value=budget||"";
+$("remaining").textContent=money(remaining);
+$("remaining").className=remaining>=0?"green":"red";
+const alarm=$("alarm"),status=$("budgetStatus");
+const g=$("lGreen"),y=$("lYellow"),r=$("lRed"),big=$("alarmBig"),bar=$("barFill"),barText=$("barText");
+g.classList.remove("on");y.classList.remove("on");r.classList.remove("on");
+alarm.className="notice";
+let pct=budget? (expense/budget*100):0;
+bar.style.width=Math.min(100,pct)+"%";
+barText.textContent=Math.round(pct)+"% খরচ হয়েছে";
+if(!budget){status.textContent="এই মাসের বাজেট নির্ধারণ করা হয়নি।";alarm.textContent="বাজেট নির্ধারণ করলে খরচের সতর্কতা দেখতে পাবেন।";big.textContent="বাজেট সেট করো";big.style.color="#333";bar.style.background="#22c55e";}
+else{status.textContent="বাজেটের "+pct.toFixed(1)+"% খরচ হয়েছে।";
+if(pct>=100){alarm.className="notice danger-notice";alarm.textContent="🔴 সতর্কতা! আপনার মাসিক বাজেট অতিক্রম হয়েছে।";big.textContent="🔴 ALARM! বাজেট শেষ! খরচ বন্ধ করো!";big.style.color="#dc3545";r.classList.add("on");bar.style.background="#ef4444";}
+else if(pct>=80){alarm.className="notice warning";alarm.textContent="🟡 সতর্কতা! বাজেটের ৮০% বা তার বেশি খরচ হয়েছে।";big.textContent="🟡 প্রায় শেষ! এখন বাঁচিয়ে খরচ করো";big.style.color="#b45309";y.classList.add("on");bar.style.background="#f97316";}
+else if(pct>=50){alarm.className="notice warning";alarm.textContent="🟡 সাবধান! বাজেটের অর্ধেকের বেশি খরচ হয়ে গেছে।";big.textContent="🟡 সাবধান! খরচ বাড়তেছে";big.style.color="#b45309";y.classList.add("on");bar.style.background="#facc15";}
+else{alarm.textContent="🟢 ভালো! আপনার খরচ এখনো বাজেটের মধ্যে আছে।";big.textContent="🟢 সব ঠিক আছে - খরচ কম হচ্ছে";big.style.color="#16834a";g.classList.add("on");bar.style.background="#22c55e";}}
+const tbody=$("transactionList");tbody.replaceChildren();$("empty").style.display=list.length?"none":"block";
+list.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id)).forEach(t=>{const tr=document.createElement("tr");function cell(v){const td=document.createElement("td");td.textContent=v;return td;}tr.appendChild(cell(t.date));tr.appendChild(cell(t.description+" ("+t.category+")"));const tc=cell(t.type==="income"?"আয়":"খরচ");tc.className=t.type==="income"?"green":"red";tr.appendChild(tc);const ac=cell(money(t.amount));ac.className=t.type==="income"?"green":"red";tr.appendChild(ac);const act=document.createElement("td");const del=document.createElement("button");del.textContent="মুছুন";del.className="danger";del.addEventListener("click",()=>deleteTransaction(t.id));act.appendChild(del);tr.appendChild(act);tbody.appendChild(tr);});
+}
+function deleteTransaction(id){if(!confirm("এই লেনদেনটি মুছে ফেলবেন?"))return;transactions=transactions.filter(t=>t.id!==id);saveData();render();}
+$("transactionForm").addEventListener("submit",function(e){e.preventDefault();const amount=Number($("amount").value);const desc=$("description").value.trim();const date=$("date").value;if(!desc||!date||!Number.isFinite(amount)||amount<=0){alert("সঠিক বিবরণ, তারিখ ও টাকার পরিমাণ দিন।");return;}const tr={id:Date.now().toString()+Math.random().toString(16).slice(2),type:$("type").value,amount,date,description:desc,category:$("category").value};transactions.push(tr);saveData();$("monthFilter").value=date.slice(0,7);this.reset();$("date").value=new Date().toISOString().slice(0,10);render();if(tr.type==="expense"){const b=Number(budgets[currentMonth()]||0);if(b){const exp=selectedTransactions().filter(x=>x.type==="expense").reduce((s,x)=>s+Number(x.amount),0);const p=exp/b*100;if(p>=100)alert("🔴 ALARM! বাজেট শেষ!");else if(p>=80)alert("🟡 সাবধান! বাজেটের 80% শেষ!");}}alert("লেনদেন সফলভাবে সংরক্ষণ হয়েছে।");});
+$("saveBudget").addEventListener("click",function(){const amount=Number($("budget").value);if(!Number.isFinite(amount)||amount<0){alert("সঠিক বাজেটের পরিমাণ লিখুন।");return;}budgets[currentMonth()]=amount;saveData();render();alert("বাজেট সংরক্ষণ হয়েছে।");});
+$("monthFilter").addEventListener("change",render);
+$("country").addEventListener("change",function(){currency=this.value.split("|")[0];saveData();render();});
+$("clearBtn").addEventListener("click",function(){if(!confirm("সব লেনদেন ও বাজেট স্থায়ীভাবে মুছে ফেলবেন?"))return;transactions=[];budgets={};saveData();render();});
+$("exportBtn").addEventListener("click",function(){const list=selectedTransactions();if(!list.length){alert("এই মাসে রিপোর্ট করার মতো কোনো লেনদেন নেই।");return;}const rows=[["তারিখ","বিবরণ","ক্যাটাগরি","ধরন","পরিমাণ"],...list.map(t=>[t.date,t.description,t.category,t.type==="income"?"আয়":"খরচ",t.amount])];const csv="\uFEFF"+rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\r\n");const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});const url=URL.createObjectURL(blob);const link=document.createElement("a");link.href=url;link.download="cost-alarm-"+currentMonth()+".csv";document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);});
+loadData();
+const today=new Date();$("monthFilter").value=today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0");$("date").value=today.toISOString().slice(0,10);
+// set country select from saved currency
+[...$("country").options].forEach(o=>{if(o.value.split("|")[0]===currency) $("country").value=o.value;});
+render();
+</script>
+</body>
+</html>
 
 <!DOCTYPE html>
 <html lang="bn">
