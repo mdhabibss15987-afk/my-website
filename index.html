@@ -1,67 +1,172 @@
 
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cost Alarm Software - Save Money, Stop Extra Cost | Only $10 Lifetime</title>
-<meta name="description" content="Cost Alarm Software alerts you instantly when your website or software cost goes over limit. Save money. For USA, UK, Europe, Pakistan, Bangladesh. Only $10 one time.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cost Alarm - Smart Budget Alarm</title>
 <style>
-body{background:#f0f2f5;font-family:sans-serif;margin:0;padding:12px;text-align:center;color:#222}
-.box{background:white;padding:20px;border-radius:20px;max-width:700px;margin:auto;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
-.lang-btn{padding:8px 11px;margin:3px;border:1px solid #1877f2;border-radius:20px;background:white;cursor:pointer;font-size:13px}
-.lang-btn.active{background:#1877f2;color:white}
-.price-box{background:#FFF3CD;padding:18px;border-radius:15px;border:2px dashed #FF9800;margin:15px 0}
-.feature{background:#EEF6FF;padding:14px;border-radius:12px;margin:8px 0;text-align:left}
-input{width:90%;padding:12px;margin:8px;border:1px solid #ccc;border-radius:10px;font-size:16px}
-.main-btn{background:#1877f2;color:white;padding:13px 25px;border:none;border-radius:30px;font-size:17px;font-weight:bold;cursor:pointer}
-#alarm{display:none;background:#ff3333;color:white;padding:15px;border-radius:15px;margin-top:15px;font-weight:bold;font-size:18px}
-#ok{display:none;background:#25D366;color:white;padding:15px;border-radius:15px;margin-top:15px;font-weight:bold}
-.whatsapp-btn{display:block;background:#25D366;color:white;padding:16px;border-radius:30px;text-decoration:none;font-weight:bold;margin:15px 0;font-size:19px}
-.pay-box{background:#f8f8f8;padding:12px;border-radius:12px;font-size:14px}
-.section{text-align:left;background:#fff;padding:15px;border-radius:15px;margin:15px 0;border:1px solid #eee}
-.section h2{color:#1877f2}
-.review{background:#FFF9E6;padding:12px;border-radius:12px;margin:8px 0;text-align:left}
-.faq{background:#F9F9F9;padding:12px;border-radius:12px;margin:8px 0;text-align:left}
-small{color:#666}
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#eef2f7;margin:0;padding:16px;color:#172033}
+.app{max-width:550px;margin:auto;background:white;padding:22px;border-radius:20px;box-shadow:0 5px 20px #0001}
+h1{text-align:center;color:#123b66}
+input{width:100%;padding:13px;border:1px solid #ccc;border-radius:10px;margin:8px 0 15px;font-size:17px}
+button{border:0;border-radius:12px;padding:13px 18px;font-size:16px;font-weight:bold;cursor:pointer}
+.primary{background:#1877f2;color:white;width:100%}
+.stop{background:#333;color:white;width:100%;margin-top:10px}
+.status{padding:20px;text-align:center;border-radius:15px;margin:18px 0;font-weight:bold}
+.green{background:#dcfce7;color:#166534}
+.yellow{background:#fef3c7;color:#92400e}
+.red{background:#fee2e2;color:#b91c1c}
+.danger{background:#450a0a;color:white}
+.light{font-size:45px}
+.bar{height:18px;background:#ddd;border-radius:20px;overflow:hidden;margin:12px 0}
+.fill{height:100%;width:0%;background:#16a34a;transition:.3s}
+.info{background:#f2f6fc;padding:13px;border-radius:12px;margin:12px 0}
 </style>
 </head>
 <body>
-<div class="box">
-<h2>🌍 Choose Language</h2>
-<button class="lang-btn active" onclick="setLang('en',this)">English</button>
-<button class="lang-btn" onclick="setLang('ur',this)">Urdu - Pakistan</button>
-<button class="lang-btn" onclick="setLang('fr',this)">Français</button>
-<button class="lang-btn" onclick="setLang('de',this)">Deutsch</button>
-<button class="lang-btn" onclick="setLang('es',this)">Español</button>
-<button class="lang-btn" onclick="setLang('bn',this)">বাংলা</button>
+<div class="app">
+<h1>⚡ COST ALARM</h1>
+<p style="text-align:center">Smart Budget Monitoring System</p>
 
-<h1 id="t1">⚠️ Cost Alarm Software</h1>
-<p id="t2">For Website & Software Owners. If your cost increases, this software will ALARM you instantly. Stop losing money silently. Know your cost every day.</p>
+<label>মাসিক বাজেট (৳)</label>
+<input id="budget" type="number" min="1" placeholder="উদাহরণ: 50000">
 
-<div class="price-box"><h2 style="margin:0">💰 Price: Only $10 One Time</h2><p id="tPrice">No Monthly Fee - Lifetime Use - 100% Safe - Instant Delivery on WhatsApp</p><p><b>Today Offer:</b> Buy today and get FREE Setup Guide + Lifetime Support.</p></div>
+<label>বর্তমান মোট খরচ (৳)</label>
+<input id="spent" type="number" min="0" placeholder="উদাহরণ: 25000">
 
-<div class="feature">✅ <b>Save Money:</b> Know before your cost becomes high. Many owners lose $100, $500, $1000 without knowing. This alarm stops that.</div>
-<div class="feature">🔔 <b>Instant Alarm:</b> Red alarm when cost is over limit. You will see it immediately.</div>
-<div class="feature">📊 <b>Daily Tracking:</b> Put your limit once, check your cost daily. Simple, no technical knowledge needed.</div>
-<div class="feature">🌍 <b>For All Countries:</b> USA, UK, Europe, Pakistan, Bangladesh, India - All can use. Works on mobile and computer.</div>
-<div class="feature">🔒 <b>Safe & Private:</b> We do not share your data. Your cost information stays private.</div>
-<div class="feature">⚡ <b>Easy To Use:</b> No installation problem. Just open, put limit, put cost, press Check. Done in 10 seconds.</div>
+<label>হলুদ সতর্কতা (%)</label>
+<input id="yellowLimit" type="number" min="1" max="99" value="50">
 
-<h3>🧪 FREE TEST - Try Now - No Payment Needed</h3>
-<p><b>Your Monthly Limit ($):</b></p>
-<input id="limit" type="number" placeholder="Example: 100">
-<p><b>Today Your Cost ($):</b></p>
-<input id="cost" type="number" placeholder="Example: 150">
-<br><br>
-<button class="main-btn" onclick="check()">Check My Cost - FREE TEST</button>
-<div id="alarm">🚨 ALARM! Your cost is HIGH! Your cost has increased! You need Cost Alarm Software to save money.</div>
-<div id="ok">✅ OK. Your cost is normal. Keep checking daily to stay safe.</div>
+<label>লাল সতর্কতা (%)</label>
+<input id="redLimit" type="number" min="2" max="100" value="80">
 
-<div class="section">
-<h2>❓ How Does It Work? - Step By Step</h2>
-<p><b>Step 1:</b> You decide your monthly limit. Example: You want to spend maximum $100 per month.</p>
-<p><b>Step 2:</b> Every day you put your today cost. Example: Today you spent $20, $50, $120.</p>
-<p><b>Step 3:</b> Our software compares limit vs cost. If cost is more than limit, it shows RED ALARM instantly.</p>
-<p><b>Step 4:</b> You take action quickly - stop extra service, fix bug, contact developer. You save money.</p>
-<p>Without
+<button class="primary" onclick="checkBudget()">🔍 বাজেট পরীক্ষা করুন</button>
+
+<div id="status" class="status green">
+<div class="light">🟢</div>
+স্বাভাবিক
+</div>
+
+<div class="info">
+<b>বাজেট ব্যবহারের হার:</b>
+<div class="bar"><div class="fill" id="fill"></div></div>
+<h2 id="percent">০%</h2>
+</div>
+
+<div class="info">
+<p>মোট বাজেট: <b id="total">৳০</b></p>
+<p>মোট খরচ: <b id="expense">৳০</b></p>
+<p>অবশিষ্ট টাকা: <b id="remaining">৳০</b></p>
+<p id="message">আপনার হিসাব এখানে দেখা যাবে।</p>
+</div>
+
+<button class="stop" onclick="stopAlarm()">🔇 অ্যালার্ম বন্ধ করুন</button>
+</div>
+
+<script>
+let audioContext=null;
+let alarmTimer=null;
+
+function money(n){
+ return "৳"+Number(n).toLocaleString("bn-BD");
+}
+
+function sound(){
+ try{
+  if(!audioContext){
+   audioContext=new (window.AudioContext||window.webkitAudioContext)();
+  }
+  if(audioContext.state==="suspended")audioContext.resume();
+  const oscillator=audioContext.createOscillator();
+  const gain=audioContext.createGain();
+  oscillator.connect(gain);
+  gain.connect(audioContext.destination);
+  oscillator.frequency.value=850;
+  gain.gain.value=.15;
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime+.35);
+ }catch(e){}
+}
+
+function startAlarm(){
+ stopAlarm();
+ sound();
+ alarmTimer=setInterval(sound,1200);
+}
+
+function stopAlarm(){
+ if(alarmTimer){
+  clearInterval(alarmTimer);
+  alarmTimer=null;
+ }
+}
+
+function checkBudget(){
+ const budget=Number(document.getElementById("budget").value);
+ const spent=Number(document.getElementById("spent").value);
+ const yellow=Number(document.getElementById("yellowLimit").value);
+ const red=Number(document.getElementById("redLimit").value);
+
+ if(!Number.isFinite(budget)||!Number.isFinite(spent)||
+ budget<=0||spent<0||
+ !Number.isInteger(yellow)||!Number.isInteger(red)||
+ yellow<1||yellow>=red||red>100){
+  alert("সঠিক বাজেট, খরচ এবং সতর্কতার সীমা লিখুন।");
+  return;
+ }
+
+ const rate=spent/budget*100;
+ const percent=Math.round(rate);
+ const remaining=budget-spent;
+
+ document.getElementById("total").textContent=money(budget);
+ document.getElementById("expense").textContent=money(spent);
+ document.getElementById("remaining").textContent=money(Math.max(0,remaining));
+ document.getElementById("percent").textContent=percent.toLocaleString("bn-BD")+"%";
+
+ document.getElementById("fill").style.width=Math.min(100,rate)+"%";
+
+ const status=document.getElementById("status");
+ const message=document.getElementById("message");
+ status.className="status";
+
+ if(rate>=100){
+  status.classList.add("danger");
+  status.innerHTML='<div class="light">🚨</div>বাজেট শেষ! জরুরি অ্যালার্ম!';
+  message.textContent="আপনার বাজেট "+money(spent-budget)+" অতিক্রম করেছে!";
+  startAlarm();
+ }else if(rate>=red){
+  status.classList.add("red");
+  status.innerHTML='<div class="light">🔴</div>বিপদ! খরচ অনেক বেশি!';
+  message.textContent="সতর্কতা! আপনার বাজেট প্রায় শেষ।";
+  startAlarm();
+ }else if(rate>=yellow){
+  status.classList.add("yellow");
+  status.innerHTML='<div class="light">🟡</div>সতর্কতা! খরচ বাড়ছে!';
+  message.textContent="আপনার বাজেটের ব্যবহার বেড়েছে। খরচ নিয়ন্ত্রণ করুন।";
+  stopAlarm();
+ }else{
+  status.classList.add("green");
+  status.innerHTML='<div class="light">🟢</div>সবকিছু স্বাভাবিক!';
+  message.textContent="আপনার বাজেট নিরাপদ আছে।";
+  stopAlarm();
+ }
+
+ if(rate>=100){
+  if("Notification" in window && Notification.permission==="granted"){
+   new Notification("Cost Alarm: বাজেট শেষ!",{
+    body:"আপনার বাজেট অতিক্রম হয়েছে।"
+   });
+  }
+ }
+}
+
+if("Notification" in window && Notification.permission==="default"){
+ // Notification permission is requested only after user interaction.
+}
+</script>
+</body>
+</html>
