@@ -1,176 +1,67 @@
 
-<!doctype html>
-<html lang="bn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#123b66">
-<title>Cost Alarm — Business Manager</title>
-<meta name="description" content="ব্যবসার আয়, খরচ, লাভ ও মাসিক বাজেট ব্যবস্থাপনা">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cost Alarm Software - Save Money, Stop Extra Cost | Only $10 Lifetime</title>
+<meta name="description" content="Cost Alarm Software alerts you instantly when your website or software cost goes over limit. Save money. For USA, UK, Europe, Pakistan, Bangladesh. Only $10 one time.">
 <style>
-:root{--navy:#123b66;--blue:#1769aa;--bg:#f3f6fa;--card:#fff;--ink:#172334;--muted:#66758a;--line:#dce4ed;--green:#14804a;--red:#c0392b;--amber:#a76500}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif}header{background:linear-gradient(120deg,#123b66,#1769aa);color:#fff;padding:18px 16px}header .wrap,main{max-width:1100px;margin:auto}h1{font-size:24px;margin:0 0 4px}header p{margin:0;opacity:.92;font-size:14px}main{padding:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:14px;box-shadow:0 2px 8px #10243a0a}.card h2{font-size:18px;margin:0 0 12px}.row{display:flex;gap:10px;flex-wrap:wrap}.field{flex:1 1 170px;min-width:0}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px}.stat small{display:block;color:var(--muted);font-size:12px}.stat strong{font-size:20px;display:block;margin-top:5px;overflow-wrap:anywhere}.green{color:var(--green)}.red{color:var(--red)}.muted{color:var(--muted)}label{display:block;font-size:13px;color:#43536a;margin:0 0 5px}input,select{width:100%;border:1px solid #cbd6e2;border-radius:9px;padding:11px;font:inherit;background:#fff;color:var(--ink);min-width:0}textarea{width:100%;min-height:260px;border:1px solid #cbd6e2;border-radius:9px;padding:11px;font:inherit}button{border:0;border-radius:9px;background:var(--blue);color:#fff;padding:11px 15px;font:inherit;font-weight:650;cursor:pointer}button.secondary{background:#e8eef5;color:#1b3551}button.danger{background:#b83227}button:disabled{opacity:.55;cursor:not-allowed}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.notice{padding:10px 12px;border-radius:9px;background:#eaf3ff;color:#17466f;margin:10px 0;font-size:14px;overflow-wrap:anywhere}.notice.error{background:#fff0ee;color:#9d281e}.notice.ok{background:#eaf8ef;color:#17653b}.hidden{display:none!important}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.tabs button{background:#e5edf5;color:#23415e}.tabs button.active{background:var(--navy);color:#fff}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:#52647a;font-size:12px}.right{text-align:right}.pill{display:inline-block;padding:4px 8px;border-radius:99px;background:#eef3f8;font-size:12px}.topline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.small{font-size:12px}.sqlbox{font-family:ui-monospace,monospace;font-size:12px;white-space:pre;overflow:auto}.bar{height:10px;background:#e6edf4;border-radius:10px;overflow:hidden;margin-top:8px}.bar span{display:block;height:100%;background:#16834d;width:0}.bar.warn span{background:#d08a16}.bar.over span{background:#c0392b}.empty{text-align:center;padding:18px}.footer{text-align:center;color:var(--muted);font-size:12px;padding:18px}.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px}.pager button{padding:8px 12px}.hint{font-size:12px;color:var(--muted);line-height:1.6}
-@media(max-width:680px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat strong{font-size:17px}main{padding:11px}.card{padding:12px}header{padding:16px 12px}}
+body{background:#f0f2f5;font-family:sans-serif;margin:0;padding:12px;text-align:center;color:#222}
+.box{background:white;padding:20px;border-radius:20px;max-width:700px;margin:auto;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+.lang-btn{padding:8px 11px;margin:3px;border:1px solid #1877f2;border-radius:20px;background:white;cursor:pointer;font-size:13px}
+.lang-btn.active{background:#1877f2;color:white}
+.price-box{background:#FFF3CD;padding:18px;border-radius:15px;border:2px dashed #FF9800;margin:15px 0}
+.feature{background:#EEF6FF;padding:14px;border-radius:12px;margin:8px 0;text-align:left}
+input{width:90%;padding:12px;margin:8px;border:1px solid #ccc;border-radius:10px;font-size:16px}
+.main-btn{background:#1877f2;color:white;padding:13px 25px;border:none;border-radius:30px;font-size:17px;font-weight:bold;cursor:pointer}
+#alarm{display:none;background:#ff3333;color:white;padding:15px;border-radius:15px;margin-top:15px;font-weight:bold;font-size:18px}
+#ok{display:none;background:#25D366;color:white;padding:15px;border-radius:15px;margin-top:15px;font-weight:bold}
+.whatsapp-btn{display:block;background:#25D366;color:white;padding:16px;border-radius:30px;text-decoration:none;font-weight:bold;margin:15px 0;font-size:19px}
+.pay-box{background:#f8f8f8;padding:12px;border-radius:12px;font-size:14px}
+.section{text-align:left;background:#fff;padding:15px;border-radius:15px;margin:15px 0;border:1px solid #eee}
+.section h2{color:#1877f2}
+.review{background:#FFF9E6;padding:12px;border-radius:12px;margin:8px 0;text-align:left}
+.faq{background:#F9F9F9;padding:12px;border-radius:12px;margin:8px 0;text-align:left}
+small{color:#666}
 </style>
 </head>
 <body>
-<header><div class="wrap"><h1>Cost Alarm</h1><p>আপনার ব্যবসার আয়, খরচ ও লাভের হিসাব — খরচ বেশি হলেই ALARM</p></div></header>
-<main>
-<section id="setup" class="card">
-<h2>প্রথমবার Supabase সংযোগ</h2>
-<p class="muted small">Project URL এবং Publishable (বা পুরোনো anon public) key দিন। Secret / service_role key কখনো ব্যবহার করবেন না।</p>
-<div class="row"><div class="field"><label for="sbUrl">Supabase Project URL</label><input id="sbUrl" placeholder="https://xxxx.supabase.co" autocomplete="url"></div><div class="field"><label for="sbKey">Supabase Publishable / anon public key</label><input id="sbKey" placeholder="sb_publishable_... অথবা eyJ..." autocomplete="off"></div></div>
-<div class="actions"><button id="saveConfig">সংযোগ সংরক্ষণ করুন</button><button class="secondary" id="showSql">ডেটাবেজ SQL দেখুন</button></div>
-<div id="setupMsg" class="notice">প্রথমে SQL Editor-এ নিচের SQL একবার চালান। এরপর URL ও Publishable key দিয়ে সংযোগ করুন।</div>
-</section>
-<section id="sqlPanel" class="card hidden"><div class="topline"><h2>Supabase ডেটাবেজ SQL</h2><button class="secondary" id="copySql">SQL কপি করুন</button></div><p class="small muted">Supabase Dashboard → SQL Editor → New query → SQL পেস্ট করে Run চাপুন।</p><textarea id="sqlCode" class="sqlbox" readonly></textarea></section>
-<section id="auth" class="card hidden">
-<h2>আপনার অ্যাকাউন্ট</h2>
-<div class="row"><div class="field"><label for="email">ইমেইল</label><input id="email" type="email" placeholder="আপনার ইমেইল" autocomplete="email"></div><div class="field"><label for="password">পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)</label><input id="password" type="password" placeholder="পাসওয়ার্ড" autocomplete="current-password"></div></div>
-<div class="actions"><button id="signIn">লগইন</button><button class="secondary" id="signUp">নতুন অ্যাকাউন্ট খুলুন</button><button class="secondary" id="resetPass">রিসেট লিংক পাঠান</button></div>
-<div id="newPasswordBox" class="hidden"><p class="small">ইমেইলের রিসেট লিংক খোলার পর এখানে নতুন পাসওয়ার্ড লিখুন।</p><label for="newPassword">নতুন পাসওয়ার্ড</label><input id="newPassword" type="password" minlength="6" placeholder="কমপক্ষে ৬ অক্ষর"><div class="actions"><button id="saveNewPassword">নতুন পাসওয়ার্ড সংরক্ষণ</button></div></div>
-<div id="authMsg" class="notice">একই অ্যাকাউন্ট দিয়ে একাধিক ফোনে লগইন করা যাবে। ইমেইল যাচাই চালু থাকলে আগে ইমেইল নিশ্চিত করুন।</div>
-</section>
-<section id="app" class="hidden">
-<div class="card topline"><div><strong id="who"></strong><div class="small muted" id="cloudState">অনলাইন ডেটাবেজ</div></div><div class="actions"><button class="secondary" id="refresh">রিফ্রেশ</button><button class="danger" id="signOut">লগআউট</button></div></div>
-<div class="stats"><div class="stat"><small>নির্বাচিত মাসের আয়</small><strong class="green" id="totalIncome">৳0</strong></div><div class="stat"><small>নির্বাচিত মাসের খরচ</small><strong class="red" id="totalExpense">৳0</strong></div><div class="stat"><small>নির্বাচিত মাসের লাভ / ক্ষতি</small><strong id="profit">৳0</strong></div><div class="stat"><small>নির্বাচিত মাসের লেনদেন</small><strong id="count">0</strong></div></div>
-<div class="tabs"><button class="active" data-tab="dashboard">ড্যাশবোর্ড</button><button data-tab="add">লেনদেন যোগ</button><button data-tab="budget">মাসিক বাজেট</button><button data-tab="reports">রিপোর্ট ও ব্যাকআপ</button><button data-tab="settings">সেটিংস</button></div>
-<section id="tab-dashboard" class="card"><div class="topline"><h2>লেনদেনের তালিকা</h2><div class="field" style="max-width:190px"><label for="filterMonth">মাস নির্বাচন</label><input id="filterMonth" type="month"></div></div><div id="budgetAlert" class="notice hidden"></div><div class="table-wrap"><table><thead><tr><th>তারিখ</th><th>ধরন</th><th>বিবরণ</th><th class="right">টাকা</th><th>কাজ</th></tr></thead><tbody id="transactions"></tbody></table></div><div id="empty" class="muted small empty">এই মাসে কোনো লেনদেন নেই।</div><div class="pager"><span id="pageInfo" class="small muted">পৃষ্ঠা ১</span><div class="actions"><button class="secondary" id="prevPage">আগের</button><button class="secondary" id="nextPage">পরের</button></div></div></section>
-<section id="tab-add" class="card hidden"><h2 id="formTitle">নতুন আয় / খরচ যোগ করুন</h2><div class="row"><div class="field"><label for="type">ধরন</label><select id="type"><option value="income">আয়</option><option value="expense">খরচ</option></select></div><div class="field"><label for="amount">টাকার পরিমাণ</label><input id="amount" type="number" min="0.01" step="0.01" placeholder="যেমন 1500"></div><div class="field"><label for="date">তারিখ</label><input id="date" type="date"></div><div class="field"><label for="category">খাত / ক্যাটাগরি</label><input id="category" maxlength="100" placeholder="যেমন বিক্রয়, ভাড়া, বেতন"></div><div class="field"><label for="note">বিবরণ</label><input id="note" maxlength="250" placeholder="সংক্ষিপ্ত বিবরণ"></div></div><div class="actions"><button id="saveTx">সংরক্ষণ করুন</button><button class="secondary" id="cancelEdit">বাতিল</button></div><div id="txMsg" class="notice hidden"></div></section>
-<section id="tab-budget" class="card hidden"><h2>মাসিক খরচের বাজেট</h2><div class="row"><div class="field"><label for="budgetMonth">মাস</label><input id="budgetMonth" type="month"></div><div class="field"><label for="budgetAmount">সর্বোচ্চ খরচের বাজেট</label><input id="budgetAmount" type="number" min="1" step="0.01" placeholder="যেমন 50000"></div></div><div class="actions"><button id="saveBudget">বাজেট সংরক্ষণ</button></div><div id="budgetMsg" class="notice hidden"></div><div id="budgetProgress"></div><p class="small muted">৫০% হলে সতর্কতা, ৮০% হলে সাবধান, ১০০% ছাড়ালে লাল অ্যালার্ম দেখাবে।</p></section>
-<section id="tab-reports" class="card hidden"><h2>রিপোর্ট ও ব্যাকআপ</h2><p class="muted small">CSV-তে নির্বাচিত মাসের লেনদেন এবং JSON-এ আপনার সব লেনদেন ও বাজেট ডাউনলোড হবে।</p><div class="actions"><button id="csvBtn">CSV রিপোর্ট ডাউনলোড</button><button class="secondary" id="backupBtn">সম্পূর্ণ ব্যাকআপ ডাউনলোড</button><button class="secondary" id="restoreBtn">ব্যাকআপ পুনরুদ্ধার</button><input id="restoreFile" type="file" accept=".json,application/json" class="hidden"></div><div id="reportMsg" class="notice hidden"></div></section>
-<section id="tab-settings" class="card hidden"><h2>সেটিংস</h2><div class="row"><div class="field"><label for="country">দেশ</label><select id="country"><option value="BD">বাংলাদেশ</option><option value="IN">ভারত</option><option value="SA">সৌদি আরব</option><option value="AE">UAE</option><option value="MY">মালয়েশিয়া</option><option value="US">যুক্তরাষ্ট্র</option><option value="GB">যুক্তরাজ্য</option><option value="EU">ইউরোপ</option></select></div><div class="field"><label for="currency">মুদ্রা</label><select id="currency"><option value="৳">BDT ৳</option><option value="₹">INR ₹</option><option value="﷼">SAR ﷼</option><option value="د.إ">AED د.إ</option><option value="RM">MYR RM</option><option value="$">USD $</option><option value="£">GBP £</option><option value="€">EUR €</option></select></div></div><div class="actions"><button id="savePrefs">সেটিংস সংরক্ষণ</button><button class="secondary" id="changeConfig">Supabase সংযোগ পরিবর্তন</button></div><p class="small muted">দেশ ও মুদ্রা আপনার অ্যাকাউন্টের ডেটাবেজে সংরক্ষিত হবে।</p></section>
-</section></main><footer class="footer">Cost Alarm • ব্যবসার হিসাব সহজ করুন</footer>
-<script>
-"use strict";
-const SQL = `create table if not exists public.ca_transactions (
- id bigint generated by default as identity primary key,
- user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
- type text not null check(type in ('income','expense')),
- amount numeric(14,2) not null check(amount>0),
- category text not null default '', note text not null default '',
- date date not null, created_at timestamptz not null default now()
-);
-create index if not exists ca_transactions_user_date_idx on public.ca_transactions(user_id,date desc);
-create table if not exists public.ca_budgets (
- id bigint generated by default as identity primary key,
- user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
- month text not null check(month ~ '^\\d{4}-\\d{2}$'),
- amount numeric(14,2) not null check(amount>0),
- created_at timestamptz not null default now(),
- unique(user_id,month)
-);
-create table if not exists public.ca_preferences (
- user_id uuid primary key references auth.users(id) on delete cascade,
- country text not null default 'BD',
- currency text not null default '৳',
- updated_at timestamptz not null default now()
-);
-alter table public.ca_transactions enable row level security;
-alter table public.ca_budgets enable row level security;
-alter table public.ca_preferences enable row level security;
-drop policy if exists ca_transactions_select_own on public.ca_transactions;
-drop policy if exists ca_transactions_insert_own on public.ca_transactions;
-drop policy if exists ca_transactions_update_own on public.ca_transactions;
-drop policy if exists ca_transactions_delete_own on public.ca_transactions;
-create policy ca_transactions_select_own on public.ca_transactions for select to authenticated using(auth.uid()=user_id);
-create policy ca_transactions_insert_own on public.ca_transactions for insert to authenticated with check(auth.uid()=user_id);
-create policy ca_transactions_update_own on public.ca_transactions for update to authenticated using(auth.uid()=user_id) with check(auth.uid()=user_id);
-create policy ca_transactions_delete_own on public.ca_transactions for delete to authenticated using(auth.uid()=user_id);
-drop policy if exists ca_budgets_select_own on public.ca_budgets;
-drop policy if exists ca_budgets_insert_own on public.ca_budgets;
-drop policy if exists ca_budgets_update_own on public.ca_budgets;
-drop policy if exists ca_budgets_delete_own on public.ca_budgets;
-create policy ca_budgets_select_own on public.ca_budgets for select to authenticated using(auth.uid()=user_id);
-create policy ca_budgets_insert_own on public.ca_budgets for insert to authenticated with check(auth.uid()=user_id);
-create policy ca_budgets_update_own on public.ca_budgets for update to authenticated using(auth.uid()=user_id) with check(auth.uid()=user_id);
-create policy ca_budgets_delete_own on public.ca_budgets for delete to authenticated using(auth.uid()=user_id);
-drop policy if exists ca_preferences_select_own on public.ca_preferences;
-drop policy if exists ca_preferences_insert_own on public.ca_preferences;
-drop policy if exists ca_preferences_update_own on public.ca_preferences;
-create policy ca_preferences_select_own on public.ca_preferences for select to authenticated using(auth.uid()=user_id);
-create policy ca_preferences_insert_own on public.ca_preferences for insert to authenticated with check(auth.uid()=user_id);
-create policy ca_preferences_update_own on public.ca_preferences for update to authenticated using(auth.uid()=user_id) with check(auth.uid()=user_id);
-grant select,insert,update,delete on public.ca_transactions to authenticated;
-grant select,insert,update,delete on public.ca_budgets to authenticated;
-grant select,insert,update on public.ca_preferences to authenticated;
-grant usage,select on all sequences in schema public to authenticated;
-do $$ begin
- if exists(select 1 from pg_publication where pubname='supabase_realtime') then
-  if not exists(select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='ca_transactions') then alter publication supabase_realtime add table public.ca_transactions; end if;
-  if not exists(select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='ca_budgets') then alter publication supabase_realtime add table public.ca_budgets; end if;
-  if not exists(select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='ca_preferences') then alter publication supabase_realtime add table public.ca_preferences; end if;
- end if;
-end $$;`;
-const $=id=>document.getElementById(id), PAGE_SIZE=50;
-const CURRENCIES=["৳","₹","﷼","د.إ","RM","$","£","€"];
-let sb=null,user=null,txs=[],budgets=[],editing=null,currency="৳",realtime=null,authSubscription=null,page=0,loading=false,loadAgain=false;
-const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
-const monthNow=()=>today().slice(0,7), money=n=>currency+Number(n||0).toLocaleString("en-US",{maximumFractionDigits:2});
-function msg(el,text,kind=""){el.textContent=text;el.className="notice "+kind;el.classList.remove("hidden")}
-function config(){return{url:localStorage.getItem("ca_sb_url")||"",key:localStorage.getItem("ca_sb_key")||""}}
-function setCloud(s){$("cloudState").textContent=s}
-function showSetup(){$("setup").classList.remove("hidden");$("auth").classList.add("hidden");$("app").classList.add("hidden");$("sqlPanel").classList.add("hidden")}
-function showAuth(){$("setup").classList.add("hidden");$("auth").classList.remove("hidden");$("app").classList.add("hidden")}
-function showApp(){$("setup").classList.add("hidden");$("auth").classList.add("hidden");$("app").classList.remove("hidden")}
-function validConfig(url,key){return /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)&&key.length>20&&!/service_role/i.test(key)}
-function clearUserData(){txs=[];budgets=[];editing=null;page=0;currency="৳";$("transactions").innerHTML="";$("budgetProgress").innerHTML="";$("budgetAlert").classList.add("hidden");$("who").textContent="";$("totalIncome").textContent=money(0);$("totalExpense").textContent=money(0);$("profit").textContent=money(0);$("count").textContent="0";$("country").value="BD";$("currency").value="৳";$("budgetAmount").value=""}
-function stopRealtime(){if(realtime&&sb){sb.removeChannel(realtime);realtime=null}}
-async function boot(){
- const c=config();if(!c.url||!c.key||!window.supabase){showSetup();if(!window.supabase)msg($("setupMsg"),"Supabase লাইব্রেরি লোড হয়নি। ইন্টারনেট পরীক্ষা করে পেজ রিফ্রেশ করুন।","error");return}
- if(!validConfig(c.url,c.key)){showSetup();msg($("setupMsg"),"Supabase URL বা key সঠিক নয়।","error");return}
- try{stopRealtime();if(authSubscription){authSubscription.unsubscribe();authSubscription=null}
- sb=window.supabase.createClient(c.url,c.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
- const {data,error}=await sb.auth.getSession();if(error)throw error;user=data.session?.user||null;
- if(user){showApp();$("who").textContent="লগইন: "+(user.email||"অ্যাকাউন্ট");await loadAll();subscribeRealtime()}else{clearUserData();showAuth()}
- const {data:listener}=sb.auth.onAuthStateChange((event,session)=>{setTimeout(async()=>{const next=session?.user||null;if(!next){stopRealtime();clearUserData();user=null;showAuth();return}if(!user||user.id!==next.id){stopRealtime();clearUserData();user=next;showApp();$("who").textContent="লগইন: "+(user.email||"অ্যাকাউন্ট");await loadAll();subscribeRealtime()}else if(event==="PASSWORD_RECOVERY"){$("newPasswordBox").classList.remove("hidden");msg($("authMsg"),"নতুন পাসওয়ার্ড লিখে সংরক্ষণ করুন।","ok")}else if(event==="TOKEN_REFRESHED"){user=next}},0)});
- authSubscription=listener.subscription;
- }catch(e){sb=null;showSetup();msg($("setupMsg"),"Supabase সংযোগ করা যায়নি: "+(e.message||e),"error")}
-}
-async function loadAll(){
- if(!user||!sb)return;if(loading){loadAgain=true;return}loading=true;setCloud("ডেটা লোড হচ্ছে...");
- try{const all=[];let from=0;while(true){const {data,error}=await sb.from("ca_transactions").select("id,user_id,type,amount,category,note,date,created_at").eq("user_id",user.id).order("date",{ascending:false}).order("id",{ascending:false}).range(from,from+999);if(error)throw error;all.push(...(data||[]));if(!data||data.length<1000)break;from+=1000}
- const [b,p]=await Promise.all([sb.from("ca_budgets").select("id,user_id,month,amount").eq("user_id",user.id),sb.from("ca_preferences").select("country,currency").eq("user_id",user.id).maybeSingle()]);
- if(b.error)throw b.error;if(p.error)throw p.error;txs=all;budgets=b.data||[];
- const pref=p.data||{country:"BD",currency:"৳"};$("country").value=pref.country||"BD";currency=CURRENCIES.includes(pref.currency)?pref.currency:"৳";$("currency").value=currency;
- render();setCloud("অনলাইন ডেটাবেজ সংযুক্ত • "+txs.length+"টি লেনদেন");
- }catch(e){setCloud("ডেটাবেজে সমস্যা: "+(e.message||e))}
- finally{loading=false;if(loadAgain){loadAgain=false;loadAll()}}
-}
-function subscribeRealtime(){if(!sb||!user)return;stopRealtime();realtime=sb.channel("ca-user-"+user.id).on("postgres_changes",{event:"*",schema:"public",table:"ca_transactions",filter:"user_id=eq."+user.id},()=>loadAll()).on("postgres_changes",{event:"*",schema:"public",table:"ca_budgets",filter:"user_id=eq."+user.id},()=>loadAll()).on("postgres_changes",{event:"*",schema:"public",table:"ca_preferences",filter:"user_id=eq."+user.id},()=>loadAll()).subscribe(status=>{if(status==="SUBSCRIBED")setCloud("অনলাইন • অন্য ফোনের পরিবর্তনও সিঙ্ক হবে");else if(status==="CHANNEL_ERROR"||status==="TIMED_OUT")setCloud("লাইভ সিঙ্কে সমস্যা • রিফ্রেশ করুন")})}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function render(){
- const m=$("filterMonth").value||monthNow(),rows=txs.filter(t=>String(t.date).slice(0,7)===m),inc=rows.filter(t=>t.type==="income").reduce((s,t)=>s+Number(t.amount),0),exp=rows.filter(t=>t.type==="expense").reduce((s,t)=>s+Number(t.amount),0);
- $("totalIncome").textContent=money(inc);$("totalExpense").textContent=money(exp);$("profit").textContent=money(inc-exp);$("profit").className=inc-exp>=0?"green":"red";$("count").textContent=rows.length;
- const pages=Math.max(1,Math.ceil(rows.length/PAGE_SIZE));page=Math.min(page,pages-1);const visible=rows.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE);
- $("transactions").innerHTML=visible.map(t=>`<tr><td>${esc(t.date)}</td><td><span class="pill">${t.type==="income"?"আয়":"খরচ"}</span></td><td>${esc(t.category||"—")}${t.note?"<br><span class='muted small'>"+esc(t.note)+"</span>":""}</td><td class="right">${money(t.amount)}</td><td><button class="secondary small" data-edit="${esc(t.id)}">এডিট</button> <button class="danger small" data-del="${esc(t.id)}">মুছুন</button></td></tr>`).join("");
- $("empty").classList.toggle("hidden",rows.length>0);$("pageInfo").textContent=`পৃষ্ঠা ${page+1} / ${pages} • মোট ${rows.length}টি`;$("prevPage").disabled=page===0;$("nextPage").disabled=page>=pages-1;
- $("transactions").querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editTx(b.dataset.edit));$("transactions").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteTx(b.dataset.del));renderDashboardBudget(m);renderBudgetEditor();
-}
-function renderDashboardBudget(m){const budget=budgets.find(b=>b.month===m),spent=txs.filter(t=>t.type==="expense"&&String(t.date).slice(0,7)===m).reduce((s,t)=>s+Number(t.amount),0),box=$("budgetAlert");if(!budget){box.classList.add("hidden");return}const pct=spent/Number(budget.amount)*100;box.classList.remove("hidden");box.className="notice "+(pct>=100?"error":pct>=80?"":"ok");box.textContent=pct>=100?"🚨 বাজেট অতিক্রম করেছে!":pct>=80?"⚠️ সতর্কতা: বাজেটের ৮০% বা বেশি খরচ হয়েছে।":pct>=50?"খেয়াল রাখুন: বাজেটের ৫০% বা বেশি খরচ হয়েছে।":"বাজেটের মধ্যে আছেন।"}
-function renderBudgetEditor(){const m=$("budgetMonth").value||monthNow(),budget=budgets.find(b=>b.month===m),spent=txs.filter(t=>t.type==="expense"&&String(t.date).slice(0,7)===m).reduce((s,t)=>s+Number(t.amount),0);$("budgetAmount").value=budget?budget.amount:"";if(!budget){$("budgetProgress").innerHTML=`<p class="small muted">${esc(m)} মাসের বাজেট এখনো দেওয়া হয়নি।</p>`;return}const pct=spent/Number(budget.amount)*100,level=pct>=100?"over":pct>=80?"warn":"";$("budgetProgress").innerHTML=`<p><b>${esc(m)}</b> — খরচ ${money(spent)} / বাজেট ${money(budget.amount)} (${pct.toFixed(1)}%)</p><div class="bar ${level}"><span style="width:${Math.min(pct,100)}%"></span></div>`}
-function switchTab(tab){document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));["dashboard","add","budget","reports","settings"].forEach(t=>$("tab-"+t).classList.toggle("hidden",t!==tab));if(tab==="budget")renderBudgetEditor()}
-async function saveTx(){if(!user||!sb)return;const amount=Number($("amount").value),date=$("date").value;if(!Number.isFinite(amount)||amount<=0||!date||!["income","expense"].includes($("type").value)){msg($("txMsg"),"সঠিক ধরন, টাকার পরিমাণ ও তারিখ দিন।","error");return}const row={user_id:user.id,type:$("type").value,amount,category:$("category").value.trim().slice(0,100),note:$("note").value.trim().slice(0,250),date};const btn=$("saveTx");btn.disabled=true;try{const res=editing?await sb.from("ca_transactions").update(row).eq("id",editing).eq("user_id",user.id):await sb.from("ca_transactions").insert(row);if(res.error)throw res.error;resetForm();msg($("txMsg"),"লেনদেন সংরক্ষণ হয়েছে।","ok");await loadAll();switchTab("dashboard")}catch(e){msg($("txMsg"),"সংরক্ষণ হয়নি: "+(e.message||e),"error")}finally{btn.disabled=false}}
-function resetForm(){editing=null;$("formTitle").textContent="নতুন আয় / খরচ যোগ করুন";$("saveTx").textContent="সংরক্ষণ করুন";$("type").value="income";$("amount").value="";$("date").value=today();$("category").value="";$("note").value=""}
-function editTx(id){const t=txs.find(x=>String(x.id)===String(id));if(!t)return;editing=t.id;$("formTitle").textContent="লেনদেন সম্পাদনা";$("saveTx").textContent="পরিবর্তন সংরক্ষণ";$("type").value=t.type;$("amount").value=t.amount;$("date").value=t.date;$("category").value=t.category||"";$("note").value=t.note||"";switchTab("add")}
-async function deleteTx(id){if(!user||!confirm("এই লেনদেনটি স্থায়ীভাবে মুছে ফেলবেন?"))return;try{const {error}=await sb.from("ca_transactions").delete().eq("id",id).eq("user_id",user.id);if(error)throw error;await loadAll()}catch(e){alert("মুছতে সমস্যা: "+(e.message||e))}}
-async function saveBudget(){if(!user)return;const month=$("budgetMonth").value,amount=Number($("budgetAmount").value);if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)||!Number.isFinite(amount)||amount<=0){msg($("budgetMsg"),"সঠিক মাস ও বাজেটের পরিমাণ দিন।","error");return}try{const {error}=await sb.from("ca_budgets").upsert({user_id:user.id,month,amount},{onConflict:"user_id,month"});if(error)throw error;msg($("budgetMsg"),"বাজেট সংরক্ষণ হয়েছে।","ok");await loadAll()}catch(e){msg($("budgetMsg"),"বাজেট সংরক্ষণ হয়নি: "+(e.message||e),"error")}}
-function download(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
-function csv(){const m=$("filterMonth").value||monthNow(),rows=txs.filter(t=>String(t.date).slice(0,7)===m),q=s=>'"'+String(s??"").replace(/"/g,'""').replace(/^[=+\-@]/,"'")+'"',data=[["তারিখ","ধরন","ক্যাটাগরি","বিবরণ","টাকা"],...rows.map(t=>[t.date,t.type==="income"?"আয়":"খরচ",t.category,t.note,t.amount])].map(r=>r.map(q).join(",")).join("\r\n");download("cost-alarm-"+m+".csv","\ufeff"+data,"text/csv;charset=utf-8")}
-function backup(){download("cost-alarm-backup-"+today()+".json",JSON.stringify({app:"Cost Alarm",version:4,created_at:new Date().toISOString(),transactions:txs,budgets},null,2),"application/json")}
-function fingerprint(t){return[t.type,String(Number(t.amount)),String(t.date),String(t.category||"").trim(),String(t.note||"").trim()].join("|")}
-async function restore(file){try{const obj=JSON.parse(await file.text());if(!obj||!Array.isArray(obj.transactions)||!Array.isArray(obj.budgets))throw Error("ব্যাকআপ ফাইলের ফরম্যাট সঠিক নয়");if(!confirm("ব্যাকআপের তথ্য বর্তমান অ্যাকাউন্টে যোগ হবে। একই তথ্যের পুনরাবৃত্তি বাদ দেওয়ার চেষ্টা করা হবে। চালাবেন?"))return;const known=new Set(txs.map(fingerprint)),valid=[];for(const t of obj.transactions){const row={user_id:user.id,type:t.type,amount:Number(t.amount),category:String(t.category||"").slice(0,100),note:String(t.note||"").slice(0,250),date:String(t.date||"")};if(!["income","expense"].includes(row.type)||!Number.isFinite(row.amount)||row.amount<=0||!/^\d{4}-\d{2}-\d{2}$/.test(row.date))continue;const fp=fingerprint(row);if(!known.has(fp)){known.add(fp);valid.push(row)}}for(let i=0;i<valid.length;i+=100){const {error}=await sb.from("ca_transactions").insert(valid.slice(i,i+100));if(error)throw error}for(const b of obj.budgets){if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(String(b.month))||!Number.isFinite(Number(b.amount))||Number(b.amount)<=0)continue;const {error}=await sb.from("ca_budgets").upsert({user_id:user.id,month:b.month,amount:Number(b.amount)},{onConflict:"user_id,month"});if(error)throw error}msg($("reportMsg"),`পুনরুদ্ধার সম্পন্ন: ${valid.length}টি নতুন লেনদেন যোগ হয়েছে।`,"ok");await loadAll()}catch(e){msg($("reportMsg"),"ব্যাকআপ পুনরুদ্ধার হয়নি: "+(e.message||e),"error")}}
-async function savePrefs(){if(!user)return;const country=$("country").value,newCurrency=$("currency").value;if(!CURRENCIES.includes(newCurrency)){alert("অনুমোদিত মুদ্রা নির্বাচন করুন।");return}try{const {error}=await sb.from("ca_preferences").upsert({user_id:user.id,country,currency:newCurrency,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)throw error;currency=newCurrency;render();alert("সেটিংস অ্যাকাউন্টে সংরক্ষণ হয়েছে।")}catch(e){alert("সেটিংস সংরক্ষণ হয়নি: "+(e.message||e))}}
-$("sqlCode").value=SQL;$("showSql").onclick=()=>$("sqlPanel").classList.toggle("hidden");$("copySql").onclick=async()=>{try{await navigator.clipboard.writeText(SQL);alert("SQL কপি হয়েছে।")}catch(e){$("sqlCode").select();alert("SQL সিলেক্ট হয়েছে। Copy চাপুন।")}};
-$("saveConfig").onclick=async()=>{const url=$("sbUrl").value.trim().replace(/\/+$/,""),key=$("sbKey").value.trim();if(!validConfig(url,key)){msg($("setupMsg"),"সঠিক Project URL এবং Publishable/anon public key দিন। Secret/service_role key ব্যবহার করবেন না।","error");return}localStorage.setItem("ca_sb_url",url);localStorage.setItem("ca_sb_key",key);await boot()};
-$("changeConfig").onclick=()=>{$("sbUrl").value=config().url;$("sbKey").value=config().key;showSetup();msg($("setupMsg"),"নতুন Supabase সংযোগের তথ্য দিন।","")};
-$("signIn").onclick=async()=>{if(!sb)return;const email=$("email").value.trim(),password=$("password").value;if(!email||!password){msg($("authMsg"),"ইমেইল ও পাসওয়ার্ড লিখুন।","error");return}const b=$("signIn");b.disabled=true;try{const {error}=await sb.auth.signInWithPassword({email,password});if(error)throw error;msg($("authMsg"),"লগইন সফল হচ্ছে...","ok")}catch(e){msg($("authMsg"),"লগইন হয়নি: "+(e.message||e),"error")}finally{b.disabled=false}};
-$("signUp").onclick=async()=>{if(!sb)return;const email=$("email").value.trim(),password=$("password").value;if(!email||password.length<6){msg($("authMsg"),"সঠিক ইমেইল দিন এবং কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড লিখুন।","error");return}try{const {data,error}=await sb.auth.signUp({email,password});if(error)throw error;msg($("authMsg"),data.session?"অ্যাকাউন্ট তৈরি হয়েছে এবং লগইন হয়েছে।":"অ্যাকাউন্ট তৈরি হয়েছে। ইমেইল যাচাই করে তারপর লগইন করুন।","ok")}catch(e){msg($("authMsg"),"অ্যাকাউন্ট তৈরি হয়নি: "+(e.message||e),"error")}};
-$("resetPass").onclick=async()=>{const email=$("email").value.trim();if(!email){msg($("authMsg"),"আগে ইমেইল লিখুন।","error");return}try{const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.href});if(error)throw error;msg($("authMsg"),"পাসওয়ার্ড রিসেটের ইমেইল পাঠানো হয়েছে। ইমেইলের লিংক খুলে নতুন পাসওয়ার্ড দিন।","ok")}catch(e){msg($("authMsg"),"রিসেট ইমেইল পাঠানো যায়নি: "+(e.message||e),"error")}};
-$("saveNewPassword").onclick=async()=>{const password=$("newPassword").value;if(password.length<6){msg($("authMsg"),"নতুন পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।","error");return}try{const {error}=await sb.auth.updateUser({password});if(error)throw error;$("newPassword").value="";$("newPasswordBox").classList.add("hidden");msg($("authMsg"),"নতুন পাসওয়ার্ড সংরক্ষণ হয়েছে।","ok")}catch(e){msg($("authMsg"),"পাসওয়ার্ড পরিবর্তন হয়নি: "+(e.message||e),"error")}};
-$("signOut").onclick=async()=>{if(!sb)return;try{const {error}=await sb.auth.signOut();if(error)throw error;stopRealtime();clearUserData();user=null;showAuth()}catch(e){alert("লগআউট সমস্যা: "+(e.message||e))}};
-$("refresh").onclick=loadAll;$("saveTx").onclick=saveTx;$("cancelEdit").onclick=()=>{resetForm();$("txMsg").classList.add("hidden")};$("saveBudget").onclick=saveBudget;$("budgetMonth").onchange=renderBudgetEditor;$("filterMonth").onchange=()=>{page=0;render()};$("csvBtn").onclick=csv;$("backupBtn").onclick=backup;$("restoreBtn").onclick=()=>$("restoreFile").click();$("restoreFile").onchange=e=>{if(e.target.files[0])restore(e.target.files[0]);e.target.value=""};$("savePrefs").onclick=savePrefs;$("prevPage").onclick=()=>{if(page>0){page--;render()}};$("nextPage").onclick=()=>{page++;render()};document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
-$("filterMonth").value=monthNow();$("budgetMonth").value=monthNow();$("date").value=today();$("country").value="BD";$("currency").value="৳";const saved=config();$("sbUrl").value=saved.url;$("sbKey").value=saved.key;boot();
-</script>
-</body></html>
+<div class="box">
+<h2>🌍 Choose Language</h2>
+<button class="lang-btn active" onclick="setLang('en',this)">English</button>
+<button class="lang-btn" onclick="setLang('ur',this)">Urdu - Pakistan</button>
+<button class="lang-btn" onclick="setLang('fr',this)">Français</button>
+<button class="lang-btn" onclick="setLang('de',this)">Deutsch</button>
+<button class="lang-btn" onclick="setLang('es',this)">Español</button>
+<button class="lang-btn" onclick="setLang('bn',this)">বাংলা</button>
+
+<h1 id="t1">⚠️ Cost Alarm Software</h1>
+<p id="t2">For Website & Software Owners. If your cost increases, this software will ALARM you instantly. Stop losing money silently. Know your cost every day.</p>
+
+<div class="price-box"><h2 style="margin:0">💰 Price: Only $10 One Time</h2><p id="tPrice">No Monthly Fee - Lifetime Use - 100% Safe - Instant Delivery on WhatsApp</p><p><b>Today Offer:</b> Buy today and get FREE Setup Guide + Lifetime Support.</p></div>
+
+<div class="feature">✅ <b>Save Money:</b> Know before your cost becomes high. Many owners lose $100, $500, $1000 without knowing. This alarm stops that.</div>
+<div class="feature">🔔 <b>Instant Alarm:</b> Red alarm when cost is over limit. You will see it immediately.</div>
+<div class="feature">📊 <b>Daily Tracking:</b> Put your limit once, check your cost daily. Simple, no technical knowledge needed.</div>
+<div class="feature">🌍 <b>For All Countries:</b> USA, UK, Europe, Pakistan, Bangladesh, India - All can use. Works on mobile and computer.</div>
+<div class="feature">🔒 <b>Safe & Private:</b> We do not share your data. Your cost information stays private.</div>
+<div class="feature">⚡ <b>Easy To Use:</b> No installation problem. Just open, put limit, put cost, press Check. Done in 10 seconds.</div>
+
+<h3>🧪 FREE TEST - Try Now - No Payment Needed</h3>
+<p><b>Your Monthly Limit ($):</b></p>
+<input id="limit" type="number" placeholder="Example: 100">
+<p><b>Today Your Cost ($):</b></p>
+<input id="cost" type="number" placeholder="Example: 150">
+<br><br>
+<button class="main-btn" onclick="check()">Check My Cost - FREE TEST</button>
+<div id="alarm">🚨 ALARM! Your cost is HIGH! Your cost has increased! You need Cost Alarm Software to save money.</div>
+<div id="ok">✅ OK. Your cost is normal. Keep checking daily to stay safe.</div>
+
+<div class="section">
+<h2>❓ How Does It Work? - Step By Step</h2>
+<p><b>Step 1:</b> You decide your monthly limit. Example: You want to spend maximum $100 per month.</p>
+<p><b>Step 2:</b> Every day you put your today cost. Example: Today you spent $20, $50, $120.</p>
+<p><b>Step 3:</b> Our software compares limit vs cost. If cost is more than limit, it shows RED ALARM instantly.</p>
+<p><b>Step 4:</b> You take action quickly - stop extra service, fix bug, contact developer. You save money.</p>
+<p>Without
