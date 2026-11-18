@@ -1,171 +1,710 @@
 
+HTML
 
 <!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cost Alarm - Smart Budget Alarm</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123b66">
+<title>Cost Alarm — Business Manager</title>
+<meta name="description" content="Cost Alarm helps you monitor your business costs, budget and profit.">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+:root{
+ --navy:#123b66;--blue:#1769aa;--bg:#f3f6fb;
+ --white:#fff;--green:#138a52;--yellow:#d99a00;
+ --red:#d93030;--text:#172b43;--muted:#718096;
+}
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#eef2f7;margin:0;padding:16px;color:#172033}
-.app{max-width:550px;margin:auto;background:white;padding:22px;border-radius:20px;box-shadow:0 5px 20px #0001}
-h1{text-align:center;color:#123b66}
-input{width:100%;padding:13px;border:1px solid #ccc;border-radius:10px;margin:8px 0 15px;font-size:17px}
-button{border:0;border-radius:12px;padding:13px 18px;font-size:16px;font-weight:bold;cursor:pointer}
-.primary{background:#1877f2;color:white;width:100%}
-.stop{background:#333;color:white;width:100%;margin-top:10px}
-.status{padding:20px;text-align:center;border-radius:15px;margin:18px 0;font-weight:bold}
-.green{background:#dcfce7;color:#166534}
-.yellow{background:#fef3c7;color:#92400e}
-.red{background:#fee2e2;color:#b91c1c}
-.danger{background:#450a0a;color:white}
-.light{font-size:45px}
-.bar{height:18px;background:#ddd;border-radius:20px;overflow:hidden;margin:12px 0}
-.fill{height:100%;width:0%;background:#16a34a;transition:.3s}
-.info{background:#f2f6fc;padding:13px;border-radius:12px;margin:12px 0}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Arial,"Noto Sans Bengali",sans-serif;
+}
+header{
+ background:linear-gradient(120deg,#102e50,#1769aa);
+ color:white;padding:22px 16px;text-align:center;
+}
+header h1{margin:0;font-size:30px}
+header p{margin:9px 0 0;font-size:14px}
+.container{max-width:950px;margin:auto;padding:16px}
+.card{
+ background:white;border-radius:15px;padding:18px;
+ margin-bottom:15px;box-shadow:0 3px 15px #102e5010;
+}
+h2{font-size:19px;margin:0 0 15px}
+h3{margin:0 0 8px;font-size:15px}
+label{display:block;font-size:14px;font-weight:bold;margin:12px 0 6px}
+input,select{
+ width:100%;padding:13px;border:1px solid #d8e0ea;
+ border-radius:9px;font-size:16px;background:white;
+}
+button{
+ border:0;border-radius:9px;padding:13px 17px;
+ font-size:15px;font-weight:bold;cursor:pointer;
+}
+.primary{background:var(--blue);color:white;width:100%;margin-top:15px}
+.secondary{background:#e8f1fb;color:var(--navy)}
+.danger{background:#ffe8e8;color:#b42323}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stat{
+ padding:15px;border-radius:12px;background:#f3f7fc;
+}
+.stat small{color:var(--muted)}
+.stat strong{display:block;font-size:23px;margin-top:8px;overflow-wrap:anywhere}
+.green{color:var(--green)}.yellow{color:var(--yellow)}.red{color:var(--red)}
+.progress{
+ height:15px;background:#e5eaf1;border-radius:20px;
+ overflow:hidden;margin:12px 0;
+}
+.bar{height:100%;width:0%;background:var(--green);transition:.3s}
+#status{
+ padding:13px;border-radius:10px;background:#e9f8ef;
+ font-weight:bold;text-align:center;margin-top:12px;
+}
+#history{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:10px;border-bottom:1px solid #e8edf3;text-align:left}
+footer{text-align:center;color:var(--muted);padding:25px 10px;font-size:13px}
+a{color:var(--blue)}
+.hidden{display:none}
+@media(max-width:520px){
+ .grid{grid-template-columns:1fr 1fr}
+ header h1{font-size:25px}
+ .container{padding:10px}
+ .card{padding:14px}
+ .stat strong{font-size:19px}
+}
 </style>
 </head>
 <body>
-<div class="app">
-<h1>⚡ COST ALARM</h1>
-<p style="text-align:center">Smart Budget Monitoring System</p>
 
-<label>মাসিক বাজেট (৳)</label>
-<input id="budget" type="number" min="1" placeholder="উদাহরণ: 50000">
+<header>
+<h1>🔔 COST ALARM</h1>
+<p id="tagline">আপনার ব্যবসার আয়, খরচ ও লাভের হিসাব — খরচ বেশি হলেই ALARM</p>
+</header>
 
-<label>বর্তমান মোট খরচ (৳)</label>
-<input id="spent" type="number" min="0" placeholder="উদাহরণ: 25000">
+<main class="container">
 
-<label>হলুদ সতর্কতা (%)</label>
-<input id="yellowLimit" type="number" min="1" max="99" value="50">
-
-<label>লাল সতর্কতা (%)</label>
-<input id="redLimit" type="number" min="2" max="100" value="80">
-
-<button class="primary" onclick="checkBudget()">🔍 বাজেট পরীক্ষা করুন</button>
-
-<div id="status" class="status green">
-<div class="light">🟢</div>
-স্বাভাবিক
+<div class="card">
+<h2 id="settingsTitle">⚙️ সেটিংস</h2>
+<div class="grid">
+ <div>
+  <label id="languageLabel">ভাষা</label>
+  <select id="language">
+   <option value="bn">বাংলা</option>
+   <option value="en">English</option>
+   <option value="ur">اردو</option>
+   <option value="fr">Français</option>
+   <option value="de">Deutsch</option>
+   <option value="es">Español</option>
+  </select>
+ </div>
+ <div>
+  <label id="currencyLabel">মুদ্রা</label>
+  <select id="currency">
+   <option value="BDT">BDT ৳</option>
+   <option value="USD">USD $</option>
+   <option value="GBP">GBP £</option>
+   <option value="EUR">EUR €</option>
+   <option value="INR">INR ₹</option>
+   <option value="SAR">SAR ر.س</option>
+   <option value="AED">AED د.إ</option>
+   <option value="MYR">MYR RM</option>
+   <option value="PKR">PKR ₨</option>
+  </select>
+ </div>
+</div>
 </div>
 
-<div class="info">
-<b>বাজেট ব্যবহারের হার:</b>
-<div class="bar"><div class="fill" id="fill"></div></div>
-<h2 id="percent">০%</h2>
+<div class="card">
+<h2 id="budgetTitle">💰 বাজেট ও খরচের হিসাব</h2>
+
+<label id="monthLabel">মাস নির্বাচন</label>
+<input type="month" id="month">
+
+<label id="budgetLabel">মাসিক বাজেট</label>
+<input type="number" id="budget" min="1" step="0.01" placeholder="যেমন: 50000">
+
+<label id="incomeLabel">মোট আয়</label>
+<input type="number" id="income" min="0" step="0.01" placeholder="যেমন: 80000">
+
+<label id="expenseLabel">আজকের খরচ</label>
+<input type="number" id="expense" min="0" step="0.01" placeholder="যেমন: 1500">
+
+<div class="grid">
+ <div>
+  <label id="yellowLabel">সতর্কতা (%)</label>
+  <input type="number" id="yellowLimit" min="1" max="99" value="50">
+ </div>
+ <div>
+  <label id="redLabel">জরুরি অ্যালার্ম (%)</label>
+  <input type="number" id="redLimit" min="2" max="100" value="80">
+ </div>
 </div>
 
-<div class="info">
-<p>মোট বাজেট: <b id="total">৳০</b></p>
-<p>মোট খরচ: <b id="expense">৳০</b></p>
-<p>অবশিষ্ট টাকা: <b id="remaining">৳০</b></p>
-<p id="message">আপনার হিসাব এখানে দেখা যাবে।</p>
+<button class="primary" id="checkBtn">🔔 হিসাব পরীক্ষা করুন</button>
+<div id="status">আপনার বাজেটের তথ্য লিখুন</div>
 </div>
 
-<button class="stop" onclick="stopAlarm()">🔇 অ্যালার্ম বন্ধ করুন</button>
+<div class="card">
+<h2 id="dashboardTitle">📊 ব্যবসার ড্যাশবোর্ড</h2>
+<div class="grid">
+ <div class="stat">
+  <small id="budgetStat">মাসিক বাজেট</small>
+  <strong id="showBudget">0</strong>
+ </div>
+ <div class="stat">
+  <small id="expenseStat">আজকের খরচ</small>
+  <strong id="showExpense">0</strong>
+ </div>
+ <div class="stat">
+  <small id="incomeStat">মোট আয়</small>
+  <strong id="showIncome">0</strong>
+ </div>
+ <div class="stat">
+  <small id="profitStat">আয় - আজকের খরচ</small>
+  <strong id="showProfit">0</strong>
+ </div>
 </div>
+<h3 id="usageTitle" style="margin-top:20px">বাজেট ব্যবহারের হার</h3>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<strong id="percent">0%</strong>
+</div>
+
+<div class="card">
+<h2 id="historyTitle">📁 সংরক্ষিত হিসাব</h2>
+<div id="history">
+<table>
+<thead>
+<tr>
+<th id="dateHead">তারিখ</th>
+<th id="budgetHead">বাজেট</th>
+<th id="expenseHead">খরচ</th>
+<th id="percentHead">ব্যবহার</th>
+</tr>
+</thead>
+<tbody id="historyBody"></tbody>
+</table>
+</div>
+<button class="secondary" id="csvBtn" style="width:100%;margin-top:15px">⬇️ Download CSV</button>
+<button class="danger" id="clearBtn" style="width:100%;margin-top:10px">সব হিসাব মুছুন</button>
+</div>
+
+<div class="card">
+<h2 id="cloudTitle">☁️ Cloud Database</h2>
+<p id="cloudInfo">আপনার হিসাব Supabase ডেটাবেজে পাঠানো যাবে। সংযোগ না থাকলেও ব্রাউজারে হিসাব সংরক্ষিত থাকবে।</p>
+<button class="secondary" id="syncBtn" style="width:100%">☁️ Supabase-এ সংরক্ষণ করুন</button>
+<p id="cloudStatus" style="font-size:13px;color:#718096"></p>
+</div>
+
+<div class="card" style="text-align:center">
+<h2>🌍 Cost Alarm</h2>
+<p id="promo">আপনার ব্যবসার খরচ নিয়ন্ত্রণ করুন। বাজেটের সীমা অতিক্রম করার আগেই সতর্ক হোন।</p>
+<p><strong>$10 — Lifetime Offer</strong></p>
+<a href="https://wa.me/8801917716922" target="_blank" rel="noopener">
+<button class="primary">WhatsApp — Contact Us</button>
+</a>
+</div>
+
+</main>
+
+<footer>
+Cost Alarm © 2026. All rights reserved.
+</footer>
 
 <script>
-let audioContext=null;
-let alarmTimer=null;
+"use strict";
 
-function money(n){
- return "৳"+Number(n).toLocaleString("bn-BD");
-}
+/* SUPABASE CONFIGURATION */
+const SUPABASE_URL = "https://iwtcsaxuyyzubtmxwmmp.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Z6FgaCdMOBpSxKcneJ5IkQ_ed8FHky5";
 
-function sound(){
- try{
-  if(!audioContext){
-   audioContext=new (window.AudioContext||window.webkitAudioContext)();
-  }
-  if(audioContext.state==="suspended")audioContext.resume();
-  const oscillator=audioContext.createOscillator();
-  const gain=audioContext.createGain();
-  oscillator.connect(gain);
-  gain.connect(audioContext.destination);
-  oscillator.frequency.value=850;
-  gain.gain.value=.15;
-  oscillator.start();
-  oscillator.stop(audioContext.currentTime+.35);
- }catch(e){}
-}
-
-function startAlarm(){
- stopAlarm();
- sound();
- alarmTimer=setInterval(sound,1200);
-}
-
-function stopAlarm(){
- if(alarmTimer){
-  clearInterval(alarmTimer);
-  alarmTimer=null;
+let supabaseClient = null;
+try {
+ if(window.supabase && SUPABASE_URL && SUPABASE_KEY){
+  supabaseClient = window.supabase.createClient(
+   SUPABASE_URL,SUPABASE_KEY
+  );
  }
+} catch(error){
+ console.error("Supabase initialization:",error);
+}
+
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = "cost_alarm_mvp_v1";
+
+const translations = {
+bn:{
+tagline:"আপনার ব্যবসার আয়, খরচ ও লাভের হিসাব — খরচ বেশি হলেই ALARM",
+settings:"⚙️ সেটিংস",language:"ভাষা",currency:"মুদ্রা",
+budgetTitle:"💰 বাজেট ও খরচের হিসাব",month:"মাস নির্বাচন",
+budget:"মাসিক বাজেট",income:"মোট আয়",expense:"আজকের খরচ",
+yellow:"সতর্কতা (%)",red:"জরুরি অ্যালার্ম (%)",
+check:"🔔 হিসাব পরীক্ষা করুন",dashboard:"📊 ব্যবসার ড্যাশবোর্ড",
+budgetStat:"মাসিক বাজেট",expenseStat:"আজকের খরচ",
+incomeStat:"মোট আয়",profitStat:"আয় - আজকের খরচ",
+usage:"বাজেট ব্যবহারের হার",history:"📁 সংরক্ষিত হিসাব",
+date:"তারিখ",percent:"ব্যবহার",clear:"সব হিসাব মুছুন",
+cloud:"☁️ Cloud Database",
+cloudInfo:"আপনার হিসাব Supabase ডেটাবেজে পাঠানো যাবে।",
+sync:"☁️ Supabase-এ সংরক্ষণ করুন",
+promo:"আপনার ব্যবসার খরচ নিয়ন্ত্রণ করুন। বাজেটের সীমা অতিক্রম করার আগেই সতর্ক হোন।",
+empty:"এখনো কোনো হিসাব সংরক্ষিত নেই।",
+normal:"✅ খরচ নিয়ন্ত্রণে আছে।",warning:"⚠️ সতর্কতা! আপনার বাজেটের খরচ বাড়ছে।",
+danger:"🚨 জরুরি অ্যালার্ম! আপনার বাজেটের সীমা প্রায় শেষ!",
+over:"🛑 বাজেট অতিক্রম করেছে! এখনই খরচ নিয়ন্ত্রণ করুন।",
+invalid:"সঠিক বাজেট ও খরচের পরিমাণ লিখুন।",
+limits:"সতর্কতার হার ১–৯৯ এবং জরুরি হার সতর্কতার চেয়ে বেশি হতে হবে।",
+saved:"হিসাব ব্রাউজারে সংরক্ষণ হয়েছে।",
+cleared:"সব হিসাব মুছে ফেলা হয়েছে।",
+confirm:"আপনি কি নিশ্চিতভাবে সব হিসাব মুছতে চান?",
+cloudSuccess:"Supabase-এ সফলভাবে সংরক্ষিত হয়েছে।",
+cloudError:"Supabase-এ সংরক্ষণ হয়নি। ডেটাবেজ সেটিংস পরীক্ষা করুন।",
+cloudMissing:"Supabase সংযোগ পাওয়া যায়নি।",
+csv:"⬇️ Download CSV"
+},
+en:{
+tagline:"Track business income, expenses and profit — Get an ALARM when costs rise",
+settings:"⚙️ Settings",language:"Language",currency:"Currency",
+budgetTitle:"💰 Budget & Expense",month:"Select month",
+budget:"Monthly budget",income:"Total income",expense:"Today's expense",
+yellow:"Warning (%)",red:"Critical alarm (%)",
+check:"🔔 Check Budget",dashboard:"📊 Business Dashboard",
+budgetStat:"Monthly budget",expenseStat:"Today's expense",
+incomeStat:"Total income",profitStat:"Income - Today's expense",
+usage:"Budget usage",history:"📁 Saved Records",
+date:"Date",percent:"Usage",clear:"Clear all records",
+cloud:"☁️ Cloud Database",
+cloudInfo:"Send your records to your Supabase database.",
+sync:"☁️ Save to Supabase",
+promo:"Control your business expenses and get warned before exceeding your budget.",
+empty:"No saved records yet.",
+normal:"✅ Your spending is under control.",
+warning:"⚠️ Warning! Your budget usage is increasing.",
+danger:"🚨 Critical alarm! Your budget is nearly exhausted!",
+over:"🛑 Budget exceeded! Control your spending now.",
+invalid:"Enter valid budget and expense amounts.",
+limits:"Warning must be 1–99 and critical must be higher than warning.",
+saved:"Saved in your browser.",
+cleared:"All records cleared.",
+confirm:"Are you sure you want to delete all records?",
+cloudSuccess:"Successfully saved to Supabase.",
+cloudError:"Could not save to Supabase. Check database settings.",
+cloudMissing:"Supabase connection is unavailable.",
+csv:"⬇️ Download CSV"
+},
+ur:{
+tagline:"اپنی کاروباری آمدنی اور اخراجات پر نظر رکھیں",
+settings:"⚙️ ترتیبات",language:"زبان",currency:"کرنسی",
+budgetTitle:"💰 بجٹ اور اخراجات",month:"مہینہ منتخب کریں",
+budget:"ماہانہ بجٹ",income:"کل آمدنی",expense:"آج کا خرچ",
+yellow:"تنبیہ (%)",red:"خطرے کا الارم (%)",
+check:"🔔 بجٹ چیک کریں",dashboard:"📊 کاروباری ڈیش بورڈ",
+budgetStat:"ماہانہ بجٹ",expenseStat:"آج کا خرچ",
+incomeStat:"کل آمدنی",profitStat:"آمدنی - آج کا خرچ",
+usage:"بجٹ کا استعمال",history:"📁 محفوظ ریکارڈ",
+date:"تاریخ",percent:"استعمال",clear:"تمام ریکارڈ حذف کریں",
+cloud:"☁️ کلاؤڈ ڈیٹا بیس",
+cloudInfo:"اپنا ریکارڈ Supabase میں محفوظ کریں۔",
+sync:"☁️ Supabase میں محفوظ کریں",
+promo:"اپنے کاروباری اخراجات کو کنٹرول کریں۔",
+empty:"ابھی کوئی ریکارڈ نہیں۔",
+normal:"✅ اخراجات قابو میں ہیں۔",
+warning:"⚠️ خبردار! بجٹ کے اخراجات بڑھ رہے ہیں۔",
+danger:"🚨 خطرے کا الارم! بجٹ ختم ہونے والا ہے۔",
+over:"🛑 بجٹ ختم ہو گیا!",
+invalid:"درست بجٹ اور خرچ درج کریں۔",
+limits:"تنبیہ 1–99 اور خطرے کا الارم اس سے زیادہ ہونا چاہیے۔",
+saved:"براؤزر میں محفوظ ہو گیا۔",
+cleared:"تمام ریکارڈ حذف ہو گئے۔",
+confirm:"کیا آپ تمام ریکارڈ حذف کرنا چاہتے ہیں؟",
+cloudSuccess:"Supabase میں محفوظ ہو گیا۔",
+cloudError:"Supabase میں محفوظ نہیں ہوا۔",
+cloudMissing:"Supabase کنکشن دستیاب نہیں۔",
+csv:"⬇️ CSV ڈاؤن لوڈ کریں"
+},
+fr:{
+tagline:"Suivez vos revenus et dépenses professionnelles",
+settings:"⚙️ Paramètres",language:"Langue",currency:"Devise",
+budgetTitle:"💰 Budget et dépenses",month:"Choisir le mois",
+budget:"Budget mensuel",income:"Revenu total",expense:"Dépense du jour",
+yellow:"Alerte (%)",red:"Alarme critique (%)",
+check:"🔔 Vérifier le budget",dashboard:"📊 Tableau de bord",
+budgetStat:"Budget mensuel",expenseStat:"Dépense du jour",
+incomeStat:"Revenu total",profitStat:"Revenu - dépense du jour",
+usage:"Utilisation du budget",history:"📁 Historique",
+date:"Date",percent:"Utilisation",clear:"Tout supprimer",
+cloud:"☁️ Base de données",
+cloudInfo:"Enregistrez vos données dans Supabase.",
+sync:"☁️ Enregistrer dans Supabase",
+promo:"Contrôlez les dépenses de votre entreprise.",
+empty:"Aucun historique.",
+normal:"✅ Vos dépenses sont maîtrisées.",
+warning:"⚠️ Attention ! Les dépenses augmentent.",
+danger:"🚨 Alarme critique ! Budget presque épuisé.",
+over:"🛑 Budget dépassé !",
+invalid:"Saisissez des montants valides.",
+limits:"L'alerte doit être entre 1 et 99.",
+saved:"Enregistré dans votre navigateur.",
+cleared:"Historique supprimé.",
+confirm:"Supprimer tous les enregistrements ?",
+cloudSuccess:"Enregistré dans Supabase.",
+cloudError:"Échec de l'enregistrement Supabase.",
+cloudMissing:"Connexion Supabase indisponible.",
+csv:"⬇️ Télécharger CSV"
+},
+de:{
+tagline:"Überwachen Sie Ihre Geschäftseinnahmen und Ausgaben",
+settings:"⚙️ Einstellungen",language:"Sprache",currency:"Währung",
+budgetTitle:"💰 Budget und Ausgaben",month:"Monat auswählen",
+budget:"Monatsbudget",income:"Gesamteinnahmen",expense:"Heutige Ausgaben",
+yellow:"Warnung (%)",red:"Kritischer Alarm (%)",
+check:"🔔 Budget prüfen",dashboard:"📊 Dashboard",
+budgetStat:"Monatsbudget",expenseStat:"Heutige Ausgaben",
+incomeStat:"Gesamteinnahmen",profitStat:"Einnahmen - heutige Ausgaben",
+usage:"Budgetnutzung",history:"📁 Gespeicherte Daten",
+date:"Datum",percent:"Nutzung",clear:"Alle Daten löschen",
+cloud:"☁️ Cloud-Datenbank",
+cloudInfo:"Speichern Sie Ihre Daten in Supabase.",
+sync:"☁️ In Supabase speichern",
+promo:"Kontrollieren Sie Ihre Geschäftsausgaben.",
+empty:"Noch keine Daten vorhanden.",
+normal:"✅ Ihre Ausgaben sind unter Kontrolle.",
+warning:"⚠️ Warnung! Ihre Ausgaben steigen.",
+danger:"🚨 Kritischer Alarm! Budget fast aufgebraucht.",
+over:"🛑 Budget überschritten!",
+invalid:"Bitte gültige Beträge eingeben.",
+limits:"Warnung muss zwischen 1 und 99 liegen.",
+saved:"Im Browser gespeichert.",
+cleared:"Alle Daten gelöscht.",
+confirm:"Möchten Sie alle Daten löschen?",
+cloudSuccess:"Erfolgreich in Supabase gespeichert.",
+cloudError:"Supabase-Speicherung fehlgeschlagen.",
+cloudMissing:"Supabase-Verbindung nicht verfügbar.",
+csv:"⬇️ CSV herunterladen"
+},
+es:{
+tagline:"Controle los ingresos y gastos de su negocio",
+settings:"⚙️ Configuración",language:"Idioma",currency:"Moneda",
+budgetTitle:"💰 Presupuesto y gastos",month:"Seleccionar mes",
+budget:"Presupuesto mensual",income:"Ingresos totales",expense:"Gasto de hoy",
+yellow:"Advertencia (%)",red:"Alarma crítica (%)",
+check:"🔔 Revisar presupuesto",dashboard:"📊 Panel de negocio",
+budgetStat:"Presupuesto mensual",expenseStat:"Gasto de hoy",
+incomeStat:"Ingresos totales",profitStat:"Ingresos - gasto de hoy",
+usage:"Uso del presupuesto",history:"📁 Historial guardado",
+date:"Fecha",percent:"Uso",clear:"Eliminar todos los registros",
+cloud:"☁️ Base de datos",
+cloudInfo:"Guarde sus datos en Supabase.",
+sync:"☁️ Guardar en Supabase",
+promo:"Controle los gastos de su negocio.",
+empty:"Todavía no hay registros.",
+normal:"✅ Sus gastos están bajo control.",
+warning:"⚠️ ¡Atención! Los gastos están aumentando.",
+danger:"🚨 ¡Alarma crítica! El presupuesto casi se ha agotado.",
+over:"🛑 ¡Presupuesto excedido!",
+invalid:"Introduzca cantidades válidas.",
+limits:"La advertencia debe estar entre 1 y 99.",
+saved:"Guardado en su navegador.",
+cleared:"Todos los registros eliminados.",
+confirm:"¿Está seguro de que desea eliminar todo?",
+cloudSuccess:"Guardado correctamente en Supabase.",
+cloudError:"No se pudo guardar en Supabase.",
+cloudMissing:"Conexión con Supabase no disponible.",
+csv:"⬇️ Descargar CSV"
+}
+};
+
+function t(key){
+ const lang=$("language").value;
+ return (translations[lang]||translations.en)[key]||
+ (translations.en[key]||key);
+}
+
+let records=[];
+try{
+ const stored=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+ records=Array.isArray(stored)?stored:[];
+}catch(e){records=[];}
+
+function persist(){
+ try{
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(records));
+ }catch(e){
+  alert("Browser storage is full or unavailable.");
+ }
+}
+
+function money(value){
+ const currency=$("currency").value;
+ try{
+  return new Intl.NumberFormat(
+   $("language").value==="bn"?"bn-BD":"en",
+   {style:"currency",currency:currency,maximumFractionDigits:2}
+  ).format(Number(value)||0);
+ }catch(e){
+  return currency+" "+Number(value||0).toFixed(2);
+ }
+}
+
+function applyLanguage(){
+ const map={
+ tagline:"tagline",settingsTitle:"settings",
+ languageLabel:"language",currencyLabel:"currency",
+ budgetTitle:"budgetTitle",monthLabel:"month",
+ budgetLabel:"budget",incomeLabel:"income",
+ expenseLabel:"expense",yellowLabel:"yellow",
+ redLabel:"red",checkBtn:"check",
+ dashboardTitle:"dashboard",budgetStat:"budgetStat",
+ expenseStat:"expenseStat",incomeStat:"incomeStat",
+ profitStat:"profitStat",usageTitle:"usage",
+ historyTitle:"history",dateHead:"date",
+ percentHead:"percent",clearBtn:"clear",
+ cloudTitle:"cloud",cloudInfo:"cloudInfo",
+ syncBtn:"sync",promo:"promo",csvBtn:"csv"
+ };
+ Object.keys(map).forEach(id=>{
+  $(id).textContent=t(map[id]);
+ });
+ $("budgetHead").textContent=t("budgetStat");
+ $("expenseHead").textContent=t("expenseStat");
+ document.documentElement.lang=$("language").value;
+ renderHistory();
+}
+
+function getValues(){
+ return {
+  month:$("month").value,
+  budget:Number($("budget").value),
+  income:Number($("income").value||0),
+  expense:Number($("expense").value||0),
+  yellow:Number($("yellowLimit").value),
+  red:Number($("redLimit").value),
+  currency:$("currency").value
+ };
+}
+
+function playAlarm(){
+ try{
+  const AudioContext=window.AudioContext||window.webkitAudioContext;
+  if(!AudioContext)return;
+  const ctx=new AudioContext();
+  [0,0.25,0.5].forEach((delay)=>{
+   const oscillator=ctx.createOscillator();
+   const gain=ctx.createGain();
+   oscillator.connect(gain);
+   gain.connect(ctx.destination);
+   oscillator.frequency.value=850;
+   gain.gain.setValueAtTime(.15,ctx.currentTime+delay);
+   gain.gain.exponentialRampToValueAtTime(
+    .001,ctx.currentTime+delay+.16
+   );
+   oscillator.start(ctx.currentTime+delay);
+   oscillator.stop(ctx.currentTime+delay+.17);
+  });
+  setTimeout(()=>ctx.close(),1200);
+ }catch(e){console.log("Audio unavailable",e);}
 }
 
 function checkBudget(){
- const budget=Number(document.getElementById("budget").value);
- const spent=Number(document.getElementById("spent").value);
- const yellow=Number(document.getElementById("yellowLimit").value);
- const red=Number(document.getElementById("redLimit").value);
+ const v=getValues();
 
- if(!Number.isFinite(budget)||!Number.isFinite(spent)||
- budget<=0||spent<0||
- !Number.isInteger(yellow)||!Number.isInteger(red)||
- yellow<1||yellow>=red||red>100){
-  alert("সঠিক বাজেট, খরচ এবং সতর্কতার সীমা লিখুন।");
+ if(!v.month||!Number.isFinite(v.budget)||v.budget<=0||
+ !Number.isFinite(v.expense)||v.expense<0||
+ !Number.isFinite(v.income)||v.income<0){
+  $("status").textContent=t("invalid");
+  $("status").style.background="#ffe8e8";
   return;
  }
 
- const rate=spent/budget*100;
- const percent=Math.round(rate);
- const remaining=budget-spent;
-
- document.getElementById("total").textContent=money(budget);
- document.getElementById("expense").textContent=money(spent);
- document.getElementById("remaining").textContent=money(Math.max(0,remaining));
- document.getElementById("percent").textContent=percent.toLocaleString("bn-BD")+"%";
-
- document.getElementById("fill").style.width=Math.min(100,rate)+"%";
-
- const status=document.getElementById("status");
- const message=document.getElementById("message");
- status.className="status";
-
- if(rate>=100){
-  status.classList.add("danger");
-  status.innerHTML='<div class="light">🚨</div>বাজেট শেষ! জরুরি অ্যালার্ম!';
-  message.textContent="আপনার বাজেট "+money(spent-budget)+" অতিক্রম করেছে!";
-  startAlarm();
- }else if(rate>=red){
-  status.classList.add("red");
-  status.innerHTML='<div class="light">🔴</div>বিপদ! খরচ অনেক বেশি!';
-  message.textContent="সতর্কতা! আপনার বাজেট প্রায় শেষ।";
-  startAlarm();
- }else if(rate>=yellow){
-  status.classList.add("yellow");
-  status.innerHTML='<div class="light">🟡</div>সতর্কতা! খরচ বাড়ছে!';
-  message.textContent="আপনার বাজেটের ব্যবহার বেড়েছে। খরচ নিয়ন্ত্রণ করুন।";
-  stopAlarm();
- }else{
-  status.classList.add("green");
-  status.innerHTML='<div class="light">🟢</div>সবকিছু স্বাভাবিক!';
-  message.textContent="আপনার বাজেট নিরাপদ আছে।";
-  stopAlarm();
+ if(!Number.isFinite(v.yellow)||!Number.isFinite(v.red)||
+ v.yellow<1||v.yellow>=v.red||v.red>100){
+  $("status").textContent=t("limits");
+  $("status").style.background="#ffe8e8";
+  return;
  }
 
- if(rate>=100){
-  if("Notification" in window && Notification.permission==="granted"){
-   new Notification("Cost Alarm: বাজেট শেষ!",{
-    body:"আপনার বাজেট অতিক্রম হয়েছে।"
-   });
-  }
+ const percent=(v.expense/v.budget)*100;
+ let message=t("normal");
+ let color="#e9f8ef";
+ let barColor="var(--green)";
+
+ if(percent>=100){
+  message=t("over");
+  color="#ffe8e8";
+  barColor="var(--red)";
+  playAlarm();
+ }else if(percent>=v.red){
+  message=t("danger");
+  color="#ffe8e8";
+  barColor="var(--red)";
+  playAlarm();
+ }else if(percent>=v.yellow){
+  message=t("warning");
+  color="#fff4d5";
+  barColor="var(--yellow)";
+ }
+
+ $("status").textContent=message;
+ $("status").style.background=color;
+ $("bar").style.width=Math.min(percent,100)+"%";
+ $("bar").style.background=barColor;
+ $("percent").textContent=percent.toFixed(1)+"%";
+
+ $("showBudget").textContent=money(v.budget);
+ $("showExpense").textContent=money(v.expense);
+ $("showIncome").textContent=money(v.income);
+ $("showProfit").textContent=money(v.income-v.expense);
+
+ const record={
+  id:Date.now(),
+  date:new Date().toISOString(),
+  month:v.month,
+  budget:v.budget,
+  income:v.income,
+  expense:v.expense,
+  percent:Number(percent.toFixed(2)),
+  currency:v.currency
+ };
+
+ records.unshift(record);
+ records=records.slice(0,500);
+ persist();
+ renderHistory();
+ $("cloudStatus").textContent=t("saved");
+
+ if("Notification" in window && Notification.permission==="granted" &&
+ percent>=v.red){
+  try{
+   new Notification("Cost Alarm",{body:message});
+  }catch(e){}
  }
 }
 
-if("Notification" in window && Notification.permission==="default"){
- // Notification permission is requested only after user interaction.
+function renderHistory(){
+ const body=$("historyBody");
+ body.innerHTML="";
+ const month=$("month").value;
+ const filtered=records.filter(r=>!month||r.month===month);
+
+ if(filtered.length===0){
+  const tr=document.createElement("tr");
+  const td=document.createElement("td");
+  td.colSpan=4;
+  td.textContent=t("empty");
+  tr.appendChild(td);
+  body.appendChild(tr);
+  return;
+ }
+
+ filtered.slice(0,100).forEach(r=>{
+  const tr=document.createElement("tr");
+  const values=[
+   new Date(r.date).toLocaleDateString(),
+   money(r.budget),
+   money(r.expense),
+   Number(r.percent).toFixed(1)+"%"
+  ];
+  values.forEach(value=>{
+   const td=document.createElement("td");
+   td.textContent=value;
+   tr.appendChild(td);
+  });
+  body.appendChild(tr);
+ });
+}
+
+async function saveCloud(){
+ const v=getValues();
+ if(!v.month||!Number.isFinite(v.budget)||v.budget<=0||
+ !Number.isFinite(v.expense)||v.expense<0||
+ !Number.isFinite(v.income)||v.income<0){
+  $("cloudStatus").textContent=t("invalid");
+  return;
+ }
+ if(!supabaseClient){
+  $("cloudStatus").textContent=t("cloudMissing");
+  return;
+ }
+ const percent=(v.expense/v.budget)*100;
+ $("cloudStatus").textContent="Saving...";
+ try{
+  const {error}=await supabaseClient
+   .from("leads")
+   .insert([{
+    monthly_limit:v.budget,
+    today_cost:v.expense,
+    is_over_limit:percent>=100,
+    currency:v.currency,
+    usage_percent:Number(percent.toFixed(2))
+   }]);
+  if(error)throw error;
+  $("cloudStatus").textContent=t("cloudSuccess");
+ }catch(error){
+  console.error("Supabase save error:",error);
+  $("cloudStatus").textContent=t("cloudError")+" "+(error.message||"");
+ }
+}
+
+function downloadCSV(){
+ const month=$("month").value;
+ const data=records.filter(r=>!month||r.month===month);
+ if(!data.length){
+  alert(t("empty"));
+  return;
+ }
+ const rows=[
+  ["Date","Month","Budget","Income","Expense","Usage %","Currency"],
+  ...data.map(r=>[
+   new Date(r.date).toISOString(),
+   r.month,r.budget,r.income,r.expense,r.percent,r.currency
+  ])
+ ];
+ const csv=rows.map(row=>row.map(value=>
+  '"'+String(value).replace(/"/g,'""')+'"'
+ ).join(",")).join("\r\n");
+ const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download="cost-alarm-records.csv";
+ document.body.appendChild(a);
+ a.click();
+ a.remove();
+ URL.revokeObjectURL(url);
+}
+
+function clearRecords(){
+ if(!confirm(t("confirm")))return;
+ records=[];
+ persist();
+ renderHistory();
+ $("cloudStatus").textContent=t("cleared");
+ $("bar").style.width="0%";
+ $("percent").textContent="0%";
+}
+
+$("checkBtn").addEventListener("click",checkBudget);
+$("syncBtn").addEventListener("click",saveCloud);
+$("csvBtn").addEventListener("click",downloadCSV);
+$("clearBtn").addEventListener("click",clearRecords);
+$("language").addEventListener("change",applyLanguage);
+$("currency").addEventListener("change",()=>{
+ renderHistory();
+});
+$("month").addEventListener("change",renderHistory);
+
+$("month").value=new Date().toISOString().slice(0,7);
+applyLanguage();
+renderHistory();
+
+if("Notification" in window){
+ $("checkBtn").addEventListener("click",()=>{
+  if(Notification.permission==="default"){
+   Notification.requestPermission().catch(()=>{});
+  }
+ },{once:true});
 }
 </script>
 </body>
