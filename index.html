@@ -118,8 +118,13 @@ function load(){
  settings={...settings,...parse(KEYS.settings,{})};migrateOld();
 }
 function persist(){
- try{localStorage.setItem(KEYS.data,JSON.stringify(records));localStorage.setItem(KEYS.budgets,JSON.stringify(budgets));localStorage.setItem(KEYS.settings,JSON.stringify(settings));return true}
- catch(e){console.error(e);status(tr("storage"),"#ffe8e8");return false}
+ try{
+  localStorage.setItem(KEYS.data,JSON.stringify(records));
+  localStorage.setItem(KEYS.budgets,JSON.stringify(budgets));
+  localStorage.setItem(KEYS.settings,JSON.stringify(settings));
+  if(typeof window.CostAlarmCloudSave==="function")window.CostAlarmCloudSave();
+  return true;
+ }catch(e){console.error(e);status(tr("storage"),"#ffe8e8");return false}
 }
 function money(n,c){try{return new Intl.NumberFormat($("language").value==="bn"?"bn-BD":"en-US",{style:"currency",currency:c,maximumFractionDigits:2}).format(Number(n)||0)}catch{return c+" "+(Number(n)||0).toFixed(2)}}
 function rows(){return records.filter(r=>r.month===$("month").value)}
@@ -179,9 +184,19 @@ function init(){
  $("month").addEventListener("change",()=>{const b=budgets[$("month").value],r=rows()[0];$("budget").value=b?.amount??"";if(b?.currency)$("currency").value=b.currency;else if(r)$("currency").value=r.currency;render()});
  $("budget").addEventListener("change",()=>{const m=$("month").value,v=Number($("budget").value),r=rows()[0];if(v>0&&Number.isFinite(v)){if(r&&r.currency!==$("currency").value){status("এই মাসের হিসাবের মুদ্রা "+r.currency,"#fff4d5");$("currency").value=r.currency;return}if(budgets[m]?.currency&&budgets[m].currency!==$("currency").value){status("এই মাসের বাজেটের মুদ্রা বদলানো যাবে না।","#fff4d5");$("currency").value=budgets[m].currency;return}budgets[m]={amount:v,currency:$("currency").value};persist();render()}});
  $("saveBtn").addEventListener("click",saveEntry);$("csvBtn").addEventListener("click",downloadCSV);$("clearBtn").addEventListener("click",clearMonth);$("backupBtn").addEventListener("click",backup);$("restoreBtn").addEventListener("click",()=>$("restoreFile").click());$("restoreFile").addEventListener("change",e=>{restore(e.target.files?.[0]);e.target.value=""});
- $("buyBtn").addEventListener("click",()=>{$("buyForm").hidden=!$("buyForm").hidden});
  applyLanguage();persist();
 }
+window.CostAlarmReloadData=()=>{
+ load();
+ $("language").value=LANG[settings.language]?settings.language:"bn";
+ $("currency").value=CURRENCIES.includes(settings.currency)?settings.currency:"BDT";
+ $("yellowLimit").value=settings.yellow||50;
+ $("redLimit").value=settings.red||80;
+ const savedBudget=budgets[$("month").value];
+ $("budget").value=savedBudget?.amount??"";
+ if(savedBudget?.currency)$("currency").value=savedBudget.currency;
+ applyLanguage();
+};
 init();
 </script>
 
@@ -196,7 +211,13 @@ function getConfig(){return {url:el("accountProjectUrl").value.trim(),key:el("ac
 function saveConfig(){const c=getConfig();if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(c.url)||!c.key)throw Error("সঠিক Supabase URL ও Publishable/anon key দিন।");localStorage.setItem(CFG_KEY,JSON.stringify(c));client=window.supabase.createClient(c.url,c.key);return client}
 function initClient(){if(!window.supabase)throw Error("Supabase SDK লোড হয়নি।");let c=getConfig();if(!c.url||!c.key){try{c=JSON.parse(localStorage.getItem(CFG_KEY)||"{}")}catch{}}if(c.url&&c.key){el("accountProjectUrl").value=c.url;el("accountPublicKey").value=c.key;client=window.supabase.createClient(c.url,c.key);return client}return null}
 function readPayload(){return {records:JSON.parse(localStorage.getItem("cost_alarm_mvp_v2")||"[]"),budgets:JSON.parse(localStorage.getItem("cost_alarm_budgets_v2")||"{}"),settings:JSON.parse(localStorage.getItem("cost_alarm_settings_v2")||"{}")}}
-function writePayload(p){if(!p||!Array.isArray(p.records)||!p.budgets||typeof p.budgets!=="object")throw Error("Cloud backup format ভুল।");localStorage.setItem("cost_alarm_mvp_v2",JSON.stringify(p.records));localStorage.setItem("cost_alarm_budgets_v2",JSON.stringify(p.budgets));localStorage.setItem("cost_alarm_settings_v2",JSON.stringify(p.settings||{}));location.reload()}
+function writePayload(p){
+ if(!p||!Array.isArray(p.records)||!p.budgets||typeof p.budgets!=="object")throw Error("Cloud backup format ভুল।");
+ localStorage.setItem("cost_alarm_mvp_v2",JSON.stringify(p.records));
+ localStorage.setItem("cost_alarm_budgets_v2",JSON.stringify(p.budgets));
+ localStorage.setItem("cost_alarm_settings_v2",JSON.stringify(p.settings||{}));
+ if(typeof window.CostAlarmReloadData==="function")window.CostAlarmReloadData();
+}
 async function pushCloud(){if(!client||!currentUser)return;const payload=readPayload();const {error}=await client.from("cost_alarm_account_data").upsert({user_id:currentUser.id,payload,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)throw error}
 async function pullCloud(){if(!client||!currentUser)return;const {data,error}=await client.from("cost_alarm_account_data").select("payload").eq("user_id",currentUser.id).maybeSingle();if(error)throw error;if(data?.payload){writePayload(data.payload)}else{await pushCloud()}}
 async function refreshPlan(){if(!client||!currentUser)return;const {data,error}=await client.from("cost_alarm_subscriptions").select("plan,status,expires_at").eq("user_id",currentUser.id).maybeSingle();if(error){accountMsg("লগইন হয়েছে, কিন্তু Premium status পড়া যায়নি: "+error.message,"#fff4d5");return}if(data&&data.status==="active"&&data.expires_at&&new Date(data.expires_at)>new Date()){accountMsg("লগইন: "+currentUser.email+" | Premium চালু ("+data.plan+") — মেয়াদ: "+new Date(data.expires_at).toLocaleDateString(),"#e9f8ef")}else accountMsg("লগইন: "+currentUser.email+" | Free প্ল্যান। Premium কিনতে নিচের বাটন চাপুন।")}
@@ -205,9 +226,17 @@ async function signUp(){const c=saveConfig(),email=el("accountEmail").value.trim
 async function signIn(){const c=saveConfig(),email=el("accountEmail").value.trim(),password=el("accountPassword").value;if(!email||!password)throw Error("ইমেইল ও পাসওয়ার্ড দিন।");const {error}=await c.auth.signInWithPassword({email,password});if(error)throw error;await showSession()}
 async function logout(){if(!client)return;const {error}=await client.auth.signOut();if(error)throw error;currentUser=null;accountMsg("লগআউট হয়েছে।","#fff4d5")}
 async function checkout(plan){if(!client||!currentUser)throw Error("Premium কেনার আগে অ্যাকাউন্টে লগইন করুন।");accountMsg("পেমেন্ট পেজ তৈরি হচ্ছে…");const name=el("customerName").value.trim(),phone=el("customerPhone").value.trim();if(!name||!phone)throw Error("পেমেন্টের জন্য নাম ও মোবাইল নম্বর দিন।");const {data,error}=await client.functions.invoke("create-checkout",{body:{plan,customer_name:name,customer_phone:phone}});if(error)throw error;if(!data?.gateway_url)throw Error("পেমেন্ট লিংক পাওয়া যায়নি।");location.href=data.gateway_url}
-function wrapPersist(){if(typeof window.persist!=="function")return;const original=window.persist;window.persist=function(){const ok=original.apply(this,arguments);if(ok&&currentUser&&client){clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>pushCloud().then(()=>accountMsg("হিসাব Cloud-এ সংরক্ষিত।")).catch(e=>accountMsg("Cloud save ব্যর্থ: "+e.message,"#fff4d5")),900)}return ok}}
+function installCloudSaveHook(){
+ window.CostAlarmCloudSave=()=>{
+  if(!currentUser||!client)return;
+  clearTimeout(cloudTimer);
+  cloudTimer=setTimeout(()=>pushCloud()
+   .then(()=>accountMsg("হিসাব Cloud-এ সংরক্ষিত।"))
+   .catch(e=>accountMsg("Cloud save ব্যর্থ: "+e.message,"#fff4d5")),900);
+ };
+}
 function bind(id,fn){el(id)?.addEventListener("click",async()=>{try{initClient();await fn()}catch(e){accountMsg(e.message||"সমস্যা হয়েছে।","#ffe8e8")}})}
-function start(){if(!el("accountCard"))return;initClient();wrapPersist();bind("accountSignup",signUp);bind("accountLogin",signIn);bind("accountLogout",logout);bind("accountRefresh",showSession);bind("buyMonthly",()=>checkout("monthly"));bind("buyYearly",()=>checkout("yearly"));if(new URLSearchParams(location.search).get("payment")==="return"){accountMsg("পেমেন্টের ফলাফল যাচাই হচ্ছে। কয়েক মুহূর্ত পর 'অ্যাকাউন্ট/প্ল্যান দেখুন' চাপুন।","#fff4d5")}if(client){client.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null;if(currentUser){setTimeout(()=>showSession().catch(e=>accountMsg(e.message,"#fff4d5")),0)}else accountMsg("লগইন করা নেই।","#fff4d5")});showSession().catch(e=>accountMsg(e.message,"#fff4d5"))}}
+function start(){if(!el("accountCard"))return;initClient();installCloudSaveHook();bind("accountSignup",signUp);bind("accountLogin",signIn);bind("accountLogout",logout);bind("accountRefresh",showSession);bind("buyMonthly",()=>checkout("monthly"));bind("buyYearly",()=>checkout("yearly"));if(new URLSearchParams(location.search).get("payment")==="return"){accountMsg("পেমেন্টের ফলাফল যাচাই হচ্ছে। কয়েক মুহূর্ত পর 'অ্যাকাউন্ট/প্ল্যান দেখুন' চাপুন।","#fff4d5")}if(client){client.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null;if(currentUser){setTimeout(()=>showSession().catch(e=>accountMsg(e.message,"#fff4d5")),0)}else accountMsg("লগইন করা নেই।","#fff4d5")});showSession().catch(e=>accountMsg(e.message,"#fff4d5"))}}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 })();
 </script>
