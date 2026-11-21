@@ -23,208 +23,194 @@ table{width:100%;border-collapse:collapse;font-size:14px;min-width:580px}td,th{p
 .muted{color:var(--muted);font-size:13px;line-height:1.5}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}footer{text-align:center;color:var(--muted);padding:25px 10px;font-size:13px}
 .notice{padding:10px;border-radius:9px;background:#fff4d5;color:#704d00;font-size:13px;margin-top:10px}
 button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #8fc4f3;outline-offset:2px}
-@media(max-width:520px){.grid{grid-template-columns:1fr 1fr}header h1{font-size:25px}.container{padding:10px}.card{padding:14px}.stat strong{font-size:18px}.actions{grid-template-columns:1fr}}
+@media(max-width:520px){header h1{font-size:25px}.container{padding:10px}.card{padding:14px}.stat strong{font-size:18px}.actions{grid-template-columns:1fr}}
+a{color:inherit}
 </style>
 </head>
 <body>
 <header><h1>🔔 COST ALARM</h1><p id="tagline">আপনার ব্যবসার আয়, খরচ ও লাভের হিসাব — খরচ বেশি হলেই ALARM</p></header>
 <main class="container">
-<section class="card"><h2>⚙️ <span data-i18n="settings">সেটিংস</span></h2><div class="grid">
-<div><label for="language" data-i18n="language">ভাষা</label><select id="language"><option value="bn">বাংলা</option><option value="en">English</option><option value="ur">اردو</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="es">Español</option></select></div>
-<div><label for="currency" data-i18n="currency">মুদ্রা</label><select id="currency"><option value="BDT">BDT ৳</option><option value="USD">USD $</option><option value="GBP">GBP £</option><option value="EUR">EUR €</option><option value="INR">INR ₹</option><option value="SAR">SAR ر.س</option><option value="AED">AED د.إ</option><option value="MYR">MYR RM</option><option value="PKR">PKR ₨</option></select></div>
+<section class="card"><h2>⚙️ সেটিংস</h2><div class="grid">
+<div><label for="language">ভাষা / Language</label><select id="language"><option value="bn">বাংলা</option><option value="en">English</option></select></div>
+<div><label for="currency">মুদ্রা / Currency</label><select id="currency"><option value="BDT">BDT ৳</option><option value="USD">USD $</option><option value="GBP">GBP £</option><option value="EUR">EUR €</option><option value="INR">INR ₹</option><option value="SAR">SAR ر.س</option><option value="AED">AED د.إ</option><option value="MYR">MYR RM</option><option value="PKR">PKR ₨</option></select></div>
 </div></section>
-<section class="card"><h2 data-i18n="entry">💰 মাসিক বাজেট ও দৈনিক হিসাব</h2>
-<label for="month" data-i18n="month">মাস নির্বাচন</label><input type="month" id="month">
-<label for="budget" data-i18n="budget">মাসিক বাজেট</label><input type="number" id="budget" min="0.01" step="0.01" inputmode="decimal" placeholder="যেমন: 50000">
-<div class="grid"><div><label for="income" data-i18n="income">আজকের আয়</label><input type="number" id="income" min="0" step="0.01" inputmode="decimal" placeholder="যেমন: 8000"></div>
-<div><label for="expense" data-i18n="expense">আজকের খরচ</label><input type="number" id="expense" min="0" step="0.01" inputmode="decimal" placeholder="যেমন: 1500"></div></div>
-<div class="grid"><div><label for="yellowLimit" data-i18n="yellow">সতর্কতা (%)</label><input type="number" id="yellowLimit" min="1" max="99" value="50"></div>
-<div><label for="redLimit" data-i18n="red">জরুরি অ্যালার্ম (%)</label><input type="number" id="redLimit" min="2" max="100" value="80"></div></div>
-<button class="primary" id="saveBtn" data-i18n="save">🔔 হিসাব সংরক্ষণ ও পরীক্ষা করুন</button><div id="status" role="status" aria-live="polite">আপনার বাজেটের তথ্য লিখুন</div>
-<p class="muted" data-i18n="hint">প্রতিবার বোতাম চাপলে আজকের আয়/খরচ একটি নতুন হিসাব হিসেবে যোগ হবে।</p>
+<section class="card"><h2 id="entryTitle">💰 মাসিক বাজেট ও দৈনিক হিসাব</h2>
+<label for="month" id="monthLabel">মাস নির্বাচন</label><input type="month" id="month">
+<label for="budget" id="budgetLabel">মাসিক বাজেট</label><input type="number" id="budget" min="0.01" step="0.01" inputmode="decimal" placeholder="যেমন: 50000">
+<div class="grid"><div><label for="income" id="incomeLabel">আজকের আয়</label><input type="number" id="income" min="0" step="0.01" inputmode="decimal" placeholder="যেমন: 8000"></div>
+<div><label for="expense" id="expenseLabel">আজকের খরচ</label><input type="number" id="expense" min="0" step="0.01" inputmode="decimal" placeholder="যেমন: 1500"></div></div>
+<div class="grid"><div><label for="yellowLimit" id="yellowLabel">সতর্কতা (%)</label><input type="number" id="yellowLimit" min="1" max="99" value="50"></div>
+<div><label for="redLimit" id="redLabel">জরুরি অ্যালার্ম (%)</label><input type="number" id="redLimit" min="2" max="100" value="80"></div></div>
+<button class="primary" id="saveBtn">🔔 হিসাব সংরক্ষণ ও পরীক্ষা করুন</button><div id="status" role="status" aria-live="polite">আপনার বাজেটের তথ্য লিখুন</div>
+<p class="muted" id="hint">প্রতিবার সংরক্ষণ করলে একটি নতুন হিসাব যোগ হবে।</p>
 </section>
-<section class="card"><h2 data-i18n="dashboard">📊 ব্যবসার ড্যাশবোর্ড</h2><div class="grid">
-<div class="stat"><small data-i18n="budgetStat">মাসিক বাজেট</small><strong id="showBudget">৳0</strong></div>
-<div class="stat"><small data-i18n="expenseStat">এই মাসের মোট খরচ</small><strong id="showExpense">৳0</strong></div>
-<div class="stat"><small data-i18n="incomeStat">এই মাসের মোট আয়</small><strong id="showIncome">৳0</strong></div>
-<div class="stat"><small data-i18n="profitStat">এই মাসের লাভ/ক্ষতি</small><strong id="showProfit">৳0</strong></div>
-</div><h3 style="margin-top:20px" data-i18n="usage">বাজেট ব্যবহারের হার</h3><div class="progress"><div class="bar" id="bar"></div></div><strong id="percent">0%</strong><p class="muted" id="remaining"></p><p class="muted" id="currencyNotice"></p></section>
-<section class="card"><h2 data-i18n="history">📁 সংরক্ষিত হিসাব</h2><div class="table-wrap"><table><thead><tr><th data-i18n="date">তারিখ</th><th data-i18n="incomeHead">আয়</th><th data-i18n="expenseHead">খরচ</th><th data-i18n="profitHead">লাভ/ক্ষতি</th><th data-i18n="currencyHead">মুদ্রা</th><th data-i18n="action">কাজ</th></tr></thead><tbody id="historyBody"></tbody></table></div>
-<div class="actions"><button class="secondary" id="csvBtn" data-i18n="csv">⬇️ CSV ডাউনলোড</button><button class="danger" id="clearBtn" data-i18n="clear">এই মাসের হিসাব মুছুন</button></div></section>
+<section class="card"><h2 id="dashboardTitle">📊 ব্যবসার ড্যাশবোর্ড</h2><div class="grid">
+<div class="stat"><small id="budgetStat">মাসিক বাজেট</small><strong id="showBudget">৳0</strong></div>
+<div class="stat"><small id="expenseStat">এই মাসের মোট খরচ</small><strong id="showExpense">৳0</strong></div>
+<div class="stat"><small id="incomeStat">এই মাসের মোট আয়</small><strong id="showIncome">৳0</strong></div>
+<div class="stat"><small id="profitStat">এই মাসের লাভ/ক্ষতি</small><strong id="showProfit">৳0</strong></div>
+</div><h3 style="margin-top:20px" id="usageTitle">বাজেট ব্যবহারের হার</h3><div class="progress"><div class="bar" id="bar"></div></div><strong id="percent">0%</strong><p class="muted" id="remaining"></p><p class="muted" id="currencyNotice"></p></section>
+<section class="card"><h2 id="historyTitle">📁 সংরক্ষিত হিসাব</h2><div class="table-wrap"><table><thead><tr><th id="dateHead">তারিখ</th><th id="incomeHead">আয়</th><th id="expenseHead">খরচ</th><th id="profitHead">লাভ/ক্ষতি</th><th id="currencyHead">মুদ্রা</th><th id="actionHead">কাজ</th></tr></thead><tbody id="historyBody"></tbody></table></div>
+<div class="actions"><button class="secondary" id="csvBtn">⬇️ CSV ডাউনলোড</button><button class="danger" id="clearBtn">এই মাসের হিসাব মুছুন</button></div></section>
 <section class="card"><h2>🛡️ ডেটা ব্যাকআপ ও পুনরুদ্ধার</h2>
-<p class="muted">নিয়মিত JSON ব্যাকআপ ডাউনলোড করে নিরাপদ জায়গায় রাখুন। অন্য ফোনে বা ডেটা হারালে এই ফাইল থেকে হিসাব ফেরত আনা যাবে।</p>
-<div class="actions"><button class="secondary" id="backupBtn">⬇️ সম্পূর্ণ ব্যাকআপ ডাউনলোড</button><button class="secondary" id="restoreBtn">⬆️ ব্যাকআপ থেকে ফিরিয়ে আনুন</button></div>
-<input type="file" id="restoreFile" accept=".json,application/json" hidden>
-<p class="notice">ব্যাকআপ ফাইলটি ব্যক্তিগত। অন্য কাউকে পাঠাবেন না। Restore করলে একই ID-র হিসাব ডুপ্লিকেট হবে না; বিদ্যমান হিসাবের সঙ্গে যোগ হবে।</p>
-<p id="backupStatus" class="muted" aria-live="polite"></p></section>
-<section class="card"><h2>☁️ Cloud Database</h2><p class="muted">Cloud backup চালু করতে Supabase Project URL, Publishable/anon key, cost_alarm_records টেবিল এবং উপযুক্ত RLS policy সেটআপ প্রয়োজন। Cloud Sync এখন ঐচ্ছিক; সেটআপ না করা পর্যন্ত তথ্য শুধু এই ডিভাইসে থাকবে।</p>
-<label for="supabaseUrl">Supabase Project URL</label><input id="supabaseUrl" type="url" placeholder="https://your-project.supabase.co" autocomplete="url">
-<label for="supabaseKey">Supabase Publishable / anon key</label><input id="supabaseKey" type="password" placeholder="sb_publishable_... বা anon key" autocomplete="off">
-<button class="secondary" id="syncBtn" style="width:100%;margin-top:14px">☁️ Cloud-এ নতুন হিসাব পাঠান</button><p id="cloudStatus" class="muted" aria-live="polite"></p>
-<p class="muted">নিরাপত্তা: শুধু Publishable/anon key ব্যবহার করুন। Secret বা service_role key কখনো দেবেন না। Supabase URL/key এই ব্রাউজারে স্থায়ীভাবে সংরক্ষণ করা হয় না।</p></section>
-<section class="card" style="text-align:center"><h2>🌍 Cost Alarm</h2><p>আপনার ব্যবসার খরচ নিয়ন্ত্রণ করুন। বাজেটের সীমা অতিক্রম করার আগেই সতর্ক হোন।</p><p><strong>$10 — Lifetime Offer</strong></p><a href="https://wa.me/8801917716922" target="_blank" rel="noopener noreferrer"><button class="primary">WhatsApp — Contact Us</button></a></section>
+<p class="muted">JSON ব্যাকআপ ডাউনলোড করে নিরাপদ জায়গায় রাখুন। Restore করলে একই ID-র হিসাব ডুপ্লিকেট হবে না।</p>
+<div class="actions"><button class="secondary" id="backupBtn">⬇️ সম্পূর্ণ ব্যাকআপ ডাউনলোড</button><button class="secondary" id="restoreBtn">⬆️ ব্যাকআপ থেকে ফিরিয়ে আনুন</button></div>
+<input type="file" id="restoreFile" accept=".json,application/json" hidden><p class="notice">ব্যাকআপ ফাইলটি ব্যক্তিগত। অন্য কাউকে পাঠাবেন না।</p><p id="backupStatus" class="muted" aria-live="polite"></p></section>
+
+<section class="card" id="accountCard">
+<h2>👤 গ্রাহক অ্যাকাউন্ট ও Premium</h2>
+<p class="muted">অ্যাকাউন্ট খুলে লগইন করুন। আপনার হিসাব নিরাপদে আপনার অ্যাকাউন্টের Cloud-এ সংরক্ষণ হবে। Premium পেমেন্ট সফলভাবে যাচাই হলে চালু হবে।</p>
+<label for="accountProjectUrl">Supabase Project URL</label><input id="accountProjectUrl" type="url" placeholder="https://YOUR-PROJECT.supabase.co">
+<label for="accountPublicKey">Supabase Publishable / anon key</label><input id="accountPublicKey" type="password" placeholder="sb_publishable_... বা anon key" autocomplete="off">
+<div class="grid">
+<div><label for="accountEmail">ইমেইল</label><input id="accountEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+<div><label for="accountPassword">পাসওয়ার্ড (কমপক্ষে 8 অক্ষর)</label><input id="accountPassword" type="password" autocomplete="current-password" minlength="8"></div>
+</div>
+<label for="customerName">পেমেন্টের জন্য নাম</label><input id="customerName" maxlength="50" placeholder="আপনার পূর্ণ নাম">
+<label for="customerPhone">পেমেন্টের জন্য মোবাইল নম্বর</label><input id="customerPhone" type="tel" maxlength="20" placeholder="01XXXXXXXXX">
+<div class="actions">
+<button class="secondary" id="accountSignup">অ্যাকাউন্ট খুলুন</button>
+<button class="secondary" id="accountLogin">লগইন</button>
+</div>
+<div class="actions">
+<button class="secondary" id="accountLogout">লগআউট</button>
+<button class="secondary" id="accountRefresh">অ্যাকাউন্ট/প্ল্যান দেখুন</button>
+</div>
+<div id="accountStatus" class="status" role="status" aria-live="polite">Supabase সেটআপ করার পর অ্যাকাউন্ট খুলুন।</div>
+<h3 style="margin-top:18px">⭐ Cost Alarm Premium</h3>
+<p><strong>৳500 / 30 দিন</strong> অথবা <strong>৳5,000 / 365 দিন</strong></p>
+<p class="muted">একবারের পেমেন্টে নির্দিষ্ট মেয়াদের Premium। স্বয়ংক্রিয়ভাবে টাকা কাটবে না; মেয়াদ শেষ হলে পুনরায় কিনতে হবে।</p>
+<div class="actions">
+<button class="primary" id="buyMonthly">৩০ দিনের Premium কিনুন</button>
+<button class="primary" id="buyYearly">৩৬৫ দিনের Premium কিনুন</button>
+</div>
+<p class="muted">পেমেন্ট SSLCOMMERZ-এর নিরাপদ Hosted Checkout-এ হবে। কার্ডের তথ্য Cost Alarm-এ সংরক্ষণ করা হবে না।</p>
+</section>
+
+<section class="card" style="text-align:center"><h2>🌍 Cost Alarm</h2><p>আপনার ব্যবসার খরচ নিয়ন্ত্রণ করুন। বাজেটের সীমা অতিক্রম করার আগেই সতর্ক হোন।</p><p><strong>$5 / Month — Subscription interest</strong></p><p class="muted">এটি এখনো স্বয়ংক্রিয় পেমেন্ট নয়। আগ্রহ জানালে ইমেইলে যোগাযোগ করা হবে।</p><a href="https://wa.me/8801917716922" target="_blank" rel="noopener noreferrer"><button class="primary">WhatsApp — Contact Us</button></a>
+
+</section>
 </main><footer>Cost Alarm © 2026. All rights reserved.</footer>
 <script>
 "use strict";
 const $=id=>document.getElementById(id);
 const KEYS={data:"cost_alarm_mvp_v2",settings:"cost_alarm_settings_v2",budgets:"cost_alarm_budgets_v2"};
-const TXT={
-bn:{tagline:"আপনার ব্যবসার আয়, খরচ ও লাভের হিসাব — খরচ বেশি হলেই ALARM",settings:"সেটিংস",language:"ভাষা",currency:"মুদ্রা",entry:"💰 মাসিক বাজেট ও দৈনিক হিসাব",month:"মাস নির্বাচন",budget:"মাসিক বাজেট",income:"আজকের আয়",expense:"আজকের খরচ",yellow:"সতর্কতা (%)",red:"জরুরি অ্যালার্ম (%)",save:"🔔 হিসাব সংরক্ষণ ও পরীক্ষা করুন",dashboard:"📊 ব্যবসার ড্যাশবোর্ড",budgetStat:"মাসিক বাজেট",expenseStat:"এই মাসের মোট খরচ",incomeStat:"এই মাসের মোট আয়",profitStat:"এই মাসের লাভ/ক্ষতি",usage:"বাজেট ব্যবহারের হার",history:"📁 সংরক্ষিত হিসাব",date:"তারিখ",incomeHead:"আয়",expenseHead:"খরচ",profitHead:"লাভ/ক্ষতি",currencyHead:"মুদ্রা",action:"কাজ",csv:"⬇️ CSV ডাউনলোড",clear:"এই মাসের হিসাব মুছুন",hint:"প্রতিবার সংরক্ষণ করলে একটি নতুন হিসাব যোগ হবে। একই দিনের একদম একই অঙ্ক আবার দিলে নিশ্চিতকরণ চাইবে।",empty:"এই মাসে কোনো হিসাব নেই।",normal:"✅ খরচ নিয়ন্ত্রণে আছে।",warning:"⚠️ সতর্কতা! বাজেটের সতর্ক সীমায় পৌঁছেছে।",danger:"🚨 জরুরি অ্যালার্ম! বাজেট প্রায় শেষ।",over:"🛑 মাসিক বাজেট অতিক্রম করেছে! খরচ নিয়ন্ত্রণ করুন।",invalid:"সঠিক মাস, বাজেট এবং আয়/খরচ লিখুন। আয় বা খরচের অন্তত একটি শূন্যের বেশি হতে হবে।",limits:"সতর্কতার হার ১–৯৯ এবং জরুরি হার সতর্কতার চেয়ে বেশি (সর্বোচ্চ ১০০) হতে হবে।",saved:"হিসাব এই ডিভাইসে সংরক্ষিত হয়েছে।",confirm:"এই মাসের সব হিসাব ও বাজেট মুছে ফেলবেন?",deleted:"এই মাসের হিসাব ও বাজেট মুছে ফেলা হয়েছে।",remaining:"বাজেটের অবশিষ্ট:",delete:"মুছুন",deletedOne:"হিসাবটি মুছে ফেলা হয়েছে।",currencyLock:"এই মাসে আগের হিসাবের মুদ্রা",currencyLock2:"। একই মাসে ভিন্ন মুদ্রা মেশানো যাবে না; আগের হিসাবের মুদ্রা বেছে নিন।",storage:"ডিভাইসে জায়গা নেই বা সংরক্ষণ ব্যর্থ হয়েছে। আগে ব্যাকআপ নিন; ব্রাউজারের ডেটা মুছবেন না।",cloudMissing:"Supabase SDK পাওয়া যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।",cloudNone:"Cloud-এ পাঠানোর মতো নতুন হিসাব নেই।",cloudSuccess:"নতুন হিসাব Cloud-এ পাঠানো হয়েছে।",cloudError:"Cloud sync ব্যর্থ। টেবিল, key ও RLS policy পরীক্ষা করুন।"},
-en:{tagline:"Track business income, expenses and profit — get an ALARM when costs rise",settings:"Settings",language:"Language",currency:"Currency",entry:"💰 Monthly budget & daily entry",month:"Select month",budget:"Monthly budget",income:"Today's income",expense:"Today's expense",yellow:"Warning (%)",red:"Critical alarm (%)",save:"🔔 Save entry & check budget",dashboard:"📊 Business Dashboard",budgetStat:"Monthly budget",expenseStat:"Total monthly expenses",incomeStat:"Total monthly income",profitStat:"Monthly profit/loss",usage:"Budget usage",history:"📁 Saved records",date:"Date",incomeHead:"Income",expenseHead:"Expense",profitHead:"Profit/loss",currencyHead:"Currency",action:"Action",csv:"⬇️ Download CSV",clear:"Clear this month's records",hint:"Each save adds a new entry. An exact same-day duplicate will ask for confirmation.",empty:"No records for this month.",normal:"✅ Spending is under control.",warning:"⚠️ Warning threshold reached.",danger:"🚨 Critical alarm! Budget nearly exhausted.",over:"🛑 Monthly budget exceeded!",invalid:"Enter a valid month and budget. Income or expense must be greater than zero.",limits:"Warning must be 1–99; critical must be higher and at most 100.",saved:"Saved on this device.",confirm:"Delete all records and budget for this month?",deleted:"This month's records and budget were deleted.",remaining:"Budget remaining:",delete:"Delete",deletedOne:"Record deleted.",currencyLock:"This month's records use ",currencyLock2:". Select that currency; mixed currencies are not combined.",storage:"Could not save data. Make a backup and do not clear browser data.",cloudMissing:"Supabase SDK unavailable.",cloudNone:"No new records to sync.",cloudSuccess:"New records sent to cloud.",cloudError:"Cloud sync failed. Check table, key and RLS policy."}
+const CURRENCIES=["BDT","USD","GBP","EUR","INR","SAR","AED","MYR","PKR"];
+const LANG={
+bn:{tagline:"আপনার ব্যবসার আয়, খরচ ও লাভের হিসাব — খরচ বেশি হলেই ALARM",entryTitle:"💰 মাসিক বাজেট ও দৈনিক হিসাব",monthLabel:"মাস নির্বাচন",budgetLabel:"মাসিক বাজেট",incomeLabel:"আজকের আয়",expenseLabel:"আজকের খরচ",yellowLabel:"সতর্কতা (%)",redLabel:"জরুরি অ্যালার্ম (%)",saveBtn:"🔔 হিসাব সংরক্ষণ ও পরীক্ষা করুন",dashboardTitle:"📊 ব্যবসার ড্যাশবোর্ড",budgetStat:"মাসিক বাজেট",expenseStat:"এই মাসের মোট খরচ",incomeStat:"এই মাসের মোট আয়",profitStat:"এই মাসের লাভ/ক্ষতি",usageTitle:"বাজেট ব্যবহারের হার",historyTitle:"📁 সংরক্ষিত হিসাব",dateHead:"তারিখ",incomeHead:"আয়",expenseHead:"খরচ",profitHead:"লাভ/ক্ষতি",currencyHead:"মুদ্রা",actionHead:"কাজ",csvBtn:"⬇️ CSV ডাউনলোড",clearBtn:"এই মাসের হিসাব মুছুন",hint:"প্রতিবার সংরক্ষণ করলে একটি নতুন হিসাব যোগ হবে। একই দিনের একই অঙ্ক আবার দিলে নিশ্চিতকরণ চাইবে।",empty:"এই মাসে কোনো হিসাব নেই।",normal:"✅ খরচ নিয়ন্ত্রণে আছে।",warning:"⚠️ সতর্কতা সীমায় পৌঁছেছে।",danger:"🚨 জরুরি অ্যালার্ম! বাজেট প্রায় শেষ।",over:"🛑 মাসিক বাজেট অতিক্রম করেছে!",invalid:"সঠিক মাস ও বাজেট লিখুন। আয় বা খরচের অন্তত একটি শূন্যের বেশি হতে হবে।",limits:"সতর্কতার হার ১–৯৯ এবং জরুরি হার সতর্কতার চেয়ে বেশি, সর্বোচ্চ ১০০ হতে হবে।",saved:"হিসাব এই ডিভাইসে সংরক্ষিত হয়েছে।",confirm:"এই মাসের সব হিসাব ও বাজেট মুছে ফেলবেন?",deleted:"এই মাসের হিসাব ও বাজেট মুছে ফেলা হয়েছে।",remaining:"বাজেটের অবশিষ্ট:",delete:"মুছুন",deletedOne:"হিসাবটি মুছে ফেলা হয়েছে।",storage:"ডিভাইসে সংরক্ষণ ব্যর্থ। আগে ব্যাকআপ নিন; ব্রাউজারের ডেটা মুছবেন না।",currencyLock:"এই মাসের হিসাবের মুদ্রা ",currencyLock2:"। একই মাসে ভিন্ন মুদ্রা মেশানো যাবে না।"},
+en:{tagline:"Track business income, expenses and profit — get an ALARM when costs rise",entryTitle:"💰 Monthly budget & daily entry",monthLabel:"Select month",budgetLabel:"Monthly budget",incomeLabel:"Today's income",expenseLabel:"Today's expense",yellowLabel:"Warning (%)",redLabel:"Critical alarm (%)",saveBtn:"🔔 Save entry & check budget",dashboardTitle:"📊 Business Dashboard",budgetStat:"Monthly budget",expenseStat:"Total monthly expenses",incomeStat:"Total monthly income",profitStat:"Monthly profit/loss",usageTitle:"Budget usage",historyTitle:"📁 Saved records",dateHead:"Date",incomeHead:"Income",expenseHead:"Expense",profitHead:"Profit/loss",currencyHead:"Currency",actionHead:"Action",csvBtn:"⬇️ Download CSV",clearBtn:"Clear this month's records",hint:"Each save adds a new entry. Exact same-day duplicates ask for confirmation.",empty:"No records for this month.",normal:"✅ Spending is under control.",warning:"⚠️ Warning threshold reached.",danger:"🚨 Critical alarm! Budget nearly exhausted.",over:"🛑 Monthly budget exceeded!",invalid:"Enter a valid month and budget. Income or expense must be greater than zero.",limits:"Warning must be 1–99; critical must be higher and at most 100.",saved:"Saved on this device.",confirm:"Delete all records and budget for this month?",deleted:"This month's records and budget were deleted.",remaining:"Budget remaining:",delete:"Delete",deletedOne:"Record deleted.",storage:"Could not save data. Make a backup; do not clear browser data.",currencyLock:"This month's records use ",currencyLock2:". Mixed currencies cannot be combined."}
 };
-const validCurrencies=["BDT","USD","GBP","EUR","INR","SAR","AED","MYR","PKR"];
 let records=[],budgets={},settings={language:"bn",currency:"BDT",yellow:50,red:80};
-function t(k){const lang=TXT[$("language").value]||TXT.en;return lang[k]||TXT.en[k]||TXT.bn[k]||k}
-function localDate(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
-function localMonth(d=new Date()){return localDate(d).slice(0,7)}
-function parseJSON(key,fallback){try{const x=JSON.parse(localStorage.getItem(key));return x??fallback}catch{return fallback}}
-function migrate(){
- for(const key of ["cost_alarm_mvp_v1","cost_alarm_complete_v1","costAlarmDataV2"]){
-  const old=parseJSON(key,null);if(!old)continue;
-  const arr=Array.isArray(old)?old:(Array.isArray(old.transactions)?old.transactions:(Array.isArray(old.records)?old.records:[]));
-  for(const x of arr){if(!x||typeof x!=="object")continue;const date=String(x.date||x.record_date||localDate()).slice(0,10);const month=String(x.month||date.slice(0,7));const income=Number(x.income??x.amount_in??x.amount??0),expense=Number(x.expense??x.amount_out??0);const currency=validCurrencies.includes(x.currency)?x.currency:"BDT";const id=String(x.id||x.record_id||("migrated-"+key+"-"+date+"-"+records.length));
-   if(!records.some(r=>r.id===id))records.push({id,date,month,budget:Number(x.budget)||0,income:Number.isFinite(income)?income:0,expense:Number.isFinite(expense)?expense:0,currency,synced:false});
-  }
-  if(old.budgets&&typeof old.budgets==="object")Object.assign(budgets,old.budgets);
- }
+function tr(k){const d=LANG[$("language").value]||LANG.en;return d[k]||LANG.en[k]||LANG.bn[k]||k}
+function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function thisMonth(){return today().slice(0,7)}
+function parse(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
+function migrateOld(){
+ const keys=["cost_alarm_mvp_v1","cost_alarm_complete_v1","costAlarmDataV2"];
+ keys.forEach(key=>{const old=parse(key,null);if(!old)return;const arr=Array.isArray(old)?old:(old.transactions||old.records||[]);if(!Array.isArray(arr))return;
+ arr.forEach(x=>{if(!x||typeof x!=="object")return;const date=String(x.date||x.record_date||today()).slice(0,10),month=String(x.month||date.slice(0,7)),income=Number(x.income??x.amount_in??x.amount??0),expense=Number(x.expense??x.amount_out??0),currency=CURRENCIES.includes(x.currency)?x.currency:"BDT",id=String(x.id||x.record_id||("old-"+key+"-"+date+"-"+records.length));if(!records.some(r=>r.id===id))records.push({id,date,month,income:Number.isFinite(income)&&income>=0?income:0,expense:Number.isFinite(expense)&&expense>=0?expense:0,currency,synced:false})});
+ if(old.budgets&&typeof old.budgets==="object")Object.assign(budgets,old.budgets);
+ });
 }
 function load(){
- const raw=parseJSON(KEYS.data,[]);records=Array.isArray(raw)?raw.filter(r=>r&&r.id&&r.month).map(r=>({...r,id:String(r.id),date:String(r.date||localDate()).slice(0,10),month:String(r.month),income:Number(r.income)||0,expense:Number(r.expense)||0,currency:validCurrencies.includes(r.currency)?r.currency:"BDT",synced:!!r.synced})):[];
- budgets=parseJSON(KEYS.budgets,{})||{};settings={...settings,...(parseJSON(KEYS.settings,{})||{})};migrate();
+ const raw=parse(KEYS.data,[]);records=Array.isArray(raw)?raw.filter(r=>r&&r.id&&/^\d{4}-\d{2}$/.test(String(r.month))).map(r=>({id:String(r.id),date:/^\d{4}-\d{2}-\d{2}$/.test(r.date)?r.date:String(r.month)+"-01",month:String(r.month),income:Math.max(0,Number(r.income)||0),expense:Math.max(0,Number(r.expense)||0),budget:Math.max(0,Number(r.budget)||0),currency:CURRENCIES.includes(r.currency)?r.currency:"BDT",synced:!!r.synced})):[];
+ budgets=parse(KEYS.budgets,{});if(!budgets||typeof budgets!=="object"||Array.isArray(budgets))budgets={};
+ settings={...settings,...parse(KEYS.settings,{})};migrateOld();
 }
 function persist(){
  try{localStorage.setItem(KEYS.data,JSON.stringify(records));localStorage.setItem(KEYS.budgets,JSON.stringify(budgets));localStorage.setItem(KEYS.settings,JSON.stringify(settings));return true}
- catch(e){console.error(e);setStatus(t("storage"),"#ffe8e8");return false}
+ catch(e){console.error(e);status(tr("storage"),"#ffe8e8");return false}
 }
 function money(n,c){try{return new Intl.NumberFormat($("language").value==="bn"?"bn-BD":"en-US",{style:"currency",currency:c,maximumFractionDigits:2}).format(Number(n)||0)}catch{return c+" "+(Number(n)||0).toFixed(2)}}
-function monthRows(){return records.filter(r=>r.month===$("month").value)}
+function rows(){return records.filter(r=>r.month===$("month").value)}
+function status(msg,bg="#e9f8ef"){$("status").textContent=msg;$("status").style.background=bg}
 function render(){
- const m=$("month").value,rows=monthRows(),currencies=[...new Set(rows.map(r=>r.currency))],cur=rows.length?rows[0].currency:$("currency").value;
- const budgetInfo=budgets[m],b=budgetInfo?Number(budgetInfo.amount):Number($("budget").value||0);
- const same=rows.filter(r=>r.currency===cur),income=same.reduce((s,r)=>s+r.income,0),expense=same.reduce((s,r)=>s+r.expense,0),profit=income-expense,usage=b>0?expense/b*100:0;
- $("showBudget").textContent=money(b,cur);$("showIncome").textContent=money(income,cur);$("showExpense").textContent=money(expense,cur);$("showProfit").textContent=money(profit,cur);
- $("showProfit").style.color=profit<0?"var(--red)":"var(--green)";
- $("bar").style.width=Math.min(usage,100)+"%";$("bar").style.background=usage>=100?"var(--red)":usage>=Number(settings.yellow)?"var(--yellow)":"var(--green)";
- $("percent").textContent=usage.toFixed(1)+"%";$("remaining").textContent=t("remaining")+" "+money(b-expense,cur);
- $("currencyNotice").textContent=currencies.length>1?"পুরোনো ডেটায় একাধিক মুদ্রা আছে। ড্যাশবোর্ড প্রথম মুদ্রার হিসাব দেখাচ্ছে; মুদ্রাগুলো একসঙ্গে যোগ করা হয়নি।":(rows.length?"এই মাসের মুদ্রা: "+cur:"");
- const body=$("historyBody");body.replaceChildren();
- if(!rows.length){const row=document.createElement("tr"),td=document.createElement("td");td.colSpan=6;td.textContent=t("empty");row.append(td);body.append(row)}
- else rows.slice().reverse().forEach(r=>{const row=document.createElement("tr");[r.date,money(r.income,r.currency),money(r.expense,r.currency),money(r.income-r.expense,r.currency),r.currency].forEach(v=>{const td=document.createElement("td");td.textContent=v;row.append(td)});const td=document.createElement("td"),btn=document.createElement("button");btn.className="danger";btn.textContent=t("delete");btn.addEventListener("click",()=>deleteRecord(r.id));td.append(btn);row.append(td);body.append(row)});
+ const m=$("month").value,rs=rows(),cur=rs[0]?.currency||$("currency").value,allCurrencies=[...new Set(rs.map(r=>r.currency))],bi=budgets[m],budget=bi?Number(bi.amount):Number($("budget").value||0),valid=rs.filter(r=>r.currency===cur),income=valid.reduce((s,r)=>s+r.income,0),expense=valid.reduce((s,r)=>s+r.expense,0),profit=income-expense,pct=budget>0?expense/budget*100:0;
+ $("showBudget").textContent=money(budget,cur);$("showIncome").textContent=money(income,cur);$("showExpense").textContent=money(expense,cur);$("showProfit").textContent=money(profit,cur);$("showProfit").style.color=profit<0?"var(--red)":"var(--green)";
+ $("bar").style.width=Math.min(100,Math.max(0,pct))+"%";$("bar").style.background=pct>=100?"var(--red)":pct>=Number(settings.yellow)?"var(--yellow)":"var(--green)";$("percent").textContent=pct.toFixed(1)+"%";$("remaining").textContent=tr("remaining")+" "+money(budget-expense,cur);
+ $("currencyNotice").textContent=allCurrencies.length>1?"পুরোনো রেকর্ডে একাধিক মুদ্রা আছে; প্রথম মুদ্রার সারাংশ দেখানো হচ্ছে।":(rs.length?"এই মাসের মুদ্রা: "+cur:"");
+ const body=$("historyBody");body.replaceChildren();if(!rs.length){const row=document.createElement("tr"),td=document.createElement("td");td.colSpan=6;td.textContent=tr("empty");row.append(td);body.append(row);return}
+ rs.slice().reverse().forEach(r=>{const row=document.createElement("tr");[r.date,money(r.income,r.currency),money(r.expense,r.currency),money(r.income-r.expense,r.currency),r.currency].forEach(v=>{const td=document.createElement("td");td.textContent=v;row.append(td)});const td=document.createElement("td"),btn=document.createElement("button");btn.className="danger";btn.textContent=tr("delete");btn.addEventListener("click",()=>deleteRecord(r.id));td.append(btn);row.append(td);body.append(row)});
 }
-function setStatus(message,bg="#e9f8ef"){$("status").textContent=message;$("status").style.background=bg}
-function alarm(){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;const c=new AC();[0,.22,.44].forEach(d=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=850;g.gain.setValueAtTime(.12,c.currentTime+d);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d+.16);o.start(c.currentTime+d);o.stop(c.currentTime+d+.17)});setTimeout(()=>c.close(),1000)}catch(e){console.warn("Audio alarm unavailable",e)}}
+function alarm(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;const ctx=new Audio();[0,.22,.44].forEach(delay=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.frequency.value=850;gain.gain.setValueAtTime(.12,ctx.currentTime+delay);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+delay+.16);osc.start(ctx.currentTime+delay);osc.stop(ctx.currentTime+delay+.17)});setTimeout(()=>ctx.close(),1000)}catch(e){console.warn(e)}}
 function saveEntry(){
- const m=$("month").value,b=Number($("budget").value),income=Number($("income").value||0),expense=Number($("expense").value||0),yellow=Number($("yellowLimit").value),red=Number($("redLimit").value),cur=$("currency").value;
- if(!m||!Number.isFinite(b)||b<=0||!Number.isFinite(income)||income<0||!Number.isFinite(expense)||expense<0||(income===0&&expense===0)){setStatus(t("invalid"),"#ffe8e8");return}
- if(!Number.isFinite(yellow)||!Number.isFinite(red)||yellow<1||yellow>=red||red>100){setStatus(t("limits"),"#ffe8e8");return}
- const rows=monthRows(),existing=rows[0]?.currency;
- if(existing&&rows.some(r=>r.currency!==existing)){setStatus("এই মাসে আগের ডেটায় একাধিক মুদ্রা আছে। নতুন হিসাব যোগ করার আগে মুদ্রা আলাদা করে নিন।","#ffe8e8");return}
- if(existing&&existing!==cur){setStatus(t("currencyLock")+existing+t("currencyLock2"),"#ffe8e8");$("currency").value=existing;render();return}
- if(budgets[m]?.currency&&budgets[m].currency!==cur){setStatus("এই মাসের বাজেটের মুদ্রা "+budgets[m].currency+"। একই মুদ্রা নির্বাচন করুন।","#ffe8e8");return}
- const duplicate=rows.find(r=>r.date===localDate()&&r.income===income&&r.expense===expense&&r.currency===cur);
- if(duplicate&&!confirm("আজকের তারিখে একই আয় ও খরচের হিসাব আগে আছে। তারপরও নতুন হিসাব যোগ করবেন?"))return;
- const oldBudget=budgets[m];settings.yellow=yellow;settings.red=red;settings.currency=cur;budgets[m]={amount:b,currency:cur};
- const id=window.crypto?.randomUUID?crypto.randomUUID():"ca-"+Date.now()+"-"+Math.random().toString(16).slice(2);
- records.push({id,date:localDate(),month:m,budget:b,income,expense,currency:cur,synced:false});
- if(!persist()){records.pop();if(oldBudget)budgets[m]=oldBudget;else delete budgets[m];return}
- const total=monthRows().filter(r=>r.currency===cur).reduce((s,r)=>s+r.expense,0),pct=total/b*100;
- let msg=t("normal"),bg="#e9f8ef",beep=false;
- if(pct>=100){msg=t("over");bg="#ffe8e8";beep=true}else if(pct>=red){msg=t("danger");bg="#ffe8e8";beep=true}else if(pct>=yellow){msg=t("warning");bg="#fff4d5"}
- setStatus(msg+" "+t("saved"),bg);if(beep)alarm();$("income").value="";$("expense").value="";$("cloudStatus").textContent="";render();
+ const m=$("month").value,b=Number($("budget").value),income=Number($("income").value||0),expense=Number($("expense").value||0),yellow=Number($("yellowLimit").value),red=Number($("redLimit").value),currency=$("currency").value;
+ if(!/^\d{4}-\d{2}$/.test(m)||!Number.isFinite(b)||b<=0||!Number.isFinite(income)||income<0||!Number.isFinite(expense)||expense<0||(!income&&!expense)){status(tr("invalid"),"#ffe8e8");return}
+ if(!Number.isFinite(yellow)||!Number.isFinite(red)||yellow<1||yellow>=red||red>100){status(tr("limits"),"#ffe8e8");return}
+ const rs=rows(),existing=rs[0]?.currency;if(rs.some(r=>r.currency!==existing)){status("এই মাসের পুরোনো ডেটায় একাধিক মুদ্রা আছে; নতুন হিসাব যোগ করা বন্ধ রাখা হয়েছে।","#ffe8e8");return}
+ if(existing&&existing!==currency){status(tr("currencyLock")+existing+tr("currencyLock2"),"#ffe8e8");$("currency").value=existing;render();return}
+ if(budgets[m]?.currency&&budgets[m].currency!==currency){status("এই মাসের বাজেটের মুদ্রা "+budgets[m].currency+"।","#ffe8e8");return}
+ if(rs.some(r=>r.date===today()&&r.income===income&&r.expense===expense&&r.currency===currency)&&!confirm("আজ একই আয়/খরচের হিসাব আছে। আবার যোগ করবেন?"))return;
+ const oldBudget=budgets[m],oldSettings={...settings},id=crypto.randomUUID?crypto.randomUUID():"ca-"+Date.now()+"-"+Math.random().toString(16).slice(2);
+ settings={...settings,yellow,red,currency};budgets[m]={amount:b,currency};records.push({id,date:today(),month:m,budget:b,income,expense,currency,synced:false});
+ if(!persist()){records.pop();if(oldBudget)budgets[m]=oldBudget;else delete budgets[m];settings=oldSettings;return}
+ const total=rows().reduce((s,r)=>s+r.expense,0),pct=total/b*100;let msg=tr("normal"),bg="#e9f8ef",beep=false;if(pct>=100){msg=tr("over");bg="#ffe8e8";beep=true}else if(pct>=red){msg=tr("danger");bg="#ffe8e8";beep=true}else if(pct>=yellow){msg=tr("warning");bg="#fff4d5"}
+ status(msg+" "+tr("saved"),bg);if(beep)alarm();$("income").value="";$("expense").value="";render();
 }
-function deleteRecord(id){if(!confirm("এই হিসাবটি মুছে ফেলবেন?"))return;const old=records;records=records.filter(r=>r.id!==id);if(persist()){render();$("cloudStatus").textContent=t("deletedOne")}else records=old}
-function clearMonth(){const m=$("month").value;if(!m)return;if(!confirm(t("confirm")))return;const oldRecords=records,oldBudget=budgets[m];records=records.filter(r=>r.month!==m);delete budgets[m];$("budget").value="";if(persist()){render();setStatus(t("deleted"))}else{records=oldRecords;if(oldBudget)budgets[m]=oldBudget}}
+function deleteRecord(id){if(!confirm("এই হিসাবটি মুছবেন?"))return;const before=records;records=records.filter(r=>r.id!==id);if(persist()){render();$("cloudStatus").textContent=tr("deletedOne")}else records=before}
+function clearMonth(){const m=$("month").value;if(!m||!confirm(tr("confirm")))return;const before=records,oldBudget=budgets[m];records=records.filter(r=>r.month!==m);delete budgets[m];$("budget").value="";if(persist()){render();status(tr("deleted"))}else{records=before;if(oldBudget)budgets[m]=oldBudget}}
 function downloadCSV(){
- const rows=monthRows();if(!rows.length){alert(t("empty"));return}
- const data=[["ID","Date","Month","Budget","Income","Expense","Currency","Synced"],...rows.map(r=>[r.id,r.date,r.month,r.budget,r.income,r.expense,r.currency,r.synced?"Yes":"No"])];
- const csv="\uFEFF"+data.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
- const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="cost-alarm-"+$("month").value+".csv";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);
+ const rs=rows();if(!rs.length){alert(tr("empty"));return}const data=[["ID","Date","Month","Budget","Income","Expense","Currency","Synced"],...rs.map(r=>[r.id,r.date,r.month,r.budget||budgets[r.month]?.amount||"",r.income,r.expense,r.currency,r.synced?"Yes":"No"])],csv="\uFEFF"+data.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n"),blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="cost-alarm-"+$("month").value+".csv";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)
 }
 function backup(){
- try{const payload={app:"Cost Alarm",version:2,createdAt:new Date().toISOString(),records,budgets,settings};const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="cost-alarm-backup-"+localDate()+".json";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);$("backupStatus").textContent="সম্পূর্ণ ব্যাকআপ ডাউনলোড শুরু হয়েছে। ফাইলটি নিরাপদে রাখুন।"}catch(e){$("backupStatus").textContent="ব্যাকআপ তৈরি করা যায়নি: "+e.message}
+ try{const payload={app:"Cost Alarm",version:2,createdAt:new Date().toISOString(),records,budgets,settings},blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="cost-alarm-backup-"+today()+".json";document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);$("backupStatus").textContent="ব্যাকআপ ডাউনলোড শুরু হয়েছে। ফাইলটি নিরাপদে রাখুন।"}catch(e){$("backupStatus").textContent="ব্যাকআপ ব্যর্থ: "+e.message}
 }
-async function restoreBackup(file){
- if(!file)return;
- try{const data=JSON.parse(await file.text());if(!data||data.app!=="Cost Alarm"||!Array.isArray(data.records)||typeof data.budgets!=="object")throw new Error("এটি Cost Alarm-এর সঠিক ব্যাকআপ ফাইল নয়।");
-  const incoming=data.records.filter(r=>r&&r.id&&r.month&&validCurrencies.includes(r.currency)).map(r=>({...r,id:String(r.id),date:String(r.date||localDate()).slice(0,10),month:String(r.month),income:Number(r.income)||0,expense:Number(r.expense)||0,synced:false}));
-  if(!confirm(incoming.length+"টি হিসাব ব্যাকআপ থেকে যোগ হবে। একই ID থাকলে ডুপ্লিকেট হবে না। এগোবেন?"))return;
-  const map=new Map(records.map(r=>[String(r.id),r]));incoming.forEach(r=>{if(!map.has(r.id))map.set(r.id,r)});const oldRecords=records,oldBudgets=budgets;records=[...map.values()];budgets={...budgets,...data.budgets};if(data.settings&&typeof data.settings==="object")settings={...settings,...data.settings};
-  if(!persist()){records=oldRecords;budgets=oldBudgets;throw new Error("ডিভাইসে সংরক্ষণ করা যায়নি।")}
-  render();$("backupStatus").textContent="ব্যাকআপ সফলভাবে পুনরুদ্ধার হয়েছে। মোট "+incoming.length+"টি ব্যাকআপ রেকর্ড পরীক্ষা করা হয়েছে।";
+async function restore(file){
+ if(!file)return;try{const data=JSON.parse(await file.text());if(data?.app!=="Cost Alarm"||!Array.isArray(data.records)||!data.budgets||typeof data.budgets!=="object")throw Error("Cost Alarm-এর সঠিক ব্যাকআপ ফাইল নয়।");
+ const incoming=data.records.filter(r=>r&&r.id&&/^\d{4}-\d{2}$/.test(String(r.month))&&CURRENCIES.includes(r.currency)&&Number(r.income)>=0&&Number(r.expense)>=0).map(r=>({...r,id:String(r.id),date:String(r.date||r.month+"-01"),month:String(r.month),income:Number(r.income),expense:Number(r.expense),synced:false}));
+ if(!confirm(incoming.length+"টি বৈধ রেকর্ড যোগ হবে। একই ID ডুপ্লিকেট হবে না। এগোবেন?"))return;
+ const map=new Map(records.map(r=>[r.id,r]));incoming.forEach(r=>{if(!map.has(r.id))map.set(r.id,r)});const before=records,oldBudgets=budgets,oldSettings=settings;records=[...map.values()];budgets={...budgets,...data.budgets};settings={...settings,...(data.settings||{})};if(!persist()){records=before;budgets=oldBudgets;settings=oldSettings;throw Error("ডিভাইসে সংরক্ষণ করা যায়নি।")}render();$("backupStatus").textContent="ব্যাকআপ Restore সফল। নতুন বৈধ রেকর্ড: "+incoming.length;
  }catch(e){$("backupStatus").textContent="Restore ব্যর্থ: "+e.message}
 }
 async function syncCloud(){
- if(!window.supabase){$("cloudStatus").textContent=t("cloudMissing");return}
- const url=$("supabaseUrl").value.trim(),key=$("supabaseKey").value.trim();
- if(!/^https:\/\/[a-zA-Z0-9.-]+\.supabase\.co$/.test(url)||!key){$("cloudStatus").textContent="সঠিক Supabase Project URL এবং Publishable/anon key দিন।";return}
- try{
-  const client=window.supabase.createClient(url,key),pending=records.filter(r=>!r.synced);
-  if(!pending.length){$("cloudStatus").textContent=t("cloudNone");return}
-  $("cloudStatus").textContent="Syncing "+pending.length+" records…";
-  const payload=pending.map(r=>({record_id:r.id,record_date:r.date,month:r.month,budget:r.budget,income:r.income,expense:r.expense,currency:r.currency}));
-  const {error}=await client.from("cost_alarm_records").upsert(payload,{onConflict:"record_id"});if(error)throw error;
-  const sent=new Set(pending.map(r=>r.id)),old=records;records=records.map(r=>sent.has(r.id)?{...r,synced:true}:r);if(!persist()){records=old;throw new Error("Cloud-এ গেছে, কিন্তু ডিভাইসে sync status সংরক্ষণ হয়নি।")}
-  $("cloudStatus").textContent=t("cloudSuccess");
- }catch(e){console.error(e);$("cloudStatus").textContent=t("cloudError")+" "+(e.message||"")}
+ if(!window.supabase){$("cloudStatus").textContent="Cloud SDK লোড হয়নি।";return}
+ const url="",key="";
+ try{const client=window.supabase.createClient(url,key),pending=records.filter(r=>!r.synced);if(!pending.length){$("cloudStatus").textContent="Cloud-এ পাঠানোর নতুন হিসাব নেই।";return}
+ $("cloudStatus").textContent="Syncing "+pending.length+" records…";const payload=pending.map(r=>({record_id:r.id,record_date:r.date,month:r.month,budget:r.budget??budgets[r.month]?.amount??0,income:r.income,expense:r.expense,currency:r.currency}));
+ const {error}=await client.from("cost_alarm_records").upsert(payload,{onConflict:"record_id"});if(error)throw error;const ids=new Set(pending.map(r=>r.id)),before=records;records=records.map(r=>ids.has(r.id)?{...r,synced:true}:r);if(!persist()){records=before;throw Error("Cloud sync হয়েছে, কিন্তু স্থানীয় sync status সংরক্ষণ হয়নি।")}$("cloudStatus").textContent="নতুন হিসাব Cloud-এ পাঠানো হয়েছে।";
+ }catch(e){console.error(e);$("cloudStatus").textContent="Cloud Sync ব্যর্থ। Table, key ও RLS policy পরীক্ষা করুন। "+(e.message||"")}
 }
-function applyLanguage(){
- const dict=TXT[$("language").value]||TXT.en;document.documentElement.lang=$("language").value;
- Object.entries(dict).forEach(([k,v])=>{const el=document.querySelector('[data-i18n="'+k+'"]');if(el)el.textContent=v});
- $("tagline").textContent=dict.tagline||TXT.en.tagline;render();
-}
+function applyLanguage(){const d=LANG[$("language").value]||LANG.en;document.documentElement.lang=$("language").value;Object.keys(d).forEach(k=>{if($(k))$(k).textContent=d[k]});$("tagline").textContent=d.tagline;render()}
 function init(){
- load();$("language").value=TXT[settings.language]?settings.language:"bn";$("currency").value=validCurrencies.includes(settings.currency)?settings.currency:"BDT";
- $("yellowLimit").value=settings.yellow||50;$("redLimit").value=settings.red||80;$("month").value=localMonth();
- const saved=budgets[$("month").value];if(saved){$("budget").value=saved.amount;if(saved.currency&&validCurrencies.includes(saved.currency))$("currency").value=saved.currency}
+ load();$("language").value=LANG[settings.language]?settings.language:"bn";$("currency").value=CURRENCIES.includes(settings.currency)?settings.currency:"BDT";$("yellowLimit").value=settings.yellow||50;$("redLimit").value=settings.red||80;$("month").value=thisMonth();
+ const saved=budgets[$("month").value];if(saved){$("budget").value=saved.amount;if(saved.currency)$("currency").value=saved.currency}
  $("language").addEventListener("change",()=>{settings.language=$("language").value;persist();applyLanguage()});
- $("currency").addEventListener("change",()=>{const rows=monthRows(),existing=rows[0]?.currency;if(existing&&existing!==$("currency").value){setStatus(t("currencyLock")+existing+t("currencyLock2"),"#fff4d5");$("currency").value=existing}else if(budgets[$("month").value]?.currency&&budgets[$("month").value].currency!==$("currency").value){$("currency").value=budgets[$("month").value].currency;setStatus("এই মাসের বাজেটের মুদ্রা পরিবর্তন করা যাবে না।","#fff4d5")}settings.currency=$("currency").value;persist();render()});
- $("month").addEventListener("change",()=>{const b=budgets[$("month").value];$("budget").value=b?.amount??"";if(b?.currency)$("currency").value=b.currency;else{const row=monthRows()[0];if(row)$("currency").value=row.currency}render()});
- $("budget").addEventListener("change",()=>{const m=$("month").value,v=Number($("budget").value),row=monthRows()[0];if(v>0&&Number.isFinite(v)){if(row&&row.currency!==$("currency").value){setStatus("এই মাসের হিসাবের মুদ্রা "+row.currency+"।","#fff4d5");$("currency").value=row.currency;return}budgets[m]={amount:v,currency:$("currency").value};persist();render()}});
- $("saveBtn").addEventListener("click",saveEntry);$("csvBtn").addEventListener("click",downloadCSV);$("clearBtn").addEventListener("click",clearMonth);$("syncBtn").addEventListener("click",syncCloud);
- $("backupBtn").addEventListener("click",backup);$("restoreBtn").addEventListener("click",()=>$("restoreFile").click());$("restoreFile").addEventListener("change",e=>{restoreBackup(e.target.files?.[0]);e.target.value=""});
+ $("currency").addEventListener("change",()=>{const r=rows()[0],b=budgets[$("month").value];if(r&&r.currency!==$("currency").value){status(tr("currencyLock")+r.currency+tr("currencyLock2"),"#fff4d5");$("currency").value=r.currency}else if(b?.currency&&b.currency!==$("currency").value){$("currency").value=b.currency;status("এই মাসের বাজেটের মুদ্রা বদলানো যাবে না।","#fff4d5")}settings.currency=$("currency").value;persist();render()});
+ $("month").addEventListener("change",()=>{const b=budgets[$("month").value],r=rows()[0];$("budget").value=b?.amount??"";if(b?.currency)$("currency").value=b.currency;else if(r)$("currency").value=r.currency;render()});
+ $("budget").addEventListener("change",()=>{const m=$("month").value,v=Number($("budget").value),r=rows()[0];if(v>0&&Number.isFinite(v)){if(r&&r.currency!==$("currency").value){status("এই মাসের হিসাবের মুদ্রা "+r.currency,"#fff4d5");$("currency").value=r.currency;return}if(budgets[m]?.currency&&budgets[m].currency!==$("currency").value){status("এই মাসের বাজেটের মুদ্রা বদলানো যাবে না।","#fff4d5");$("currency").value=budgets[m].currency;return}budgets[m]={amount:v,currency:$("currency").value};persist();render()}});
+ $("saveBtn").addEventListener("click",saveEntry);$("csvBtn").addEventListener("click",downloadCSV);$("clearBtn").addEventListener("click",clearMonth);$("backupBtn").addEventListener("click",backup);$("restoreBtn").addEventListener("click",()=>$("restoreFile").click());$("restoreFile").addEventListener("change",e=>{restore(e.target.files?.[0]);e.target.value=""});
+ $("buyBtn").addEventListener("click",()=>{$("buyForm").hidden=!$("buyForm").hidden});
  applyLanguage();persist();
 }
 init();
 </script>
-</body><!-- BUY / SUBSCRIBE SECTION - MD HABIB -->
-<div style="text-align:center; padding:20px; background:#fff; border-radius:15px; margin:20px; font-family:sans-serif;">
-  <h2>💰 Cost Alarm Software কিনুন</h2>
-  <p>মাসে মাত্র <b>$5</b> - USA, UK, Europe, Bangladesh সবার জন্য</p>
-  <p>ঘুমিয়ে ঘুমিয়ে হিসাব রাখুন, খরচ বাড়লেই অ্যালার্ম বাজবে।</p>
 
-  <button onclick="document.getElementById('buyForm').style.display='block'" 
-  style="background:#25D366; color:white; padding:15px 30px; font-size:18px; border:none; border-radius:10px; cursor:pointer;">
-  ✅ Buy Now - $5 / Month
-  </button>
+<script>
+(() => {
+"use strict";
+const el=id=>document.getElementById(id);
+const CFG_KEY="cost_alarm_supabase_public_config_v1";
+let client=null, currentUser=null, cloudTimer=null;
+function accountMsg(msg,bg="#e9f8ef"){const x=el("accountStatus");if(x){x.textContent=msg;x.style.background=bg}}
+function getConfig(){return {url:el("accountProjectUrl").value.trim(),key:el("accountPublicKey").value.trim()}}
+function saveConfig(){const c=getConfig();if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(c.url)||!c.key)throw Error("সঠিক Supabase URL ও Publishable/anon key দিন।");localStorage.setItem(CFG_KEY,JSON.stringify(c));client=window.supabase.createClient(c.url,c.key);return client}
+function initClient(){if(!window.supabase)throw Error("Supabase SDK লোড হয়নি।");let c=getConfig();if(!c.url||!c.key){try{c=JSON.parse(localStorage.getItem(CFG_KEY)||"{}")}catch{}}if(c.url&&c.key){el("accountProjectUrl").value=c.url;el("accountPublicKey").value=c.key;client=window.supabase.createClient(c.url,c.key);return client}return null}
+function readPayload(){return {records:JSON.parse(localStorage.getItem("cost_alarm_mvp_v2")||"[]"),budgets:JSON.parse(localStorage.getItem("cost_alarm_budgets_v2")||"{}"),settings:JSON.parse(localStorage.getItem("cost_alarm_settings_v2")||"{}")}}
+function writePayload(p){if(!p||!Array.isArray(p.records)||!p.budgets||typeof p.budgets!=="object")throw Error("Cloud backup format ভুল।");localStorage.setItem("cost_alarm_mvp_v2",JSON.stringify(p.records));localStorage.setItem("cost_alarm_budgets_v2",JSON.stringify(p.budgets));localStorage.setItem("cost_alarm_settings_v2",JSON.stringify(p.settings||{}));location.reload()}
+async function pushCloud(){if(!client||!currentUser)return;const payload=readPayload();const {error}=await client.from("cost_alarm_account_data").upsert({user_id:currentUser.id,payload,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)throw error}
+async function pullCloud(){if(!client||!currentUser)return;const {data,error}=await client.from("cost_alarm_account_data").select("payload").eq("user_id",currentUser.id).maybeSingle();if(error)throw error;if(data?.payload){writePayload(data.payload)}else{await pushCloud()}}
+async function refreshPlan(){if(!client||!currentUser)return;const {data,error}=await client.from("cost_alarm_subscriptions").select("plan,status,expires_at").eq("user_id",currentUser.id).maybeSingle();if(error){accountMsg("লগইন হয়েছে, কিন্তু Premium status পড়া যায়নি: "+error.message,"#fff4d5");return}if(data&&data.status==="active"&&data.expires_at&&new Date(data.expires_at)>new Date()){accountMsg("লগইন: "+currentUser.email+" | Premium চালু ("+data.plan+") — মেয়াদ: "+new Date(data.expires_at).toLocaleDateString(),"#e9f8ef")}else accountMsg("লগইন: "+currentUser.email+" | Free প্ল্যান। Premium কিনতে নিচের বাটন চাপুন।")}
+async function showSession(){if(!client)return;const {data:{session},error}=await client.auth.getSession();if(error)throw error;currentUser=session?.user||null;if(currentUser){accountMsg("অ্যাকাউন্ট যাচাই হচ্ছে…");await pullCloud();await refreshPlan()}else accountMsg("লগইন করা নেই। অ্যাকাউন্ট খুলুন বা লগইন করুন।","#fff4d5")}
+async function signUp(){const c=saveConfig(),email=el("accountEmail").value.trim(),password=el("accountPassword").value;if(!email||password.length<8)throw Error("ইমেইল দিন এবং কমপক্ষে 8 অক্ষরের পাসওয়ার্ড ব্যবহার করুন।");const {data,error}=await c.auth.signUp({email,password});if(error)throw error;if(data.session){currentUser=data.user;await pullCloud();await refreshPlan()}else accountMsg("অ্যাকাউন্ট তৈরি হয়েছে। আপনার ইমেইল খুলে confirmation link চাপুন, তারপর লগইন করুন।")}
+async function signIn(){const c=saveConfig(),email=el("accountEmail").value.trim(),password=el("accountPassword").value;if(!email||!password)throw Error("ইমেইল ও পাসওয়ার্ড দিন।");const {error}=await c.auth.signInWithPassword({email,password});if(error)throw error;await showSession()}
+async function logout(){if(!client)return;const {error}=await client.auth.signOut();if(error)throw error;currentUser=null;accountMsg("লগআউট হয়েছে।","#fff4d5")}
+async function checkout(plan){if(!client||!currentUser)throw Error("Premium কেনার আগে অ্যাকাউন্টে লগইন করুন।");accountMsg("পেমেন্ট পেজ তৈরি হচ্ছে…");const name=el("customerName").value.trim(),phone=el("customerPhone").value.trim();if(!name||!phone)throw Error("পেমেন্টের জন্য নাম ও মোবাইল নম্বর দিন।");const {data,error}=await client.functions.invoke("create-checkout",{body:{plan,customer_name:name,customer_phone:phone}});if(error)throw error;if(!data?.gateway_url)throw Error("পেমেন্ট লিংক পাওয়া যায়নি।");location.href=data.gateway_url}
+function wrapPersist(){if(typeof window.persist!=="function")return;const original=window.persist;window.persist=function(){const ok=original.apply(this,arguments);if(ok&&currentUser&&client){clearTimeout(cloudTimer);cloudTimer=setTimeout(()=>pushCloud().then(()=>accountMsg("হিসাব Cloud-এ সংরক্ষিত।")).catch(e=>accountMsg("Cloud save ব্যর্থ: "+e.message,"#fff4d5")),900)}return ok}}
+function bind(id,fn){el(id)?.addEventListener("click",async()=>{try{initClient();await fn()}catch(e){accountMsg(e.message||"সমস্যা হয়েছে।","#ffe8e8")}})}
+function start(){if(!el("accountCard"))return;initClient();wrapPersist();bind("accountSignup",signUp);bind("accountLogin",signIn);bind("accountLogout",logout);bind("accountRefresh",showSession);bind("buyMonthly",()=>checkout("monthly"));bind("buyYearly",()=>checkout("yearly"));if(new URLSearchParams(location.search).get("payment")==="return"){accountMsg("পেমেন্টের ফলাফল যাচাই হচ্ছে। কয়েক মুহূর্ত পর 'অ্যাকাউন্ট/প্ল্যান দেখুন' চাপুন।","#fff4d5")}if(client){client.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null;if(currentUser){setTimeout(()=>showSession().catch(e=>accountMsg(e.message,"#fff4d5")),0)}else accountMsg("লগইন করা নেই।","#fff4d5")});showSession().catch(e=>accountMsg(e.message,"#fff4d5"))}}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
+})();
+</script>
 
-  <br><br>
-
-  <div id="buyForm" style="display:none; text-align:left; max-width:400px; margin:auto; border:1px solid #ddd; padding:15px; border-radius:10px;">
-    <form action="https://formsubmit.co/mdhabibss15987@gmail.com" method="POST">
-      <input type="hidden" name="_subject" value="New Cost Alarm Software Order!">
-      <input type="hidden" name="_captcha" value="false">
-
-      <label>তোমার নাম:</label><br>
-      <input type="text" name="name" required style="width:100%; padding:10px; margin-top:5px;"><br><br>
-
-      <label>তোমার Email:</label><br>
-      <input type="email" name="email" required style="width:100%; padding:10px; margin-top:5px;"><br><br>
-
-      <label>তোমার দেশ:</label><br>
-      <select name="country" style="width:100%; padding:10px; margin-top:5px;">
-        <option>USA</option>
-        <option>UK</option>
-        <option>Europe</option>
-        <option>Bangladesh</option>
-        <option>Pakistan</option>
-        <option>Arabic</option>
-      </select><br><br>
-
-      <button type="submit" style="background:black; color:white; padding:12px; width:100%; border-radius:10px; font-size:16px;">
-      📩 Send - আমি কিনতে চাই
-      </button>
-    </form>
-    <p style="font-size:13px; text-align:center;">তোমার নাম্বার আমরা দেখি না। আমরা Email এ যোগাযোগ করবো।</p>
-  </div>
-</div>
+</body>
 </html>
