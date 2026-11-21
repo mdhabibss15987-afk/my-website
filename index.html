@@ -55,7 +55,7 @@ a{color:inherit}
 <section class="card"><h2>🛡️ ডেটা ব্যাকআপ ও পুনরুদ্ধার</h2>
 <p class="muted">JSON ব্যাকআপ ডাউনলোড করে নিরাপদ জায়গায় রাখুন। Restore করলে একই ID-র হিসাব ডুপ্লিকেট হবে না।</p>
 <div class="actions"><button class="secondary" id="backupBtn">⬇️ সম্পূর্ণ ব্যাকআপ ডাউনলোড</button><button class="secondary" id="restoreBtn">⬆️ ব্যাকআপ থেকে ফিরিয়ে আনুন</button></div>
-<input type="file" id="restoreFile" accept=".json,application/json" hidden><p class="notice">ব্যাকআপ ফাইলটি ব্যক্তিগত। অন্য কাউকে পাঠাবেন না।</p><p id="backupStatus" class="muted" aria-live="polite"></p></section>
+<input type="file" id="restoreFile" accept=".json,application/json" hidden><p class="notice">ব্যাকআপ ফাইলটি ব্যক্তিগত। অন্য কাউকে পাঠাবেন না।</p><p id="backupStatus" class="muted" aria-live="polite"></p><p id="cloudStatus" class="muted" role="status" aria-live="polite">Cloud: Supabase সেটআপ ও লগইন করলে এখানে sync status দেখাবে।</p></section>
 
 <section class="card" id="accountCard">
 <h2>👤 গ্রাহক অ্যাকাউন্ট ও Premium</h2>
@@ -90,6 +90,49 @@ a{color:inherit}
 <section class="card" style="text-align:center"><h2>🌍 Cost Alarm</h2><p>আপনার ব্যবসার খরচ নিয়ন্ত্রণ করুন। বাজেটের সীমা অতিক্রম করার আগেই সতর্ক হোন।</p><p><strong>$5 / Month — Subscription interest</strong></p><p class="muted">এটি এখনো স্বয়ংক্রিয় পেমেন্ট নয়। আগ্রহ জানালে ইমেইলে যোগাযোগ করা হবে।</p><a href="https://wa.me/8801917716922" target="_blank" rel="noopener noreferrer"><button class="primary">WhatsApp — Contact Us</button></a>
 
 </section>
+
+<section class="card" id="buyNowCard" style="text-align:center">
+  <h2>💰 Cost Alarm Software কিনুন</h2>
+  <p>মাসে মাত্র <strong>$5</strong> — USA, UK, Europe ও Bangladesh-এর জন্য</p>
+  <p class="muted">Buy Now চাপলে আপনার নাম ও ইমেইল দিয়ে কেনার আগ্রহ জানাতে পারবেন।</p>
+  <button type="button" class="primary" id="buyNowOpen">✅ Buy Now — $5 / Month</button>
+  <div id="buyNowFormWrap" hidden style="text-align:left;max-width:440px;margin:16px auto 0;border:1px solid #d8e0ea;padding:16px;border-radius:12px">
+    <form action="https://formsubmit.co/mdhabibss15987@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Cost Alarm - Buy Now / Purchase Interest">
+      <input type="hidden" name="_captcha" value="true">
+      <input type="hidden" name="_template" value="table">
+      <label for="buyNowName">আপনার নাম</label>
+      <input id="buyNowName" type="text" name="name" maxlength="80" required>
+      <label for="buyNowEmail">আপনার ইমেইল</label>
+      <input id="buyNowEmail" type="email" name="email" required>
+      <label for="buyNowCountry">দেশ</label>
+      <select id="buyNowCountry" name="country" required>
+        <option value="">দেশ নির্বাচন করুন</option>
+        <option>Bangladesh</option><option>USA</option><option>UK</option>
+        <option>Europe</option><option>Pakistan</option><option>Other</option>
+      </select>
+      <label for="buyNowPlan">প্ল্যান</label>
+      <select id="buyNowPlan" name="plan" required>
+        <option value="$5 / month">$5 / Month</option>
+        <option value="৳500 / 30 days">৳500 / 30 দিন</option>
+        <option value="৳5000 / 365 days">৳5,000 / 365 দিন</option>
+      </select>
+      <button type="submit" class="primary">📩 Send Purchase Request</button>
+    </form>
+    <p class="muted">এটি কেনার অনুরোধ পাঠায়, স্বয়ংক্রিয় পেমেন্ট নয়। আপনার ইমেইলে পরবর্তী নির্দেশনা দেওয়া হবে।</p>
+  </div>
+</section>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById("buyNowOpen");
+  const wrap = document.getElementById("buyNowFormWrap");
+  if (btn && wrap) btn.addEventListener("click", function () {
+    wrap.hidden = !wrap.hidden;
+    if (!wrap.hidden) wrap.scrollIntoView({behavior:"smooth", block:"nearest"});
+  });
+});
+</script>
+
 </main><footer>Cost Alarm © 2026. All rights reserved.</footer>
 <script>
 "use strict";
@@ -218,21 +261,29 @@ function writePayload(p){
  localStorage.setItem("cost_alarm_settings_v2",JSON.stringify(p.settings||{}));
  if(typeof window.CostAlarmReloadData==="function")window.CostAlarmReloadData();
 }
-async function pushCloud(){if(!client||!currentUser)return;const payload=readPayload();const {error}=await client.from("cost_alarm_account_data").upsert({user_id:currentUser.id,payload,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)throw error}
-async function pullCloud(){if(!client||!currentUser)return;const {data,error}=await client.from("cost_alarm_account_data").select("payload").eq("user_id",currentUser.id).maybeSingle();if(error)throw error;if(data?.payload){writePayload(data.payload)}else{await pushCloud()}}
+async function pushCloud(){if(!client||!currentUser)return;cloudMsg("Cloud-এ ডেটা পাঠানো হচ্ছে…");const payload=readPayload();const {error}=await client.from("cost_alarm_account_data").upsert({user_id:currentUser.id,payload,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error)throw error;cloudMsg("✅ Cloud-এ ডেটা সংরক্ষিত হয়েছে।")}
+async function pullCloud(){if(!client||!currentUser)return;cloudMsg("আপনার Cloud backup যাচাই হচ্ছে…");const {data,error}=await client.from("cost_alarm_account_data").select("payload").eq("user_id",currentUser.id).maybeSingle();if(error)throw error;if(data?.payload){writePayload(data.payload)}else{await pushCloud()}}
 async function refreshPlan(){if(!client||!currentUser)return;const {data,error}=await client.from("cost_alarm_subscriptions").select("plan,status,expires_at").eq("user_id",currentUser.id).maybeSingle();if(error){accountMsg("লগইন হয়েছে, কিন্তু Premium status পড়া যায়নি: "+error.message,"#fff4d5");return}if(data&&data.status==="active"&&data.expires_at&&new Date(data.expires_at)>new Date()){accountMsg("লগইন: "+currentUser.email+" | Premium চালু ("+data.plan+") — মেয়াদ: "+new Date(data.expires_at).toLocaleDateString(),"#e9f8ef")}else accountMsg("লগইন: "+currentUser.email+" | Free প্ল্যান। Premium কিনতে নিচের বাটন চাপুন।")}
 async function showSession(){if(!client)return;const {data:{session},error}=await client.auth.getSession();if(error)throw error;currentUser=session?.user||null;if(currentUser){accountMsg("অ্যাকাউন্ট যাচাই হচ্ছে…");await pullCloud();await refreshPlan()}else accountMsg("লগইন করা নেই। অ্যাকাউন্ট খুলুন বা লগইন করুন।","#fff4d5")}
 async function signUp(){const c=saveConfig(),email=el("accountEmail").value.trim(),password=el("accountPassword").value;if(!email||password.length<8)throw Error("ইমেইল দিন এবং কমপক্ষে 8 অক্ষরের পাসওয়ার্ড ব্যবহার করুন।");const {data,error}=await c.auth.signUp({email,password});if(error)throw error;if(data.session){currentUser=data.user;await pullCloud();await refreshPlan()}else accountMsg("অ্যাকাউন্ট তৈরি হয়েছে। আপনার ইমেইল খুলে confirmation link চাপুন, তারপর লগইন করুন।")}
 async function signIn(){const c=saveConfig(),email=el("accountEmail").value.trim(),password=el("accountPassword").value;if(!email||!password)throw Error("ইমেইল ও পাসওয়ার্ড দিন।");const {error}=await c.auth.signInWithPassword({email,password});if(error)throw error;await showSession()}
 async function logout(){if(!client)return;const {error}=await client.auth.signOut();if(error)throw error;currentUser=null;accountMsg("লগআউট হয়েছে।","#fff4d5")}
 async function checkout(plan){if(!client||!currentUser)throw Error("Premium কেনার আগে অ্যাকাউন্টে লগইন করুন।");accountMsg("পেমেন্ট পেজ তৈরি হচ্ছে…");const name=el("customerName").value.trim(),phone=el("customerPhone").value.trim();if(!name||!phone)throw Error("পেমেন্টের জন্য নাম ও মোবাইল নম্বর দিন।");const {data,error}=await client.functions.invoke("create-checkout",{body:{plan,customer_name:name,customer_phone:phone}});if(error)throw error;if(!data?.gateway_url)throw Error("পেমেন্ট লিংক পাওয়া যায়নি।");location.href=data.gateway_url}
+function cloudMsg(msg,bg){
+ const x=el("cloudStatus");
+ if(x){x.textContent=msg;if(bg)x.style.background=bg}
+}
 function installCloudSaveHook(){
  window.CostAlarmCloudSave=()=>{
-  if(!currentUser||!client)return;
+  if(!currentUser||!client){
+   cloudMsg("Cloud sync বন্ধ: Supabase সেটআপ করে লগইন করুন।","#fff4d5");
+   return;
+  }
+  cloudMsg("Cloud-এ সংরক্ষণের জন্য প্রস্তুত…");
   clearTimeout(cloudTimer);
   cloudTimer=setTimeout(()=>pushCloud()
-   .then(()=>accountMsg("হিসাব Cloud-এ সংরক্ষিত।"))
-   .catch(e=>accountMsg("Cloud save ব্যর্থ: "+e.message,"#fff4d5")),900);
+   .then(()=>{cloudMsg("✅ আপনার হিসাব Cloud-এ সংরক্ষিত হয়েছে।");accountMsg("হিসাব Cloud-এ সংরক্ষিত।")})
+   .catch(e=>{cloudMsg("❌ Cloud save ব্যর্থ: "+e.message,"#ffe8e8");accountMsg("Cloud save ব্যর্থ: "+e.message,"#fff4d5")}),900);
  };
 }
 function bind(id,fn){el(id)?.addEventListener("click",async()=>{try{initClient();await fn()}catch(e){accountMsg(e.message||"সমস্যা হয়েছে।","#ffe8e8")}})}
