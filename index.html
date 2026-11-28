@@ -96,7 +96,7 @@ async function scheduleSync(){
    await cloudSave();
    if(gen===generation&&user&&user.id===uid)say('authStatus','ক্লাউডে Sync সফল হয়েছে।','good');
   }
- })().catch(e=>{say('authStatus','Cloud Sync error: '+(e.message||e),'bad')}).finally(()=>{syncPromise=null;if(syncRequested&&client&&user)void scheduleSync()});
+ })().catch(e=>{say('authStatus','Cloud Sync error: '+(e.message||e),'bad')}).finally(()=>{syncPromise=null;/* Do not clear syncRequested here: a new request may arrive after the loop's last check. */if(syncRequested&&client&&user)void scheduleSync()});
  return syncPromise;
 }
 function setUser(u){const next=u||null,sameUser=!!(user&&next&&user.id===next.id);user=next;if(sameUser){return}generation++;accountLoaded=false;loadedKey='';loadPromise=null;loadPromiseKey='';if(user){data=readStore(userKey(user.id));showSettings();render();say('authStatus','লগইন হয়েছে: '+(user.email||'account'),'good')}else{data=readStore(GUEST);showSettings();render();say('authStatus','লগআউট হয়েছে। Guest হিসাব এই ডিভাইসে আছে।','good')}}
